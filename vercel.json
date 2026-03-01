@@ -1,0 +1,11 @@
+﻿{
+  "version": 2,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/rsvp", "destination": "/rsvp/index.html" },
+    { "source": "/save-the-date", "destination": "/save-the-date/index.html" },
+    { "source": "/details", "destination": "/details/index.html" }
+  ]
+}

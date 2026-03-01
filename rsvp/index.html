@@ -1,0 +1,73 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RSVP | Basir & Noor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/">Basir & Noor</a>
+    <nav class="site-nav">
+      <a href="/">Home</a>
+      <a href="/details">Details</a>
+      <a href="/rsvp" aria-current="page">RSVP</a>
+      <a href="/save-the-date">Save The Date</a>
+    </nav>
+  </header>
+
+  <main class="content-page">
+    <section class="panel full-width">
+      <h1>RSVP</h1>
+      <p>Please submit your RSVP and include all guest details.</p>
+
+      <form id="rsvp-form" class="rsvp-form" novalidate>
+        <h2>Parent Guest</h2>
+        <div class="form-row">
+          <label for="parentName">Full Name</label>
+          <input id="parentName" name="parentName" type="text" required />
+        </div>
+        <div class="form-row">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required />
+        </div>
+        <div class="form-row">
+          <label for="phone">Phone</label>
+          <input id="phone" name="phone" type="tel" required />
+        </div>
+        <div class="form-row">
+          <label for="attendance">Will you attend?</label>
+          <select id="attendance" name="attendance" required>
+            <option value="">Select</option>
+            <option value="Yes">Yes, joyfully attending</option>
+            <option value="No">Regretfully unable to attend</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="guestCount">How many additional guests are you bringing?</label>
+          <input id="guestCount" name="guestCount" type="number" min="0" max="8" value="0" required />
+        </div>
+
+        <div id="extraGuests" class="guest-section" aria-live="polite"></div>
+
+        <div class="form-row">
+          <label for="notes">Notes (dietary/accessibility)</label>
+          <textarea id="notes" name="notes" rows="3"></textarea>
+        </div>
+
+        <button class="btn" type="submit">Submit RSVP</button>
+      </form>
+
+      <p id="form-status" class="form-status" role="status"></p>
+      <a id="tracker-link" class="btn btn-outline hidden" target="_blank" rel="noreferrer">Open RSVP Tracker</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">Thank you for celebrating with us.</footer>
+  <script src="/assets/js/rsvp.js" defer></script>
+</body>
+</html>
