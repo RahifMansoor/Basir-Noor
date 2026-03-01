@@ -3,6 +3,8 @@
   const stage = document.getElementById("scratchStage");
   const countdown = document.getElementById("countdown");
   const roseLayer = document.getElementById("roseLayer");
+  const audio = document.getElementById("saveDateAudio");
+  const musicToggle = document.getElementById("musicToggle");
 
   if (!canvas || !stage || !countdown || !roseLayer) return;
 
@@ -296,6 +298,22 @@
     countdown.textContent = `${days} days, ${hours} hours, ${minutes} minutes to go`;
   };
 
+  const updateMusicButton = () => {
+    if (!musicToggle || !audio) return;
+    musicToggle.textContent = audio.paused ? "Play Music" : "Pause Music";
+  };
+
+  const startMusic = async () => {
+    if (!audio) return;
+    try {
+      await audio.play();
+    } catch (_error) {
+      // Browser blocked autoplay; user can start from toggle.
+    } finally {
+      updateMusicButton();
+    }
+  };
+
   const startDraw = (event) => {
     drawing = true;
     lastPoint = null;
@@ -317,6 +335,9 @@
 
   drawMask();
   tickCountdown();
+  updateMusicButton();
+  startMusic();
+  window.addEventListener("load", startMusic, { once: true });
 
   canvas.addEventListener("pointerdown", startDraw);
   canvas.addEventListener("pointermove", moveDraw);
@@ -325,6 +346,17 @@
   canvas.addEventListener("touchstart", startDraw, { passive: false });
   canvas.addEventListener("touchmove", moveDraw, { passive: false });
   window.addEventListener("touchend", stopDraw);
+
+  if (musicToggle && audio) {
+    musicToggle.addEventListener("click", async () => {
+      if (audio.paused) {
+        await startMusic();
+      } else {
+        audio.pause();
+        updateMusicButton();
+      }
+    });
+  }
 
   window.addEventListener("resize", drawMask);
   window.setInterval(tickCountdown, 1000 * 30);

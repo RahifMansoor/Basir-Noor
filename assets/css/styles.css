@@ -428,6 +428,23 @@ textarea {
   padding: 16px;
 }
 
+.music-toggle {
+  position: fixed;
+  right: 14px;
+  bottom: 14px;
+  z-index: 30;
+  border: 1px solid rgba(31, 24, 18, 0.18);
+  background: rgba(255, 255, 255, 0.92);
+  color: #3b2f25;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(39, 30, 22, 0.12);
+}
+
 @media (max-width: 800px) {
   .panel-grid {
     grid-template-columns: 1fr;
@@ -471,5 +488,12 @@ textarea {
 
   .save-date-body .reveal-card {
     padding-inline: 20px;
+  }
+
+  .music-toggle {
+    right: 10px;
+    bottom: 10px;
+    font-size: 0.74rem;
+    padding: 7px 12px;
   }
 }
