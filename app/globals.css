@@ -332,7 +332,7 @@ main {
 
 .panel h2 {
   margin-bottom: 10px;
-  font-size: clamp(1.5rem, 2.5vw, 1.9rem);
+  font-size: clamp(1.1rem, 2.5vw, 1.9rem);
   color: var(--ink);
 }
 
@@ -552,6 +552,15 @@ textarea:focus {
   font-weight: 600;
   text-transform: uppercase;
   color: #e775aa;
+}
+
+.bismillah {
+  margin: 0;
+  font-size: clamp(1.1rem, 3.5vw, 1.5rem);
+  color: #c4507a;
+  letter-spacing: 0.06em;
+  direction: rtl;
+  font-weight: 500;
 }
 
 .couple {

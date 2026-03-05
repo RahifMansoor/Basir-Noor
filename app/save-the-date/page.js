@@ -478,8 +478,9 @@ export default function SaveTheDatePage() {
                         <p className="save-date-title">Save The Date</p>
                         <div className="heart-scratch-wrap">
                             <div className={`heart-reveal-content${canvasReady ? " ready" : ""}`}>
-                                <p className="couple">Basir & Noor</p>
+                                <p className="bismillah">بِسْمِ ٱللَّٰهِ</p>
                                 <span className="reveal-divider" />
+                                <p className="couple">Basir & Noor</p>
                                 <p className="message">
                                     Join us as their forever begins
                                 </p>
