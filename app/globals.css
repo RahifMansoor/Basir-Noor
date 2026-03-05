@@ -556,8 +556,8 @@ textarea:focus {
 
 .bismillah {
   margin: 0;
-  font-size: clamp(1.1rem, 3.5vw, 1.5rem);
-  color: #c4507a;
+  font-size: clamp(1.5rem, 3.5vw, 1.5rem);
+  color: #3b2f25;
   letter-spacing: 0.06em;
   direction: rtl;
   font-weight: 500;
