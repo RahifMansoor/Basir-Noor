@@ -493,18 +493,23 @@ textarea:focus {
   justify-content: center;
   align-items: center;
   width: 100%;
+  min-height: calc(100vh - 60px);
+  padding-inline: clamp(8px, 2vw, 24px);
 }
 
 .scratch-card-wrap {
-  width: min(660px, calc(100vw - 16px));
+  width: min(100%, 660px);
   margin-inline: auto;
+  display: flex;
+  justify-content: center;
   text-align: center;
 }
 
 .scratch-stage {
   position: relative;
+  width: 100%;
   margin: 10px 0 20px;
-  min-height: 920px;
+  min-height: clamp(620px, 125vw, 920px);
 }
 
 .reveal-card {
@@ -517,9 +522,11 @@ textarea:focus {
   grid-template-rows: auto auto;
   align-content: center;
   place-items: center;
+  justify-items: center;
   gap: 22px;
-  padding: 52px 28px 40px;
+  padding: clamp(24px, 6vw, 52px) clamp(16px, 4vw, 28px) clamp(24px, 5vw, 40px);
   box-shadow: 0 18px 54px rgba(28, 18, 10, 0.18);
+  text-align: center;
 }
 
 .save-date-kicker {
@@ -599,20 +606,20 @@ textarea:focus {
 
 .heart-scratch-wrap {
   position: relative;
-  width: min(560px, 94vw);
+  width: min(100%, 560px);
   aspect-ratio: 1.22 / 1;
+  margin-inline: auto;
 }
 
 .heart-reveal-content {
   position: absolute;
   inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-content: center;
+  justify-items: center;
   gap: 8px;
   text-align: center;
-  padding: 20% 12% 14%;
+  padding: clamp(64px, 18%, 110px) clamp(24px, 12%, 70px) clamp(46px, 14%, 84px);
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.01s;
@@ -848,24 +855,24 @@ textarea:focus {
   }
 
   .scratch-stage {
-    min-height: 720px;
+    min-height: clamp(560px, 135vw, 760px);
   }
 
   .scratch-card-wrap {
-    width: min(580px, calc(100vw - 12px));
+    width: min(100%, 580px);
     margin-inline: auto;
   }
 
   .reveal-card {
-    padding: 24px 14px 24px;
+    padding: clamp(20px, 5vw, 28px) clamp(14px, 4vw, 18px) 24px;
   }
 
   .heart-scratch-wrap {
-    width: min(500px, 92vw);
+    width: min(100%, 500px);
   }
 
   .heart-reveal-content {
-    padding: 24% 12% 12%;
+    padding: clamp(54px, 19%, 92px) clamp(20px, 11%, 44px) clamp(40px, 12%, 64px);
   }
 
   .music-toggle {
@@ -888,6 +895,15 @@ textarea:focus {
 @media (max-width: 480px) {
   main {
     width: 95vw;
+  }
+
+  .save-date-page {
+    min-height: auto;
+    padding-inline: 0;
+  }
+
+  .scratch-stage {
+    min-height: clamp(500px, 138vw, 640px);
   }
 
   .hero {

@@ -475,7 +475,7 @@ export default function SaveTheDatePage() {
                             {musicLabel}
                         </button>
                         <p className="eyebrow save-date-kicker">Scratch to Reveal</p>
-                        <p className="save-date-title">Save The Date</p>
+                        <p className="save-date-title">Save The Walima Date</p>
                         <div className="heart-scratch-wrap">
                             <div className={`heart-reveal-content${canvasReady ? " ready" : ""}`}>
                                 <p className="bismillah">بِسْمِ ٱللَّٰهِ</p>
