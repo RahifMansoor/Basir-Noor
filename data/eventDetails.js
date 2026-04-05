@@ -61,7 +61,62 @@ export const baatPakkiData = {
         },
         {
             image: "/images/baat-pakki/comments/bp-14.jpg",
-
+        },
+        {
+            author: "Farhat Asad Bhabhi, Allahabad",
+            text: "Bohat bohat Mubarak ho!",
+        },
+        {
+            author: "Zeba Bhabhi, Allahabad",
+            text: "Bohat Mubarak....Allah humma barik!",
+        },
+        {
+            author: "Sabiha Baji, Lucknow",
+            text: "Allah Mubarak kare yeh rishta. Love the pic of the embarrassed younger brother!",
+        },
+        {
+            author: "Aasiya Bhabhi, Riyadh",
+            text: "Congratulations!",
+        },
+        {
+            author: "Shamim Bhabhi, Allahabad",
+            text: "Bahot mubarak ho!",
+        },
+        {
+            author: "Lubna Baji, Kentucky",
+            text: "Bahut bahut mubarak....duas n blessings...",
+        },
+        {
+            author: "Bano Baji, Delhi",
+            text: "Congratulations!",
+        },
+        {
+            author: "Nani",
+            text: "Bahut dua and congrats to Basir and Noor!",
+        },
+        {
+            author: "Fauzia, Patna",
+            text: "Alhumdulilah, Ma sha Allah, Subhan Allah. Lots of Dua and love to Basir and Noor. May Allah SWT bless both of them with happiness in life ever after. Ameen",
+        },
+        {
+            author: "Aapa, Dubai",
+            text: "Masha Allah. Dono ka sath aur dono ki zindagi hamesha mhakti rahe, khushiyon se bhari rahe. Ameen",
+        },
+        {
+            author: "Zarina Bhabhi, Calcutta",
+            text: "Ma sha Allah, Subhanallah, Alhamdulillah, Allah Hu Akbar. May Allah SWT bless Basir and Noor with never ending happiness, Peace and love!",
+        },
+        {
+            author: "Nasir Bhai, Bhagalpur",
+            text: "Mashallah, Lots of love and dua to Basir and Noor.",
+        },
+        {
+            author: "Dadi",
+            text: "Love you and happiest to see you together loving Basir and sweety Noor. Allah nazare bad se bachaye. Dadi with love and Duaen.",
+        },
+        {
+            author: "Dr.Tariq Mansoor",
+            image: "/images/baat-pakki/comments/bp-17.png",
         },
     ],
 };

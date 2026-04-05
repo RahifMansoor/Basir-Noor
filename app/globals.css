@@ -985,6 +985,19 @@ textarea:focus {
   background: rgba(255, 255, 255, 1);
 }
 
+/* ===== FORMAL INVITE NOTE ===== */
+.formal-invite-note {
+  text-align: center;
+  font-family: var(--font-serif);
+  font-size: clamp(0.92rem, 2.2vw, 1.05rem);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  margin: 18px auto 0;
+  animation: fadeInUp 0.9s ease-out 0.5s both;
+}
+
 /* ===== FOOTER ===== */
 .site-footer {
   text-align: center;

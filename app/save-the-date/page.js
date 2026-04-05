@@ -24,7 +24,9 @@ export default function SaveTheDatePage() {
     const heartMaskRef = useRef(null);
     const heartMaskCountRef = useRef(0);
     const maskDimsRef = useRef({ w: 0, h: 0 });
+    const brushSizeRef = useRef(28);
     const lastTrailRef = useRef(0);
+    const lastCheckRef = useRef(0);
     const revealedRef = useRef(false);
 
     const [countdown, setCountdown] = useState("Loading countdown...");
@@ -169,6 +171,7 @@ export default function SaveTheDatePage() {
         heartMaskRef.current = hMask;
         heartMaskCountRef.current = count;
         maskDimsRef.current = { w: width, h: height };
+        brushSizeRef.current = Math.max(18, Math.floor(heartSize * 0.075));
         setCanvasReady(true);
     }, []);
 
@@ -299,7 +302,7 @@ export default function SaveTheDatePage() {
         return { x: event.clientX - rect.left, y: event.clientY - rect.top };
     };
 
-    /* ---------- reveal check ---------- */
+    /* ---------- reveal check (throttled to every 300ms) ---------- */
     const revealCheck = useCallback(() => {
         if (
             revealedRef.current ||
@@ -307,6 +310,10 @@ export default function SaveTheDatePage() {
             !heartMaskCountRef.current
         )
             return;
+
+        const now = performance.now();
+        if (now - lastCheckRef.current < 300) return;
+        lastCheckRef.current = now;
 
         const canvas = canvasRef.current;
         if (!canvas) return;
@@ -321,7 +328,7 @@ export default function SaveTheDatePage() {
             if (samples[p * 4 + 3] < 25) cleared++;
         }
 
-        if (cleared / heartMaskCountRef.current > 0.9) {
+        if (cleared / heartMaskCountRef.current > 0.35) {
             revealedRef.current = true;
             canvas.style.transition = "opacity 650ms ease";
             canvas.style.opacity = "0";
@@ -356,13 +363,14 @@ export default function SaveTheDatePage() {
 
             lastPointRef.current = { x, y };
 
+            const r = brushSizeRef.current;
             ctx.globalCompositeOperation = "destination-out";
             ctx.beginPath();
-            ctx.arc(x, y, 70, 0, Math.PI * 2);
+            ctx.arc(x, y, r, 0, Math.PI * 2);
             ctx.fill();
 
             if (prevPoint) {
-                ctx.lineWidth = 140;
+                ctx.lineWidth = r * 2;
                 ctx.lineCap = "round";
                 ctx.beginPath();
                 ctx.moveTo(prevPoint.x, prevPoint.y);
@@ -400,7 +408,9 @@ export default function SaveTheDatePage() {
     const stopDraw = useCallback(() => {
         drawingRef.current = false;
         lastPointRef.current = null;
-    }, []);
+        lastCheckRef.current = 0;
+        revealCheck();
+    }, [revealCheck]);
 
     /* ---------- music ---------- */
     const toggleMusic = useCallback(async () => {
@@ -487,6 +497,7 @@ export default function SaveTheDatePage() {
                                 <p className="date-line">October 18, 2026</p>
                                 <span className="reveal-divider" />
                                 <p className="countdown">{countdown}</p>
+                                <p className="formal-invite-note">Formal invite to follow</p>
                             </div>
                             <canvas
                                 ref={canvasRef}
@@ -502,9 +513,6 @@ export default function SaveTheDatePage() {
                         aria-hidden="true"
                     />
                 </div>
-                {/* <Link className="btn" href="/rsvp">
-                    RSVP Here
-                </Link> */}
             </section>
 
             {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
