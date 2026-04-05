@@ -187,7 +187,7 @@ export const eventDetails = {
         featured: {
             name: "Arsalan Rabbani",
             label: "Live Performance",
-            photo: "/images/welcome-bride/arsalan.png",
+            photo: "/images/welcome-bride/arsalan.JPG",
             instagram: "https://www.instagram.com/arsalanrabbani_official/",
             youtube: "https://www.youtube.com/@arsalanrabbani4822",
         },
@@ -232,22 +232,26 @@ export const eventDetails = {
     },
     bharat: {
         slug: "bharat",
-        title: "Bharat",
-        eyebrow: "Grand Procession",
+        title: "Dulha Sehar Bandi & Nikkah",
+        eyebrow: "Join Us as Baraati",
         intro:
-            "A grand celebration marking the groom's side arrival with energy, elegance, and a festive wedding atmosphere.",
-        date: "Add the Bharat date and procession timing here.",
+            "As two hearts, long entwined, are bound in love, amidst blessings and quiet joy. An evening of meaning and grace, a divine covenant that transforms love into a decree of barakah, unfolding a new chapter softly together.",
+        date: "October 10, 2026 — 6:00 PM Onwards",
         location:
-            "Add the starting point, venue, and arrival details for the procession here.",
+            "Sheraton Nashua — 11 Tara Blvd, Nashua, NH 03062",
         dressCode:
             "Statement formal wear with wedding colors suitable for a grand celebration.",
-        mood: "Grand, festive, energetic, and regal.",
-        activities: [
-            "Procession arrival and welcome",
-            "Family entrances and celebration moments",
-            "Photography and key introductions",
-            "Dinner service and evening program",
+        mood: "Sacred, festive, and regal.",
+        flyer: "/images/bharat/flyer.png",
+        timeline: [
+            { time: "6:00 PM", title: "Guest Arrival & Seating", desc: "Guests are welcomed at the venue" },
+            { time: "6:30 PM", title: "Dulha Sehar Bandi", desc: "The groom is prepared with traditional rituals" },
+            { time: "7:00 PM", title: "Baraati Procession & Arrival", desc: "The groom's side arrives in celebration" },
+            { time: "7:30 PM", title: "Nikkah Ceremony & Khutbah", desc: "The sacred covenant is performed" },
+            { time: "8:00 PM", title: "Dua & Blessings", desc: "Prayers and well-wishes for the couple" },
+            { time: "8:30 PM", title: "Photography & Family Moments", desc: "Formal photos with family and loved ones" },
+            { time: "9:00 PM", title: "Dinner Service", desc: "A grand dinner for all guests" },
         ],
-        note: "Replace these placeholders with the confirmed procession route, arrival timing, and venue coordination details later.",
+        note: "A sacred and joyful evening as Basir and Noor's Nikkah is performed. Join us as Baraati to witness and celebrate this blessed union.",
     },
 };

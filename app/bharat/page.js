@@ -2,9 +2,9 @@ import EventTemplate from "@/components/EventTemplate";
 import { eventDetails } from "@/data/eventDetails";
 
 export const metadata = {
-    title: "Bharat",
+    title: "Dulha Sehar Bandi & Nikkah",
     description:
-        "Template details for the Bharat event, including dress code, location, date, mood, and activities.",
+        "Join us as Baraati for the Dulha Sehar Bandi and Nikkah — October 10, 2026 at Sheraton Nashua, NH.",
 };
 
 export default function BharatPage() {

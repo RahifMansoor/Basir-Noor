@@ -1105,6 +1105,21 @@ textarea:focus {
   animation: fadeInUp 0.7s ease-out 0.4s both;
 }
 
+/* ===== EVENT FLYER ===== */
+.event-flyer {
+  margin: 24px auto 0;
+  max-width: 480px;
+  text-align: center;
+  animation: fadeInUp 0.7s ease-out 0.15s both;
+}
+
+.event-flyer-img {
+  width: 100%;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+}
+
 /* ===== EVENT TIMELINE ===== */
 .event-timeline-card {
   text-align: left;

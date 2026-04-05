@@ -9,6 +9,17 @@ export default function EventTemplate({ event }) {
                 <p>{event.intro}</p>
             </section>
 
+            {event.flyer && (
+                <section className="event-flyer">
+                    <img
+                        className="event-flyer-img"
+                        src={event.flyer}
+                        alt={`${event.title} invitation`}
+                        loading="lazy"
+                    />
+                </section>
+            )}
+
             <section className="panel event-highlight">
                 <h2>{event.title} Details</h2>
                 <p>{event.note}</p>
