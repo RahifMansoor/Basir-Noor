@@ -17,13 +17,51 @@ export const baatPakkiData = {
     ],
     comments: [
         {
-            author: "Urooj",
-            text: "The moment two families came together and sealed a beautiful promise — a celebration of love, trust, and new beginnings.",
+            author: "Shazia",
+            text: "Allah humma barik!!! MashaAllah they make a gorgeous couple and you have done a fabulous job!! Kya Zabardast tayyari kari hai Albana. Ab to tum se training leni hogi. Allah dono bachon ko khush aur Aabad Rakhe, aur nazr e bad se mehfooz rakhe. Aameen",
         },
         {
-            author: "Noor",
-            text: "The moment two families came together and sealed a beautiful promise — a celebration of love, trust, and new beginnings.",
-            image: "/images/baat-pakki/comments/bp-03.jpg",
+            author: "Fatima",
+            text: "Mashallah they look wow. So happy and so proud of you!",
+        },
+        {
+            author: "Fauzia",
+            text: "MA looks very nice. May Allah bless the kids with the best.",
+        },
+        {
+            author: "Lubna Mashood",
+            text: "MashaAllah!!! Bhaut khaoob. Allah Mubarak kare. Send more pics!! Maza Aaa Raha hai!",
+        },
+        {
+            author: "Tazeen",
+            text: "MashaAllah bahot Mubarak aap sab ko beautiful!",
+        },
+        {
+            author: "Deena",
+            text: "Congratulations on baat pakki!",
+        },
+        {
+            author: "Kulsoom",
+            text: "MashaAllah...boht boht Mubarak ho!",
+        },
+        {
+            author: "Shadan",
+            text: "Beautiful!",
+            },
+        {
+            author: "Humaira",
+            text: "Love the part of the bride being an addition to the family.",
+        },
+
+        {
+            image: "/images/baat-pakki/comments/bp-15.jpg",
+        },
+        {
+            image: "/images/baat-pakki/comments/bp-16.jpg",
+        },
+        {
+            image: "/images/baat-pakki/comments/bp-14.jpg",
+
         },
     ],
 };

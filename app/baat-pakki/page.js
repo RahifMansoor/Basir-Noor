@@ -89,23 +89,25 @@ export default function BaatPakkiPage() {
                             key={i}
                             style={{ animationDelay: `${0.15 + i * 0.12}s` }}
                         >
-                            <div className="bp-comment-header">
-                                {c.avatar && (
-                                    <img
-                                        className="bp-comment-avatar"
-                                        src={c.avatar}
-                                        alt={c.author}
-                                        loading="lazy"
-                                    />
-                                )}
-                                <span className="bp-comment-author">{c.author}</span>
-                            </div>
-                            <p className="bp-comment-text">{c.text}</p>
+                            {c.author && (
+                                <div className="bp-comment-header">
+                                    {c.avatar && (
+                                        <img
+                                            className="bp-comment-avatar"
+                                            src={c.avatar}
+                                            alt={c.author}
+                                            loading="lazy"
+                                        />
+                                    )}
+                                    <span className="bp-comment-author">{c.author}</span>
+                                </div>
+                            )}
+                            {c.text && <p className="bp-comment-text">{c.text}</p>}
                             {c.image && (
                                 <img
                                     className="bp-comment-image"
                                     src={c.image}
-                                    alt={`Shared by ${c.author}`}
+                                    alt={c.author ? `Shared by ${c.author}` : "Baat Pakki moment"}
                                     loading="lazy"
                                 />
                             )}
