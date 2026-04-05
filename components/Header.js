@@ -8,6 +8,7 @@ export default function Header() {
 
     const links = [
         { href: "/", label: "Home" },
+        { href: "/baat-pakki", label: "Baat Pakki" },
         { href: "/details", label: "Details" },
         { href: "/rsvp", label: "RSVP" },
         { href: "/save-the-date", label: "Save The Date" },

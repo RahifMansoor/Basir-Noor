@@ -14,9 +14,15 @@ export default function EventTemplate({ event }) {
                 <p>{event.note}</p>
 
                 <div className="event-actions">
-                    <button className="btn btn-disabled" type="button" disabled>
-                        RSVP Coming Soon
-                    </button>
+                    {event.rsvpEnabled ? (
+                        <Link className="btn" href="/rsvp">
+                            RSVP Now
+                        </Link>
+                    ) : (
+                        <button className="btn btn-disabled" type="button" disabled>
+                            RSVP Coming Soon
+                        </button>
+                    )}
                     <Link className="btn btn-outline" href="/">
                         Back Home
                     </Link>

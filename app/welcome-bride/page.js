@@ -2,11 +2,11 @@ import EventTemplate from "@/components/EventTemplate";
 import { eventDetails } from "@/data/eventDetails";
 
 export const metadata = {
-    title: "Welcome Bride",
+    title: "Welcome Dulhan",
     description:
-        "Template details for the Welcome Bride event, including dress code, location, date, mood, and activities.",
+        "Join us for the Welcome Dulhan celebration — a pre-Valima evening with a live singer, family toasts, and joyful moments.",
 };
 
-export default function WelcomeBridePage() {
-    return <EventTemplate event={eventDetails.welcomeBride} />;
+export default function WelcomeDulhanPage() {
+    return <EventTemplate event={eventDetails.welcomeDulhan} />;
 }

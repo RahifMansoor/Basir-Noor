@@ -1,3 +1,23 @@
+export const baatPakkiData = {
+    title: "Baat Pakki",
+    eyebrow: "The Beginning",
+    intro:
+        "The moment two families came together and sealed a beautiful promise — a celebration of love, trust, and new beginnings.",
+    photos: [
+        { src: "/images/baat-pakki/comments/PHOTO-2026-04-05-10-54-54 (3).jpg", alt: "Baat Pakki — March 29, 2026" },
+        { src: "/images/baat-pakki/comments/IMG_0082.JPG", alt: "Basir — Baat Pakki" },
+        { src: "/images/baat-pakki/comments/PHOTO-2026-04-05-10-55-39.jpg", alt: "Noor — Baat Pakki" },
+        { src: "/images/baat-pakki/comments/PHOTO-2026-04-05-10-54-27 (2).jpg", alt: "Basir & Noor — Baat Pakki moment" },
+        { src: "/images/baat-pakki/comments/IMG_0150.jpg", alt: "Basir & Noor — Baat Pakki moment" },
+        { src: "/images/baat-pakki/comments/IMG_0216.jpg", alt: "Basir & Noor — Baat Pakki moment" },
+        { src: "/images/baat-pakki/comments/IMG_0233.jpg", alt: "Basir & Noor — Baat Pakki moment" },
+        { src: "/images/baat-pakki/comments/PHOTO-2026-04-05-10-54-54 (2).jpg", alt: "Basir & Noor — Baat Pakki moment" },
+        { src: "/images/baat-pakki/comments/IMG_0144.jpg", alt: "Basir & Noor — Baat Pakki moment" },
+
+    ],
+    comments: [],
+};
+
 export const eventDetails = {
     duaEKhair: {
         slug: "dua-e-khair",
@@ -38,25 +58,27 @@ export const eventDetails = {
         ],
         note: "You can replace these placeholders with the confirmed Nikkah program, timings, and venue details later.",
     },
-    welcomeBride: {
+    welcomeDulhan: {
         slug: "welcome-bride",
-        title: "Welcome Bride",
-        eyebrow: "Family Welcome",
+        title: "Welcome Dulhan",
+        eyebrow: "Pre-Valima Celebration",
         intro:
-            "A warm and joyful celebration to welcome the bride with love, laughter, and meaningful family moments.",
-        date: "Add the Welcome Bride date and arrival time here.",
+            "An elegant evening to welcome the dulhan into the family — featuring a live singer, heartfelt toasts, and joyful celebration before the Valima.",
+        date: "Add the Welcome Dulhan date and arrival time here.",
         location:
-            "Add the home or venue address along with entry instructions here.",
+            "Add the venue or home address along with entry and parking instructions here.",
         dressCode:
             "Chic festive wear with elegant colors and comfortable footwear.",
-        mood: "Warm, elegant, joyful, and welcoming.",
+        mood: "Warm, musical, elegant, and celebratory.",
+        rsvpEnabled: true,
         activities: [
-            "Bride welcome and family greetings",
+            "Dulhan welcome and family greetings",
+            "Live singer performance",
+            "Heartfelt toasts and speeches",
             "Photo moments and introductions",
-            "Sweet treats and refreshments",
-            "Relaxed family gathering and celebration",
+            "Dinner, desserts, and refreshments",
         ],
-        note: "This page can later be updated with exact arrival timing, hosting details, and any special family traditions.",
+        note: "A special pre-Valima gathering to welcome the bride with music, love, and blessings. RSVP to confirm your attendance.",
     },
     mehndi: {
         slug: "mehndi",
