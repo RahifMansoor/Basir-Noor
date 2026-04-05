@@ -14,7 +14,7 @@ export default function Header() {
         { href: "/save-the-date", label: "Save The Date" },
     ];
 
-    const hideNav = pathname === "/save-the-date";
+    const hideNav = pathname === "/save-the-date" || pathname === "/baat-pakki";
 
     return (
         <header className="site-header">

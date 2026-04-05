@@ -164,24 +164,33 @@ export const eventDetails = {
     welcomeDulhan: {
         slug: "welcome-bride",
         title: "Welcome Dulhan",
-        eyebrow: "Pre-Valima Celebration",
+        // eyebrow: "Pre-Walima Celebration",
         intro:
-            "An elegant evening to welcome the dulhan into the family — featuring a live singer, heartfelt toasts, and joyful celebration before the Valima.",
-        date: "Add the Welcome Dulhan date and arrival time here.",
+            "An elegant evening to welcome the dulhan into the family — featuring a live singer, couple rasam, and joyful celebration before the Walima.",
+        date: "Friday, October 16, 2026",
         location:
-            "Add the venue or home address along with entry and parking instructions here.",
+            "La Cour Venue — 1789 Co Rd 338, McKinney, TX 75071",
         dressCode:
-            "Chic festive wear with elegant colors and comfortable footwear.",
+            "Elegant chic, gold, silver, white attire is suggested",
         mood: "Warm, musical, elegant, and celebratory.",
         rsvpEnabled: true,
-        activities: [
-            "Dulhan welcome and family greetings",
-            "Live singer performance",
-            "Heartfelt toasts and speeches",
-            "Photo moments and introductions",
-            "Dinner, desserts, and refreshments",
+        timeline: [
+            { time: "6:00 PM", title: "Guest Arrival & Welcome", desc: "Guests are welcomed with refreshments" },
+            { time: "6:30 PM", title: "Photo Moments & Introductions", desc: "Capturing memories and meeting the families" },
+            { time: "7:00 PM", title: "Maghrib Namaz", desc: "Please join us for Maghrib Namaz" },
+            { time: "7:15 PM", title: "Dulhan Welcome & Couple Rasam", desc: "The bride is formally welcomed into the family" },
+            { time: "7:45 PM", title: "Dinner", desc: "Dinner is served to all" },
+            { time: "8:30 PM", title: "Farheen Arif — Master of Ceremony", desc: "Hosting the evening's program and festivities" },
+            { time: "8:35 PM", title: "Arsalan Rabbani — Live Performance", desc: "An unforgettable live musical experience" },
         ],
-        note: "A special pre-Valima gathering to welcome the bride with music, love, and blessings. RSVP to confirm your attendance.",
+        note: "A special pre-Walima gathering to welcome the bride with music, love, and blessings. RSVP to confirm your attendance.",
+        featured: {
+            name: "Arsalan Rabbani",
+            label: "Live Performance",
+            photo: "/images/welcome-bride/arsalan.png",
+            instagram: "https://www.instagram.com/arsalanrabbani_official/",
+            youtube: "https://www.youtube.com/@arsalanrabbani4822",
+        },
     },
     mehndi: {
         slug: "mehndi",

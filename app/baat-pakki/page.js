@@ -12,8 +12,14 @@ export default function BaatPakkiPage() {
         <div className="content-page baat-pakki-page">
             <section className="event-hero">
                 <p className="eyebrow">{eyebrow}</p>
-                <h1>{title}</h1>
+                  <h1>{title}</h1>
                 <p>{intro}</p>
+                <div className="bp-date-location">
+                    <span>March 29, 2026</span>
+                    <span className="bp-date-dot">&middot;</span>
+                    <span>New Hampshire, USA</span>
+                </div>
+
             </section>
 
             {/* ---- Photo Gallery ---- */}
