@@ -4,18 +4,28 @@ export const baatPakkiData = {
     intro:
         "The moment two families came together and sealed a beautiful promise — a celebration of love, trust, and new beginnings.",
     photos: [
-        { src: "/images/baat-pakki/comments/PHOTO-2026-04-05-10-54-54 (3).jpg", alt: "Baat Pakki — March 29, 2026" },
-        { src: "/images/baat-pakki/comments/IMG_0082.JPG", alt: "Basir — Baat Pakki" },
-        { src: "/images/baat-pakki/comments/PHOTO-2026-04-05-10-55-39.jpg", alt: "Noor — Baat Pakki" },
-        { src: "/images/baat-pakki/comments/PHOTO-2026-04-05-10-54-27 (2).jpg", alt: "Basir & Noor — Baat Pakki moment" },
-        { src: "/images/baat-pakki/comments/IMG_0150.jpg", alt: "Basir & Noor — Baat Pakki moment" },
-        { src: "/images/baat-pakki/comments/IMG_0216.jpg", alt: "Basir & Noor — Baat Pakki moment" },
-        { src: "/images/baat-pakki/comments/IMG_0233.jpg", alt: "Basir & Noor — Baat Pakki moment" },
-        { src: "/images/baat-pakki/comments/PHOTO-2026-04-05-10-54-54 (2).jpg", alt: "Basir & Noor — Baat Pakki moment" },
-        { src: "/images/baat-pakki/comments/IMG_0144.jpg", alt: "Basir & Noor — Baat Pakki moment" },
-
+        { src: "/images/baat-pakki/comments/bp-01.jpg", alt: "Baat Pakki — March 29, 2026" },
+        { src: "/images/baat-pakki/comments/bp-02.jpg", alt: "Basir — Baat Pakki" },
+        { src: "/images/baat-pakki/comments/bp-03.jpg", alt: "Noor — Baat Pakki" },
+        { src: "/images/baat-pakki/comments/bp-04.jpg", alt: "Basir & Noor — Baat Pakki moment" },
+        { src: "/images/baat-pakki/comments/bp-05.jpg", alt: "Basir & Noor — Baat Pakki moment" },
+        { src: "/images/baat-pakki/comments/bp-13.jpg", alt: "Basir & Noor — Baat Pakki moment" },
+        { src: "/images/baat-pakki/comments/bp-06.jpg", alt: "Basir & Noor — Baat Pakki moment" },
+        { src: "/images/baat-pakki/comments/bp-07.jpg", alt: "Basir & Noor — Baat Pakki moment" },
+        { src: "/images/baat-pakki/comments/bp-08.jpg", alt: "Basir & Noor — Baat Pakki moment" },
+        { src: "/images/baat-pakki/comments/bp-09.jpg", alt: "Basir & Noor — Baat Pakki moment" },
     ],
-    comments: [],
+    comments: [
+        {
+            author: "Urooj",
+            text: "The moment two families came together and sealed a beautiful promise — a celebration of love, trust, and new beginnings.",
+        },
+        {
+            author: "Noor",
+            text: "The moment two families came together and sealed a beautiful promise — a celebration of love, trust, and new beginnings.",
+            image: "/images/baat-pakki/comments/bp-03.jpg",
+        },
+    ],
 };
 
 export const eventDetails = {

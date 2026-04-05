@@ -81,7 +81,7 @@ export default function BaatPakkiPage() {
             {/* ---- Comments / Wishes ---- */}
             {comments.length > 0 && (
             <section className="bp-comments-section">
-                <h2 className="bp-section-title">Family Wishes</h2>
+                <h2 className="bp-section-title">Wishes and Du'a</h2>
                 <div className="bp-comments-list">
                     {comments.map((c, i) => (
                         <article
