@@ -8,7 +8,7 @@ export const metadata = {
         template: "%s | Basir & Noor Wedding",
     },
     description:
-        "Join us as Basir & Noor celebrate their wedding on October 9, 2026. RSVP, view details, and save the date.",
+        "Join us as Basir & Noor celebrate their wedding on October 18th, 2026. RSVP, view details, and save the date.",
 };
 
 export default function RootLayout({ children }) {

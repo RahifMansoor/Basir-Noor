@@ -1,7 +1,7 @@
 export const metadata = {
     title: "Wedding Details",
     description:
-        "Venue, schedule, dress code, and travel details for Basir & Noor's wedding on October 9, 2026.",
+        "Venue, schedule, dress code, and travel details for Basir & Noor's wedding on October 18th, 2026.",
 };
 
 export default function DetailsPage() {
