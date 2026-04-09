@@ -4,11 +4,9 @@ import Footer from "@/components/Footer";
 
 export const metadata = {
     title: {
-        default: "Basir & Noor | Wedding",
-        template: "%s | Basir & Noor Wedding",
+        default: "Basir & Noor | Walima",
+        template: "%s | Basir & Noor Walima",
     },
-    description:
-        "Join us as Basir & Noor celebrate their wedding on October 18th, 2026. RSVP, view details, and save the date.",
 };
 
 export default function RootLayout({ children }) {
