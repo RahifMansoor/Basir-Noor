@@ -1,8 +1,3 @@
-export const metadata = {
-    title: "Wedding Details",
-    description:
-        "Venue, schedule, dress code, and travel details for Basir & Noor's wedding on October 18th, 2026.",
-};
 
 export default function DetailsPage() {
     return (
@@ -16,15 +11,20 @@ export default function DetailsPage() {
                 <article className="detail-card">
                     <span className="card-icon">📅</span>
                     <h2>Date & Time</h2>
-                    <p>October 9, 2026</p>
-                    <p>Add ceremony and reception times here.</p>
+                    <p>October 18th, 2026</p>
+                    <p>Ceremony and reception times will be announced soon.</p>
                 </article>
 
                 <article className="detail-card">
                     <span className="card-icon">📍</span>
                     <h2>Venue</h2>
-                    <p>Add your venue address here.</p>
-                    <p>Directions and parking details will be provided closer to the date.</p>
+                    <p>Knotting Hill Place</p>
+                    <p>2621 W Eldorado Pkwy, Little Elm, TX 75068</p>
+                    <p>
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=2621+W+Eldorado+Pkwy,+Little+Elm,+TX+75068" target="_blank" rel="noopener noreferrer">
+                            Get Directions
+                        </a>
+                    </p>
                 </article>
 
                 <article className="detail-card">
@@ -36,7 +36,8 @@ export default function DetailsPage() {
                 <article className="detail-card">
                     <span className="card-icon">🏨</span>
                     <h2>Accommodations</h2>
-                    <p>Recommended hotels and travel arrangements for out-of-town guests.</p>
+                    <p>Approximately 24 miles from DFW Airport.</p>
+                    <p>Recommended hotels and travel arrangements for out-of-town guests will be provided closer to the date.</p>
                 </article>
             </div>
         </div>
