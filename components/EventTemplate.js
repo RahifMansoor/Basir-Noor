@@ -7,6 +7,13 @@ export default function EventTemplate({ event }) {
                 <p className="eyebrow">{event.eyebrow}</p>
                 <h1>{event.title}</h1>
                 <p>{event.intro}</p>
+                {event.heroMetaLocation && (
+                    <div className="bp-date-location">
+                        <span>{event.heroMetaDate || event.date}</span>
+                        <span className="bp-date-dot">&middot;</span>
+                        <span>{event.heroMetaLocation}</span>
+                    </div>
+                )}
             </section>
 
             {event.flyer && (
@@ -23,29 +30,32 @@ export default function EventTemplate({ event }) {
             <section className="panel event-highlight">
                 <h2>{event.title} Details</h2>
                 <p>{event.note}</p>
+                {event.notice && <div className="event-static-notice">{event.notice}</div>}
 
-                <div className="event-actions">
-                    {event.rsvpEnabled ? (
-                        <Link className="btn" href="/rsvp">
-                            RSVP Now
+                {!event.hideActions && (
+                    <div className="event-actions">
+                        {event.rsvpEnabled ? (
+                            <Link className="btn" href="/rsvp">
+                                RSVP Now
+                            </Link>
+                        ) : (
+                            <button className="btn btn-disabled" type="button" disabled>
+                                RSVP Coming Soon
+                            </button>
+                        )}
+                        <Link className="btn btn-outline" href="/">
+                            Back Home
                         </Link>
-                    ) : (
-                        <button className="btn btn-disabled" type="button" disabled>
-                            RSVP Coming Soon
-                        </button>
-                    )}
-                    <Link className="btn btn-outline" href="/">
-                        Back Home
-                    </Link>
-                </div>
+                    </div>
+                )}
             </section>
 
             {event.featured && (
-                <section className="featured-artist">
+                <section className={`featured-artist${event.featuredLarge ? " featured-artist-large" : ""}`}>
                     <p className="eyebrow">Featuring</p>
-                    <div className="featured-card">
+                    <div className={`featured-card${event.featuredLarge ? " featured-card-large" : ""}`}>
                         <img
-                            className="featured-photo"
+                            className={`featured-photo${event.featuredLarge ? " featured-photo-large" : ""}`}
                             src={event.featured.photo}
                             alt={event.featured.name}
                             loading="lazy"
@@ -88,17 +98,44 @@ export default function EventTemplate({ event }) {
                 <article className="detail-card">
                     <span className="card-icon">📅</span>
                     <h2>Date</h2>
-                    <p>{event.date}</p>
+                    <p className="detail-card-multiline">{event.date}</p>
                 </article>
 
                 <article className="detail-card">
                     <span className="card-icon">📍</span>
                     <h2>Location</h2>
                     <p>{event.location}</p>
+                    {event.locationImage && (
+                        <a
+                            className="detail-card-media-link"
+                            href={event.locationMapUrl || event.locationImage}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <img
+                                className="detail-card-media"
+                                src={event.locationImage}
+                                alt={event.locationImageAlt || `${event.title} location`}
+                                loading="lazy"
+                            />
+                        </a>
+                    )}
+                    {event.locationMapUrl && (
+                        <p>
+                            <a
+                                className="detail-card-link"
+                                href={event.locationMapUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Open in Google Maps
+                            </a>
+                        </p>
+                    )}
                 </article>
 
                 <article className="detail-card">
-                    <span className="card-icon">👗</span>
+                    <span className="card-icon">{event.dressCodeIcon || "🥻"}</span>
                     <h2>Dress Code</h2>
                     <p>{event.dressCode}</p>
                 </article>

@@ -167,13 +167,21 @@ export const eventDetails = {
         // eyebrow: "Pre-Walima Celebration",
         intro:
             "An elegant evening to welcome the dulhan into the family — featuring a live singer, couple rasam, and joyful celebration before the Walima.",
-        date: "Friday, October 16, 2026",
+        date: "Friday, October 16, 2026\n6:00pm onwards",
+        heroMetaDate: "Friday, October 16, 2026",
+        heroMetaLocation: "La Cour Venue — 1789 Co Rd 338, McKinney, TX",
         location:
             "La Cour Venue — 1789 Co Rd 338, McKinney, TX 75071",
+        locationMapUrl:
+            "https://www.google.com/maps/search/?api=1&query=La+Cour+Venue+1789+Co+Rd+338+McKinney+TX+75071",
+         locationImage: "/images/welcome-bride/venue-map.jpeg",
+        locationImageAlt: "Map to La Cour Venue",
+        dressCodeIcon: "🥻",
         dressCode:
             "Elegant chic, gold, silver, white attire is suggested",
         mood: "Warm, musical, elegant, and celebratory.",
         rsvpEnabled: true,
+        hideActions: true,
         timeline: [
             { time: "6:00 PM", title: "Guest Arrival & Welcome", desc: "Guests are welcomed with refreshments" },
             { time: "6:30 PM", title: "Photo Moments & Introductions", desc: "Capturing memories and meeting the families" },
@@ -183,7 +191,7 @@ export const eventDetails = {
             { time: "8:30 PM", title: "Farheen Arif — Master of Ceremony", desc: "Hosting the evening's program and festivities" },
             { time: "8:35 PM", title: "Arsalan Rabbani — Live Performance", desc: "An unforgettable live musical experience" },
         ],
-        note: "A special pre-Walima gathering to welcome the bride with music, love, and blessings. RSVP to confirm your attendance.",
+        note: "A special pre-Walima couples only gathering to welcome the bride with Bollywood style music, qawwali, love, and blessings",
         featured: {
             name: "Arsalan Rabbani",
             label: "Live Performance",
@@ -191,6 +199,7 @@ export const eventDetails = {
             instagram: "https://www.instagram.com/arsalanrabbani_official/",
             youtube: "https://www.youtube.com/@arsalanrabbani4822",
         },
+        featuredLarge: true,
     },
     mehndi: {
         slug: "mehndi",
@@ -230,28 +239,36 @@ export const eventDetails = {
         ],
         note: "This template can later include the performance order, host notes, and guest arrival instructions.",
     },
-    bharat: {
-        slug: "bharat",
-        title: "Dulha Sehar Bandi & Nikkah",
-        eyebrow: "Join Us as Baraati",
+    barat: {
+        slug: "barat",
+        title: "Dulha Sehar Bandi & Nikah",
+        eyebrow: "Join Us as Baraati for",
         intro:
             "As two hearts, long entwined, are bound in love, amidst blessings and quiet joy. An evening of meaning and grace, a divine covenant that transforms love into a decree of barakah, unfolding a new chapter softly together.",
-        date: "October 10, 2026 — 6:00 PM Onwards",
+        date: "October 10, 2026 \n5:00 PM EST Onwards",
+        heroMetaDate: "October 10, 2026",
+        heroMetaLocation: "Nashua, NH",
         location:
             "Sheraton Nashua — 11 Tara Blvd, Nashua, NH 03062",
+        locationMapUrl:
+            "https://www.google.com/maps/search/?api=1&query=Sheraton+Nashua+11+Tara+Blvd+Nashua+NH+03062",
+        locationImage: "/images/bharat/venue-map.jpg",
+        locationImageAlt: "Map to Sheraton Nashua",
         dressCode:
             "Statement formal wear with wedding colors suitable for a grand celebration.",
         mood: "Sacred, festive, and regal.",
         flyer: "/images/bharat/flyer.png",
         timeline: [
-            { time: "6:00 PM", title: "Guest Arrival & Seating", desc: "Guests are welcomed at the venue" },
-            { time: "6:30 PM", title: "Dulha Sehar Bandi", desc: "The groom is prepared with traditional rituals" },
-            { time: "7:00 PM", title: "Baraati Procession & Arrival", desc: "The groom's side arrives in celebration" },
-            { time: "7:30 PM", title: "Nikkah Ceremony & Khutbah", desc: "The sacred covenant is performed" },
-            { time: "8:00 PM", title: "Dua & Blessings", desc: "Prayers and well-wishes for the couple" },
-            { time: "8:30 PM", title: "Photography & Family Moments", desc: "Formal photos with family and loved ones" },
-            { time: "9:00 PM", title: "Dinner Service", desc: "A grand dinner for all guests" },
+            { time: "5:00 PM", title: "Dulha Sehar Bandi", desc: "The groom is prepared with traditional rituals" },
+            { time: "5:30 PM", title: "Guest Arrival & Seating", desc: "Guests are welcomed at the venue" },
+            { time: "6:00 PM", title: "Baraati Procession & Arrival", desc: "The groom's side arrives in celebration" },
+            { time: "6:30 PM", title: "Nikkah Ceremony & Khutbah", desc: "The sacred covenant is performed" },
+            { time: "7:00 PM", title: "Dua & Blessings", desc: "Prayers and well-wishes for the couple" },
+            { time: "7:30 PM", title: "Photography & Family Moments", desc: "Formal photos with family and loved ones" },
+            { time: "8:00 PM", title: "Dinner Service", desc: "A grand dinner for all guests" },
         ],
         note: "A sacred and joyful evening as Basir and Noor's Nikkah is performed. Join us as Baraati to witness and celebrate this blessed union.",
+        notice: "RSVP, Room Acoomodation, Transport, and Food Details coming soon",
+        hideActions: true,
     },
 };

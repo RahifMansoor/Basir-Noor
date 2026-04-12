@@ -5,7 +5,12 @@ import { usePathname } from "next/navigation";
 
 export default function Header() {
     const pathname = usePathname();
-    const disableBrandLink = pathname === "/save-the-date";
+    const disableBrandLink =
+        pathname === "/save-the-date" ||
+        pathname === "/welcome-bride" ||
+        pathname === "/baat-pakki" ||
+        pathname === "/barat" ||
+        pathname === "/details";
 
     const links = [
         { href: "/", label: "Home" },
@@ -16,6 +21,10 @@ export default function Header() {
     ];
 
     const hideNav = pathname === "/save-the-date" || pathname === "/baat-pakki";
+    const visibleLinks =
+        pathname === "/welcome-bride" || pathname === "/barat" || pathname === "/details"
+            ? links.filter((link) => !["/", "/details", "/rsvp"].includes(link.href))
+            : links;
 
     return (
         <header className="site-header">
@@ -28,7 +37,7 @@ export default function Header() {
             )}
             {!hideNav && (
                 <nav className="site-nav">
-                    {links.map((link) => (
+                    {visibleLinks.map((link) => (
                         <Link
                             key={link.href}
                             href={link.href}

@@ -123,10 +123,14 @@ export default function BaatPakkiPage() {
             </section>
             )}
 
+            <section className="panel full-width" style={{ marginTop: "28px", textAlign: "center" }}>
+                <p>Many more comments and blessings to come and will be added InshAllah!</p>
+            </section>
+
             <div className="event-actions" style={{ marginTop: "32px" }}>
-                <Link className="btn btn-outline" href="/">
+                {/* <Link className="btn btn-outline" href="/">
                     Back Home
-                </Link>
+                </Link> */}
             </div>
         </div>
     );
