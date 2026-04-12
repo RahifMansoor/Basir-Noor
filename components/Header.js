@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 
 export default function Header() {
     const pathname = usePathname();
+    const disableBrandLink = pathname === "/save-the-date";
 
     const links = [
         { href: "/", label: "Home" },
@@ -18,9 +19,13 @@ export default function Header() {
 
     return (
         <header className="site-header">
-            <Link className="brand" href="/">
-                Basir & Noor
-            </Link>
+            {disableBrandLink ? (
+                <span className="brand">Basir & Noor</span>
+            ) : (
+                <Link className="brand" href="/">
+                    Basir & Noor
+                </Link>
+            )}
             {!hideNav && (
                 <nav className="site-nav">
                     {links.map((link) => (
