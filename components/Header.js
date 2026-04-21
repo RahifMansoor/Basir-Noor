@@ -10,6 +10,7 @@ export default function Header() {
         pathname === "/welcome-bride" ||
         pathname === "/baat-pakki" ||
         pathname === "/barat" ||
+        pathname === "/barat-save-the-date" ||
         pathname === "/details";
 
     const links = [
@@ -20,7 +21,10 @@ export default function Header() {
         { href: "/save-the-date", label: "Save The Date" },
     ];
 
-    const hideNav = pathname === "/save-the-date" || pathname === "/baat-pakki";
+    const hideNav =
+        pathname === "/save-the-date" ||
+        pathname === "/baat-pakki" ||
+        pathname === "/barat-save-the-date";
     const visibleLinks =
         pathname === "/welcome-bride" || pathname === "/barat" || pathname === "/details"
             ? links.filter((link) => !["/", "/details", "/rsvp"].includes(link.href))
