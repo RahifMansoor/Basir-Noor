@@ -90,7 +90,18 @@ export default function DetailsPage() {
                          Basir & Noor's Walima will be an evening of gratitude, joy, and togetherness as we celebrate
                         this new chapter with family and friends.
                     </p>
-                    <div className="event-static-notice">RSVP and Formal Invite coming soon</div>
+                    <a href="/rsvp" className="details-rsvp-btn">RSVP Here</a>
+                </section>
+
+                <section className="details-video-section">
+                    <video
+                        className="details-video"
+                        controls
+                        playsInline
+                        preload="metadata"
+                    >
+                        <source src="/video/VIDEO-2026-05-16-09-30-26.MP4" type="video/mp4" />
+                    </video>
                 </section>
 
                 <section className="details-grid">
@@ -137,7 +148,7 @@ export default function DetailsPage() {
                     <article className="detail-card">
                         <span className="card-icon">👔</span>
                         <h2>Dress Code</h2>
-                        <p>Formal wedding attire. Traditional South Asian or western formalwear are both welcome.</p>
+                        <p>Formal wedding attire. Traditional Desi or western formal wear are both welcome.</p>
                     </article>
 
                     <article className="detail-card">

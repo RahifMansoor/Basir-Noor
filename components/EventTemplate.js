@@ -50,6 +50,19 @@ export default function EventTemplate({ event }) {
                 )}
             </section>
 
+            {event.video && (
+                <section className="details-video-section">
+                    <video
+                        className="details-video"
+                        controls
+                        playsInline
+                        preload="metadata"
+                    >
+                        <source src={event.video} type="video/mp4" />
+                    </video>
+                </section>
+            )}
+
             {event.featured && (
                 <section className={`featured-artist${event.featuredLarge ? " featured-artist-large" : ""}`}>
                     <p className="eyebrow">Featuring</p>

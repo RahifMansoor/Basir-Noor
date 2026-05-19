@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { baatPakkiData } from "@/data/eventDetails";
+import BaatPakkiComments from "@/components/BaatPakkiComments";
 
 export default function BaatPakkiPage() {
     const { title, eyebrow, intro, photos, comments } = baatPakkiData;
@@ -122,6 +123,8 @@ export default function BaatPakkiPage() {
                 </div>
             </section>
             )}
+
+            <BaatPakkiComments />
 
             <section className="panel full-width" style={{ marginTop: "28px", textAlign: "center" }}>
                 <p>Many more comments and blessings to come and will be added InshAllah!</p>

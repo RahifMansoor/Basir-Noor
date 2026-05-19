@@ -267,6 +267,7 @@ export const eventDetails = {
             { time: "7:30 PM", title: "Photography & Family Moments", desc: "Formal photos with family and loved ones" },
             { time: "8:00 PM", title: "Dinner Service", desc: "A grand dinner for all guests" },
         ],
+        video: "/video/Nikkah.mp4",
         note: "A sacred and joyful evening as Basir and Noor's Nikkah is performed. Join us as Baraati to witness and celebrate this blessed union.",
         notice: "RSVP, Room Acoomodation, Transport, and Food Details coming soon",
         hideActions: true,
