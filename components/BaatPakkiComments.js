@@ -12,7 +12,7 @@ function formatDate(iso) {
     });
 }
 
-export default function BaatPakkiComments() {
+export default function BaatPakkiComments({ page = "baat-pakki" }) {
     const [comments, setComments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [fetchError, setFetchError] = useState(null);
@@ -25,7 +25,7 @@ export default function BaatPakkiComments() {
 
     async function fetchComments() {
         try {
-            const res = await fetch("/api/comments");
+            const res = await fetch(`/api/comments?page=${page}`);
             if (!res.ok) throw new Error("Failed to load comments.");
             const data = await res.json();
             setComments(data);
@@ -50,7 +50,7 @@ export default function BaatPakkiComments() {
             const res = await fetch("/api/comments", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name, comment }),
+                body: JSON.stringify({ name, comment, page }),
             });
             const data = await res.json();
             if (!res.ok) throw new Error(data.error || "Failed to submit.");

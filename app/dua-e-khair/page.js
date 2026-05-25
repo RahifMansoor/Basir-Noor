@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { eventDetails } from "@/data/eventDetails";
+import BaatPakkiComments from "@/components/BaatPakkiComments";
 
 const DUAS = [
     {
@@ -88,10 +88,7 @@ export default function DuaEKhairPage() {
             <section className="dua-hero">
                 <p className="eyebrow">Dua E Khair</p>
                 <h1>Marriage Duas</h1>
-                <p>
-                    A collection of beautiful duas and verses asking Allah for
-                    blessing, mercy, tranquility, and goodness in marriage.
-                </p>
+                <p>Collectively we will pray for the couple.</p>
             </section>
 
             <section className="dua-card">
@@ -105,24 +102,12 @@ export default function DuaEKhairPage() {
                     <button className="btn" type="button" onClick={showAnotherDua}>
                         Show Another Dua
                     </button>
-                    <Link className="btn btn-outline" href="/">
-                        Back Home
-                    </Link>
                 </div>
             </section>
 
             <section className="panel event-highlight">
                 <h2>{event.title} Details</h2>
                 <p>{event.note}</p>
-
-                <div className="event-actions">
-                    <button className="btn btn-disabled" type="button" disabled>
-                        RSVP Coming Soon
-                    </button>
-                    <Link className="btn btn-outline" href="/">
-                        Back Home
-                    </Link>
-                </div>
             </section>
 
             <section className="details-grid">
@@ -160,6 +145,17 @@ export default function DuaEKhairPage() {
                     </ul>
                 </article>
             </section>
+
+            <section className="event-flyer">
+                <img
+                    className="event-flyer-img"
+                    src="/images/dua-e-khair.png"
+                    alt="Dua E Khair invitation card"
+                    loading="lazy"
+                />
+            </section>
+
+            <BaatPakkiComments page="dua-e-khair" />
         </div>
     );
 }

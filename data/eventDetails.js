@@ -126,21 +126,18 @@ export const eventDetails = {
         slug: "dua-e-khair",
         title: "Dua E Khair",
         eyebrow: "Blessings & Prayers",
-        intro:
-            "A thoughtful space to share beautiful marriage duas along with the key details guests may need for this gathering.",
-        date: "Add the Dua E Khair date and timing here.",
-        location:
-            "Add the Dua E Khair venue, room, or home address and arrival notes here.",
-        dressCode:
-            "Modest elegant attire in soft festive tones suitable for a spiritual gathering.",
+        intro: "Collectively we will pray for the couple.",
+        date: "Sunday, September 27th\n5:30 PM Sharp",
+        location: "Mansoor Residence\n8505 High Meadows Drive\nPlano, TX 75025",
+        dressCode: "Thobes & kurtas for men. Women: abaya, modest gowns.",
         mood: "Reflective, warm, blessed, and intimate.",
         activities: [
             "Recitation of marriage-related duas",
             "Reflections and blessings for the couple",
-            "Family gathering and photo moments",
-            "Light refreshments and conversation",
+            "Gathering, games and photo moments",
+            "Chaat, refreshments and dinner",
         ],
-        note: "Keep the rotating dua card above, then replace these placeholders with the confirmed date, location, RSVP flow, and final event guidance later.",
+        note: "We will be led in prayer and collectively we will pray for the couple asking Allah swt for blessing, mercy, tranquility and goodness in marriage. The married will share words of marriage wisdom with the groom as he embarks on his new life.",
     },
     nikkah: {
         slug: "nikkah",
@@ -165,8 +162,7 @@ export const eventDetails = {
         slug: "welcome-bride",
         title: "Welcome Dulhan",
         // eyebrow: "Pre-Walima Celebration",
-        intro:
-            "An elegant evening to welcome the dulhan into the family — featuring a live singer, couple rasam, and joyful celebration before the Walima.",
+        intro: "An elegant evening to welcome the dulhan into the family.",
         date: "Friday, October 16, 2026\n6:00pm onwards",
         heroMetaDate: "Friday, October 16, 2026",
         heroMetaLocation: "La Cour Venue — 1789 Co Rd 338, McKinney, TX",
@@ -178,7 +174,7 @@ export const eventDetails = {
         locationImageAlt: "Map to La Cour Venue",
         dressCodeIcon: "🥻",
         dressCode:
-            "Elegant chic, gold, silver, white attire is suggested",
+            "Elegant chic, gold, silver, white attire is suggested. Gharara and shervani are very welcome.",
         mood: "Warm, musical, elegant, and celebratory.",
         rsvpEnabled: true,
         hideActions: true,
@@ -188,9 +184,9 @@ export const eventDetails = {
             { time: "7:00 PM", title: "Maghrib Namaz", desc: "Please join us for Maghrib Namaz" },
             { time: "7:15 PM", title: "Dulhan Welcome & Couple Rasam", desc: "The bride is formally welcomed into the family" },
             { time: "7:45 PM", title: "Dinner", desc: "Dinner is served to all" },
-            { time: "8:30 PM", title: "Farheen Arif — Master of Ceremony", desc: "Hosting the evening's program and festivities" },
-            { time: "8:35 PM", title: "Arsalan Rabbani — Live Performance", desc: "An unforgettable live musical experience" },
+            { time: "8:30 PM", title: "Arsalan Rabbani — Live Performance", desc: "An unforgettable live musical experience" },
         ],
+        notice: "Invitation card has been sent.",
         note: "A special pre-Walima couples only gathering to welcome the bride with Bollywood style music, qawwali, love, and blessings",
         featured: {
             name: "Arsalan Rabbani",
@@ -219,6 +215,7 @@ export const eventDetails = {
             "Dinner, desserts, and tea service",
         ],
         note: "Add the final entertainment lineup, host details, and entry timing once confirmed.",
+        flyer: "/images/mehndi.png",
     },
     dholki: {
         slug: "dholki",
@@ -238,13 +235,14 @@ export const eventDetails = {
             "Tea, snacks, and late-evening desserts",
         ],
         note: "This template can later include the performance order, host notes, and guest arrival instructions.",
+        flyer: "/images/dholki.png",
     },
     barat: {
         slug: "barat",
         title: "Dulha Sehar Bandi & Nikah",
         eyebrow: "Join Us as Baraati for",
         intro:
-            "As two hearts, long entwined, are bound in love, amidst blessings and quiet joy. An evening of meaning and grace, a divine covenant that transforms love into a decree of barakah, unfolding a new chapter softly together.",
+            "A sacred and joyful evening as Basir & Noor's Nikah is performed. Join us as Baraati to witness and celebrate this blessed union.",
         date: "October 10, 2026 \n5:00 PM EST Onwards",
         heroMetaDate: "October 10, 2026",
         heroMetaLocation: "Nashua, NH",
@@ -269,7 +267,9 @@ export const eventDetails = {
         ],
         video: "/video/Nikkah.mp4",
         note: "A sacred and joyful evening as Basir and Noor's Nikkah is performed. Join us as Baraati to witness and celebrate this blessed union.",
-        notice: "RSVP, Room Acoomodation, Transport, and Food Details coming soon",
+        hideDetails: true,
         hideActions: true,
+        roomBlock: "Room block information coming soon. Please contact the organizing team for hotel accommodation details.",
+        travelInfo: "For food during your stay and travel logistics, work with Mansoor family contacts. Malik family desires to make your stay enjoyable and joyful.",
     },
 };

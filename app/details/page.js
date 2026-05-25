@@ -1,3 +1,5 @@
+import BaatPakkiComments from "@/components/BaatPakkiComments";
+
 const venueMapUrl =
     "https://www.google.com/maps/dir/?api=1&destination=2621+W+Eldorado+Pkwy,+Little+Elm,+TX+75068";
 
@@ -76,7 +78,7 @@ export default function DetailsPage() {
                 <section className="event-hero">
                     <p className="eyebrow">Walima Celebration</p>
                     <h1>Walima Details</h1>
-                    <p>Everything you need to know for our Walima celebration at Knotting Hill Place.</p>
+                    <p>Walima is a way for the newlyweds to show their gratitude to Allah for bringing them together in marriage.</p>
                     <div className="bp-date-location">
                         <span>October 18th, 2026 Sunday, 5:30 PM Onwards</span>
                         <span className="bp-date-dot">&middot;</span>
@@ -87,10 +89,18 @@ export default function DetailsPage() {
                 <section className="panel event-highlight">
                     <h2>Walima Celebration</h2>
                     <p>
-                         Basir & Noor's Walima will be an evening of gratitude, joy, and togetherness as we celebrate
+                        Basir & Noor's Walima will be an evening of gratitude, joy, and togetherness as they celebrate
                         this new chapter with family and friends.
                     </p>
-                    <a href="/rsvp" className="details-rsvp-btn">RSVP Here</a>
+                </section>
+
+                <section className="event-flyer">
+                    <img
+                        className="event-flyer-img"
+                        src="/images/walima.png"
+                        alt="Walima invitation card"
+                        loading="lazy"
+                    />
                 </section>
 
                 <section className="details-video-section">
@@ -108,7 +118,7 @@ export default function DetailsPage() {
                     <article className="detail-card">
                         <span className="card-icon">📅</span>
                         <h2>Date & Time</h2>
-                        <p className="detail-card-multiline">October 18th, 2026{"\n"}Formal program details to follow.</p>
+                        <p className="detail-card-multiline">October 18th, 2026{"\n"}Sunday, 5:30 PM Sharp</p>
                     </article>
 
                     <article className="detail-card">
@@ -148,15 +158,20 @@ export default function DetailsPage() {
                     <article className="detail-card">
                         <span className="card-icon">👔</span>
                         <h2>Dress Code</h2>
-                        <p>Formal wedding attire. Traditional Desi or western formal wear are both welcome.</p>
+                        <p>Think Sarees and Suits.</p>
                     </article>
 
                     <article className="detail-card">
                         <span className="card-icon">✈️</span>
-                        <h2>Travel</h2>
+                        <h2>Travel & Airport</h2>
                         <p>Approximately 24 miles from DFW Airport for guests flying in.</p>
                         <p>The venue is conveniently located for local and out-of-town guests traveling into the area.</p>
-                        <div className="event-static-notice">Travel Accomodations coming soon</div>
+                    </article>
+
+                    <article className="detail-card">
+                        <span className="card-icon">🏨</span>
+                        <h2>Room Block</h2>
+                        <p>Room block details coming soon. Please check back for hotel accommodation information.</p>
                     </article>
 
                     <article className="detail-card detail-card-wide event-timeline-card">
@@ -168,7 +183,7 @@ export default function DetailsPage() {
                                 <span className="timeline-time">5:30 PM</span>
                                 <div className="timeline-content">
                                     <strong>Guest Arrival</strong>
-                                    <p>Valet is provided for parking</p>
+                                    <p>Valet is available for overflow parking</p>
                                 </div>
                             </li>
                             <li className="timeline-item">
@@ -184,7 +199,7 @@ export default function DetailsPage() {
                                 <span className="timeline-time">6:30 PM</span>
                                 <div className="timeline-content">
                                     <strong>Pictures around the venue</strong>
-                                    <p>Feel for to get your pictures taken</p>
+                                    <p>Various focal points for couple and families</p>
                                 </div>
                             </li>
                             <li className="timeline-item">
@@ -199,8 +214,8 @@ export default function DetailsPage() {
                                 <span className="timeline-dot" />
                                 <span className="timeline-time">7:15 PM</span>
                                 <div className="timeline-content">
-                                    <strong>Arrival of Bride and Groom</strong>
-                                    <p>Celebrate the beautiful entrance and welcome with speeches</p>
+                                    <strong>Arrival of Bride and Groom together</strong>
+                                    <p>Celebrate the beautiful entrance with family and flower girls</p>
                                 </div>
                             </li>
                             <li className="timeline-item">
@@ -240,21 +255,22 @@ export default function DetailsPage() {
                                 <span className="timeline-time">9:30 PM</span>
                                 <div className="timeline-content">
                                     <strong>Fireworks in the courtyard</strong>
-                                    <p>Watch our custom fireworks show</p>
+                                    <p>Watch the custom fireworks show of celebration</p>
                                 </div>
                             </li>
                             <li className="timeline-item">
                                 <span className="timeline-dot" />
                                 <span className="timeline-time">10:00 PM</span>
                                 <div className="timeline-content">
-                                    <strong>Thank you and favors</strong>
-                                    <p>Thank you for joining and your Blessings</p>
+                                    <strong>Thank you for joining and for your blessings</strong>
                                 </div>
                             </li>
                         </ol>
                     </article>
                 </section>
             </div>
+
+            <BaatPakkiComments page="walima" />
         </div>
     );
 }

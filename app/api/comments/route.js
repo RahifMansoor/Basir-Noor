@@ -1,13 +1,16 @@
 import { NextResponse } from "next/server";
 import { getDb, ensureTable } from "@/lib/db";
 
-export async function GET() {
+export async function GET(request) {
     try {
+        const { searchParams } = new URL(request.url);
+        const page = searchParams.get("page") || "baat-pakki";
         const sql = getDb();
         await ensureTable(sql);
         const rows = await sql`
             SELECT id, name, comment, created_at
             FROM bp_comments
+            WHERE page = ${page}
             ORDER BY created_at DESC
         `;
         return NextResponse.json(rows);
@@ -18,7 +21,7 @@ export async function GET() {
 
 export async function POST(request) {
     try {
-        const { name, comment } = await request.json();
+        const { name, comment, page = "baat-pakki" } = await request.json();
 
         if (!name?.trim() || !comment?.trim()) {
             return NextResponse.json(
@@ -37,8 +40,8 @@ export async function POST(request) {
         const sql = getDb();
         await ensureTable(sql);
         const [row] = await sql`
-            INSERT INTO bp_comments (name, comment)
-            VALUES (${name.trim()}, ${comment.trim()})
+            INSERT INTO bp_comments (name, comment, page)
+            VALUES (${name.trim()}, ${comment.trim()}, ${page})
             RETURNING id, name, comment, created_at
         `;
         return NextResponse.json(row, { status: 201 });

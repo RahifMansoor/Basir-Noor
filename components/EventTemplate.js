@@ -1,4 +1,5 @@
 import Link from "next/link";
+import BaatPakkiComments from "@/components/BaatPakkiComments";
 
 export default function EventTemplate({ event }) {
     return (
@@ -27,28 +28,30 @@ export default function EventTemplate({ event }) {
                 </section>
             )}
 
-            <section className="panel event-highlight">
-                <h2>{event.title} Details</h2>
-                <p>{event.note}</p>
-                {event.notice && <div className="event-static-notice">{event.notice}</div>}
+            {!event.hideDetails && (
+                <section className="panel event-highlight">
+                    <h2>{event.title} Details</h2>
+                    <p>{event.note}</p>
+                    {event.notice && <div className="event-static-notice">{event.notice}</div>}
 
-                {!event.hideActions && (
-                    <div className="event-actions">
-                        {event.rsvpEnabled ? (
-                            <Link className="btn" href="/rsvp">
-                                RSVP Now
+                    {!event.hideActions && (
+                        <div className="event-actions">
+                            {event.rsvpEnabled ? (
+                                <Link className="btn" href="/rsvp">
+                                    RSVP Now
+                                </Link>
+                            ) : (
+                                <button className="btn btn-disabled" type="button" disabled>
+                                    RSVP Coming Soon
+                                </button>
+                            )}
+                            <Link className="btn btn-outline" href="/">
+                                Back Home
                             </Link>
-                        ) : (
-                            <button className="btn btn-disabled" type="button" disabled>
-                                RSVP Coming Soon
-                            </button>
-                        )}
-                        <Link className="btn btn-outline" href="/">
-                            Back Home
-                        </Link>
-                    </div>
-                )}
-            </section>
+                        </div>
+                    )}
+                </section>
+            )}
 
             {event.video && (
                 <section className="details-video-section">
@@ -187,7 +190,25 @@ export default function EventTemplate({ event }) {
                         </ul>
                     </article>
                 )}
+
+                {event.roomBlock && (
+                    <article className="detail-card">
+                        <span className="card-icon">🏨</span>
+                        <h2>Room Block</h2>
+                        <p>{event.roomBlock}</p>
+                    </article>
+                )}
+
+                {event.travelInfo && (
+                    <article className="detail-card detail-card-wide">
+                        <span className="card-icon">✈️</span>
+                        <h2>Travel & Food</h2>
+                        <p>{event.travelInfo}</p>
+                    </article>
+                )}
             </section>
+
+            <BaatPakkiComments page={event.slug} />
         </div>
     );
 }

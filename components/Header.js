@@ -26,8 +26,10 @@ export default function Header() {
         pathname === "/baat-pakki" ||
         pathname === "/barat-save-the-date";
     const visibleLinks =
-        pathname === "/welcome-bride" || pathname === "/barat" || pathname === "/details"
-            ? links.filter((link) => !["/", "/details", "/rsvp"].includes(link.href))
+        pathname === "/dua-e-khair"
+            ? links.filter((link) => link.href === "/baat-pakki")
+            : pathname === "/welcome-bride" || pathname === "/barat" || pathname === "/details"
+            ? links.filter((link) => !["/", "/details", "/rsvp", "/save-the-date"].includes(link.href))
             : links;
 
     return (
