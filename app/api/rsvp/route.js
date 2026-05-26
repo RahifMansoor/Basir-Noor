@@ -30,35 +30,31 @@ export async function POST(request) {
         const [row] = await sql`
             INSERT INTO rsvps (
                 name, name_lower, phone, email,
-                dholki, mehndi, dua_e_khair, barat, welcome_dulhan, walima,
+                dholki, barat, walima,
+                mehndi, dua_e_khair, welcome_dulhan,
                 guests, notes
             ) VALUES (
                 ${name.trim()},
                 ${name.trim().toLowerCase()},
                 ${phone?.trim() || null},
                 ${email?.trim() || null},
-                ${events?.dholki         ?? false},
-                ${events?.mehndi         ?? false},
-                ${events?.dua_e_khair    ?? false},
-                ${events?.barat          ?? false},
-                ${events?.welcome_dulhan ?? false},
-                ${events?.walima         ?? false},
+                ${events?.dholki  ?? false},
+                ${events?.barat   ?? false},
+                ${events?.walima  ?? false},
+                false, false, false,
                 ${JSON.stringify(Array.isArray(guests) ? guests.filter(Boolean) : [])},
                 ${notes?.trim() || null}
             )
             ON CONFLICT (name_lower) DO UPDATE SET
-                name            = EXCLUDED.name,
-                phone           = EXCLUDED.phone,
-                email           = EXCLUDED.email,
-                dholki          = EXCLUDED.dholki,
-                mehndi          = EXCLUDED.mehndi,
-                dua_e_khair     = EXCLUDED.dua_e_khair,
-                barat           = EXCLUDED.barat,
-                welcome_dulhan  = EXCLUDED.welcome_dulhan,
-                walima          = EXCLUDED.walima,
-                guests          = EXCLUDED.guests,
-                notes           = EXCLUDED.notes,
-                updated_at      = NOW()
+                name       = EXCLUDED.name,
+                phone      = EXCLUDED.phone,
+                email      = EXCLUDED.email,
+                dholki     = EXCLUDED.dholki,
+                barat      = EXCLUDED.barat,
+                walima     = EXCLUDED.walima,
+                guests     = EXCLUDED.guests,
+                notes      = EXCLUDED.notes,
+                updated_at = NOW()
             RETURNING *
         `;
         return NextResponse.json(row);

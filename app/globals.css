@@ -2055,6 +2055,96 @@ textarea:focus {
   }
 }
 
+/* ---------- rsvp name autocomplete ---------- */
+.rsvp-name-wrap {
+  position: relative;
+}
+
+.rsvp-suggestions {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: var(--card);
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+  z-index: 100;
+  max-height: 260px;
+  overflow-y: auto;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.rsvp-suggestion-item {
+  padding: 12px 16px;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--ink);
+  border-bottom: 1px solid var(--border);
+  transition: background var(--transition-fast);
+  user-select: none;
+}
+
+.rsvp-suggestion-item:last-child {
+  border-bottom: none;
+}
+
+.rsvp-suggestion-item:hover {
+  background: var(--bg-deep);
+}
+
+.rsvp-name-selected {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: var(--bg-deep);
+  border: 1.5px solid var(--gold);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.rsvp-name-clear {
+  margin-left: auto;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+  line-height: 1;
+}
+
+.rsvp-name-clear:hover {
+  border-color: #c0392b;
+  color: #c0392b;
+}
+
+.rsvp-no-match {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin: 8px 0 0;
+}
+
+.rsvp-no-events {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--muted);
+  padding: 16px;
+  background: var(--bg-deep);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
 /* ---------- rsvp event checkboxes & new form ---------- */
 .rsvp-required {
   color: var(--gold-dark);
