@@ -2145,6 +2145,93 @@ textarea:focus {
   border: 1px solid var(--border);
 }
 
+/* ---------- rsvp per-event expandable cards ---------- */
+.rsvp-events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rsvp-event-item {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--card);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.rsvp-event-item--checked {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-glow);
+}
+
+.rsvp-event-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.rsvp-event-header input[type="checkbox"] {
+  display: none;
+}
+
+.rsvp-event-check-box {
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--border-strong);
+  border-radius: 6px;
+  display: grid;
+  place-content: center;
+  font-size: 0.85rem;
+  color: #fff;
+  flex-shrink: 0;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.rsvp-event-item--checked .rsvp-event-check-box {
+  background: var(--gold);
+  border-color: var(--gold-dark);
+}
+
+.rsvp-event-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rsvp-event-seats {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--muted);
+  background: var(--bg-deep);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.rsvp-event-guests {
+  padding: 0 20px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid var(--border);
+  animation: fadeInUp 0.2s ease-out;
+}
+
+.rsvp-success-guests {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
 /* ---------- rsvp event checkboxes & new form ---------- */
 .rsvp-required {
   color: var(--gold-dark);
@@ -2371,6 +2458,7 @@ textarea:focus {
 /* ---- RSVP lookup section ---- */
 .rsvp-lookup-section {
   margin-top: 0;
+  overflow: visible;
 }
 
 .rsvp-lookup-section h2 {

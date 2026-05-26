@@ -42,7 +42,7 @@ export async function POST(request) {
                 ${events?.barat   ?? false},
                 ${events?.walima  ?? false},
                 false, false, false,
-                ${JSON.stringify(Array.isArray(guests) ? guests.filter(Boolean) : [])},
+                ${JSON.stringify(guests ?? {})},
                 ${notes?.trim() || null}
             )
             ON CONFLICT (name_lower) DO UPDATE SET
