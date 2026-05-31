@@ -1,7 +1,7 @@
 import BaatPakkiComments from "@/components/BaatPakkiComments";
 
 const venueMapUrl =
-    "https://www.google.com/maps/dir/?api=1&destination=2621+W+Eldorado+Pkwy,+Little+Elm,+TX+75068";
+    "https://www.google.com/maps/search/?api=1&query=2621+W+Eldorado+Pkwy%2C+Little+Elm%2C+TX+75068";
 
 // Add a local venue photo later, for example: /images/details/knotting-hill-place.jpg
 const venueImage = "/images/details/knotting-hill-place.jpg";
@@ -24,7 +24,7 @@ const petals = [
     { left: "8%", top: "84%", size: "13px", delay: "2.6s", duration: "15.8s", driftX: "18vw", driftY: "-20vh" },
 ];
 
-export default function DetailsPage() {
+export default function WalimaPage() {
     return (
         <div className="details-romance-shell">
             <div className="details-floral-frame" aria-hidden="true">
@@ -158,7 +158,7 @@ export default function DetailsPage() {
                     <article className="detail-card">
                         <span className="card-icon">👔</span>
                         <h2>Dress Code</h2>
-                        <p>Think Sarees and Suits.</p>
+                        <p>Formal, Elegant Wear. Think Sarees and Suits</p>
                     </article>
 
                     <article className="detail-card">
@@ -171,7 +171,18 @@ export default function DetailsPage() {
                     <article className="detail-card">
                         <span className="card-icon">🏨</span>
                         <h2>Room Block</h2>
-                        <p>Room block details coming soon. Please check back for hotel accommodation information.</p>
+                        <p>
+                            <a
+                                className="detail-card-link"
+                                href="https://www.google.com/maps/search/?api=1&query=Home2+Suites+by+Hilton+Dallas-Frisco%2C+2000+Parkwood+Blvd%2C+Frisco%2C+TX+75034"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Home2 Suites by Hilton Dallas-Frisco
+                            </a>
+                        </p>
+                        <p>2000 Parkwood Blvd, Frisco, TX 75034</p>
+                        <p>Contact Mansoor Family for more details.</p>
                     </article>
 
                     <article className="detail-card detail-card-wide event-timeline-card">
@@ -256,6 +267,13 @@ export default function DetailsPage() {
                                 <div className="timeline-content">
                                     <strong>Fireworks in the courtyard</strong>
                                     <p>Watch the custom fireworks show of celebration</p>
+                                </div>
+                            </li>
+                             <li className="timeline-item">
+                                <span className="timeline-dot" />
+                                <span className="timeline-time">9:45 PM</span>
+                                <div className="timeline-content">
+                                    <strong>Grab Wedding Favors</strong>
                                 </div>
                             </li>
                             <li className="timeline-item">

@@ -11,14 +11,13 @@ export default function Header() {
         pathname === "/baat-pakki" ||
         pathname === "/barat" ||
         pathname === "/barat-save-the-date" ||
-        pathname === "/details";
+        pathname === "/walima";
 
     const links = [
         { href: "/", label: "Home" },
         { href: "/baat-pakki", label: "Baat Pakki" },
-        { href: "/details", label: "Details" },
+        { href: "/walima", label: "Walima" },
         { href: "/rsvp", label: "RSVP" },
-        { href: "/save-the-date", label: "Save The Date" },
     ];
 
     const hideNav =
@@ -28,8 +27,8 @@ export default function Header() {
     const visibleLinks =
         pathname === "/dua-e-khair"
             ? links.filter((link) => link.href === "/baat-pakki")
-            : pathname === "/welcome-bride" || pathname === "/barat" || pathname === "/details"
-            ? links.filter((link) => !["/", "/details", "/rsvp", "/save-the-date"].includes(link.href))
+            : pathname === "/welcome-bride" || pathname === "/barat" || pathname === "/walima"
+            ? links.filter((link) => !["/", "/walima", "/rsvp", "/save-the-date"].includes(link.href))
             : links;
 
     return (

@@ -1,73 +1,92 @@
+"use client";
+
+import { useRef, useState, useCallback } from "react";
 import Link from "next/link";
 
 export default function HomePage() {
+    const audioRef = useRef(null);
+    const [phase, setPhase] = useState("idle"); // idle | opening | done
+
+    const [musicPlaying, setMusicPlaying] = useState(false);
+
+    const handleOpen = useCallback(() => {
+        if (phase !== "idle") return;
+        const audio = audioRef.current;
+        if (audio) audio.play().then(() => setMusicPlaying(true)).catch(() => {});
+        setPhase("opening");
+        setTimeout(() => setPhase("done"), 1500);
+    }, [phase]);
+
+    const stopMusic = useCallback(() => {
+        const audio = audioRef.current;
+        if (!audio) return;
+        audio.pause();
+        audio.currentTime = 0;
+        setMusicPlaying(false);
+    }, []);
+
     return (
         <>
-            <section className="hero">
-                <div className="hero-dua">
-                    <p className="hero-dua-arabic">وَخَلَقْنَاكُمْ أَزْوَاجًا</p>
-                    <p className="hero-dua-reference">Qur'an 78:8</p>
-                </div>
-                <h1 className="hero-family">Mansoor Family</h1>
-                <p className="subtitle">
-                    Humbly request the honor of your presence as they begin their forever
-                </p>
-                <h1>
-                    Basir <span>&</span> Noor
-                </h1>
-
-                <div className="cta-group">
-                    <Link className="btn" href="/rsvp">
-                        RSVP Now
-                    </Link>
-                    <Link className="btn btn-outline" href="/save-the-date">
-                        View Save The Date
-                    </Link>
-                    {/* <Link className="btn btn-outline" href="/dua-e-khair">
-                        Dua E Khair
-                    </Link> */}
-                </div>
-            </section>
-
-            {/* <section className="panel-grid">
-                <article className="panel">
-                    <h2>Walima Date</h2>
-                    <p>October 18, 2026</p>
-                </article>
-                <article className="panel">
-                    <h2>Location</h2>
-                    <p>Venue details and travel notes on the Details page.</p>
-                </article>
-                <article className="panel">
-                    <h2>Your Invitation</h2>
-                    <p>Please RSVP and include details for all additional guests.</p>
-                </article>
-            </section> */}
-{/* 
-            <section className="event-links-section">
-                <div className="event-links-header">
-                    <p className="eyebrow">Wedding Events</p>
-                    <h2>Explore Each Celebration</h2>
-                    <p>
-                        Template pages are ready for each event and can be filled
-                        in with final timings, venue details, RSVP flow, and
-                        dress code updates later.
+            {/* Page content — blurred until envelope is opened */}
+            <div className={`home-page-content${phase === "done" ? " home-page-revealed" : " home-page-blurred"}`}>
+                <section className="hero">
+                    <div className="hero-bismillah">
+                        <p className="hero-bismillah-arabic">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</p>
+                        <p className="hero-bismillah-english">In the name of Allah, the Most Gracious, the Most Merciful</p>
+                    </div>
+                    <h1 className="hero-family">Mansoor Family</h1>
+                    <p className="subtitle">
+                        cordially invites you to witness and celebrate the beginning of a beautiful forever
                     </p>
-                </div>
+                    <h1>Basir <span>&</span> Noor</h1>
+                    <p className="hero-inshallah">إِنْ شَاءَ اللَّهُ</p>
+                    <div className="cta-group">
+                        <Link className="btn" href="/rsvp">RSVP Now</Link>
+                    </div>
+                </section>
 
-                <div className="event-link-grid">
-                    {eventLinks.map((event) => (
-                        <article className="event-link-card" key={event.slug}>
-                            <p className="event-link-kicker">{event.eyebrow}</p>
-                            <h3>{event.title}</h3>
-                            <p>{event.mood}</p>
-                            <Link className="btn btn-outline" href={`/${event.slug}`}>
-                                View {event.title}
-                            </Link>
-                        </article>
-                    ))}
+                <div className="hero-gift-note">
+                    <p>No boxed gifts, please</p>
                 </div>
-            </section> */}
+                <div className="hero-gift-note">
+                    <p>Be mindful of the invite headcount</p>
+                </div>
+            </div>
+
+            {/* Stop music — always above overlay */}
+            {musicPlaying && (
+                <button className="home-stop-music" onClick={stopMusic} type="button">
+                    Stop Music
+                </button>
+            )}
+
+            {/* Pink envelope overlay */}
+            {phase !== "done" && (
+                <div
+                    className={`env-overlay${phase === "opening" ? " env-opening" : ""}`}
+                    onClick={handleOpen}
+                    role="button"
+                    aria-label="Open your invitation"
+                >
+                    <div className="env-card">
+                        {/* Flap */}
+                        <div className="env-flap" aria-hidden="true" />
+
+                        {/* Envelope body */}
+                        <div className="env-body">
+                            {/* Decorative fold lines */}
+                            <span className="env-fold env-fold-left" aria-hidden="true" />
+                            <span className="env-fold env-fold-right" aria-hidden="true" />
+                            {/* Wax seal */}
+                            <div className="env-seal" aria-hidden="true">♥</div>
+                            <p className="env-hint">Tap to open</p>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+            <audio ref={audioRef} src="/audio/tum-hi-ho.mp3" loop preload="auto" playsInline />
         </>
     );
 }

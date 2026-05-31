@@ -127,7 +127,7 @@ export const eventDetails = {
         title: "Dua E Khair",
         eyebrow: "Blessings & Prayers",
         intro: "Collectively we will pray for the couple.",
-        date: "Sunday, September 27th\n5:30 PM Sharp",
+        date: "Sunday, September 27th\n5:00 PM Sharp",
         location: "Mansoor Residence\n8505 High Meadows Drive\nPlano, TX 75025",
         dressCode: "Thobes & kurtas for men. Women: abaya, modest gowns.",
         mood: "Reflective, warm, blessed, and intimate.",
@@ -186,7 +186,6 @@ export const eventDetails = {
             { time: "7:45 PM", title: "Dinner", desc: "Dinner is served to all" },
             { time: "8:30 PM", title: "Arsalan Rabbani — Live Performance", desc: "An unforgettable live musical experience" },
         ],
-        notice: "Invitation card has been sent.",
         note: "A special pre-Walima couples only gathering to welcome the bride with Bollywood style music, qawwali, love, and blessings",
         featured: {
             name: "Arsalan Rabbani",
@@ -269,7 +268,9 @@ export const eventDetails = {
         note: "A sacred and joyful evening as Basir and Noor's Nikkah is performed. Join us as Baraati to witness and celebrate this blessed union.",
         hideDetails: true,
         hideActions: true,
-        roomBlock: "Room block information coming soon. Please contact the organizing team for hotel accommodation details.",
-        travelInfo: "For food during your stay and travel logistics, work with Mansoor family contacts. Malik family desires to make your stay enjoyable and joyful.",
+        roomBlock: "Stay at the Sheraton Nashua — the same venue as the event. Contact Mansoor Family for room block details and booking assistance.",
+        roomBlockFirst: true,
+        travelInfo: "For food during your stay and travel logistics, work with Mansoor family contacts. Get your travel goodies bag, courtesy of the Malik Family. They desire to make your stay enjoyable and joyful.",
+        travelFirst: true,
     },
 };

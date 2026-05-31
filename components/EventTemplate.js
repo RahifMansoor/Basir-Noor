@@ -162,6 +162,22 @@ export default function EventTemplate({ event }) {
                     <p>{event.mood}</p>
                 </article>
 
+                {event.roomBlock && event.roomBlockFirst && (
+                    <article className="detail-card">
+                        <span className="card-icon">🏨</span>
+                        <h2>Room Block</h2>
+                        <p>{event.roomBlock}</p>
+                    </article>
+                )}
+
+                {event.travelInfo && event.travelFirst && (
+                    <article className="detail-card">
+                        <span className="card-icon">✈️</span>
+                        <h2>Travel & Food</h2>
+                        <p>{event.travelInfo}</p>
+                    </article>
+                )}
+
                 {event.timeline ? (
                     <article className="detail-card detail-card-wide event-timeline-card">
                         <span className="card-icon">🕐</span>
@@ -191,7 +207,7 @@ export default function EventTemplate({ event }) {
                     </article>
                 )}
 
-                {event.roomBlock && (
+                {event.roomBlock && !event.roomBlockFirst && (
                     <article className="detail-card">
                         <span className="card-icon">🏨</span>
                         <h2>Room Block</h2>
@@ -199,7 +215,7 @@ export default function EventTemplate({ event }) {
                     </article>
                 )}
 
-                {event.travelInfo && (
+                {event.travelInfo && !event.travelFirst && (
                     <article className="detail-card detail-card-wide">
                         <span className="card-icon">✈️</span>
                         <h2>Travel & Food</h2>
