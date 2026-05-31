@@ -4,8 +4,8 @@ import Footer from "@/components/Footer";
 
 export const metadata = {
     title: {
-        default: "Basir & Noor | Walima",
-        template: "%s | Basir & Noor Walima",
+        default: "Basir & Noor Wedding Invitation",
+        template: "%s | Basir & Noor",
     },
 };
 
