@@ -38,10 +38,12 @@ export async function POST(request) {
                 ${name.trim().toLowerCase()},
                 ${phone?.trim() || null},
                 ${email?.trim() || null},
-                ${events?.dholki  ?? false},
-                ${events?.barat   ?? false},
-                ${events?.walima  ?? false},
-                false, false, false,
+                ${events?.dholki     ?? false},
+                ${events?.barat      ?? false},
+                ${events?.walima     ?? false},
+                false,
+                ${events?.duaEKhair  ?? false},
+                false,
                 ${JSON.stringify(guests ?? {})},
                 ${notes?.trim() || null}
             )
@@ -49,10 +51,11 @@ export async function POST(request) {
                 name       = EXCLUDED.name,
                 phone      = EXCLUDED.phone,
                 email      = EXCLUDED.email,
-                dholki     = EXCLUDED.dholki,
-                barat      = EXCLUDED.barat,
-                walima     = EXCLUDED.walima,
-                guests     = EXCLUDED.guests,
+                dholki      = EXCLUDED.dholki,
+                barat       = EXCLUDED.barat,
+                walima      = EXCLUDED.walima,
+                dua_e_khair = EXCLUDED.dua_e_khair,
+                guests      = EXCLUDED.guests,
                 notes      = EXCLUDED.notes,
                 updated_at = NOW()
             RETURNING *

@@ -2482,6 +2482,13 @@ textarea:focus {
   display: none;
 }
 
+.rsvp-event-check-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
 .rsvp-event-check-box {
   width: 22px;
   height: 22px;
@@ -2714,9 +2721,14 @@ textarea:focus {
 }
 
 .rsvp-event-icon {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   line-height: 1;
-  margin-bottom: 4px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
 }
 
 .rsvp-event-name {
@@ -2726,6 +2738,22 @@ textarea:focus {
   color: var(--ink);
   line-height: 1.3;
   padding-right: 24px;
+}
+
+.rsvp-event-details-link {
+  display: inline-block;
+  margin-top: 4px;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--gold-dark);
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.rsvp-event-details-link:hover {
+  color: var(--ink);
 }
 
 .rsvp-event-date {

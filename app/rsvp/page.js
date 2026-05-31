@@ -1,17 +1,19 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 import { GUEST_LIST } from "@/data/guestList";
 
 // key = DB column name; guestKey = field in GUEST_LIST
 const EVENTS = [
-    { key: "dholki",  label: "Welcome Bride",    date: "Date TBD",         icon: "🥁", guestKey: "qawwali" },
-    { key: "barat",   label: "Nikkah Ceremony",  date: "October 10, 2026", icon: "💍", guestKey: "nikah"   },
-    { key: "walima",  label: "Walima",            date: "October 18, 2026", icon: "✨", guestKey: "walima"  },
+    { key: "duaEKhair", dbKey: "dua_e_khair", label: "Dua E Khair",    date: "September 27, 2026", icon: "🤲", guestKey: "duaEKhair", href: "/dua-e-khair"   },
+    { key: "barat",     dbKey: "barat",        label: "Nikkah Ceremony", date: "October 10, 2026",   icon: "💍", guestKey: "nikah",     href: "/barat"         },
+    { key: "dholki",    dbKey: "dholki",        label: "Welcome Bride",   date: "October 16, 2026",   icon: "🥁", guestKey: "qawwali",   href: "/welcome-bride" },
+    { key: "walima",    dbKey: "walima",        label: "Walima",          date: "October 18, 2026",   icon: "✨", guestKey: "walima",    href: "/walima"        },
 ];
 
-const EMPTY_EVENTS       = { dholki: false, barat: false, walima: false };
-const EMPTY_GUESTS       = { dholki: [],    barat: [],    walima: []    };
+const EMPTY_EVENTS = { duaEKhair: false, dholki: false, barat: false, walima: false };
+const EMPTY_GUESTS = { duaEKhair: [],    dholki: [],    barat: [],    walima: []    };
 
 function matchGuest(name, query) {
     const q = query.toLowerCase();
@@ -105,13 +107,14 @@ export default function RsvpPage() {
             setNameInput(guest.name);
             setPhone(data.phone ?? "");
             setEmail(data.email ?? "");
-            setEvents({ dholki: data.dholki ?? false, barat: data.barat ?? false, walima: data.walima ?? false });
+            setEvents({ duaEKhair: data.dua_e_khair ?? false, dholki: data.dholki ?? false, barat: data.barat ?? false, walima: data.walima ?? false });
             const saved = data.guests;
             if (saved && typeof saved === "object" && !Array.isArray(saved)) {
                 setGuestsByEvent({
-                    dholki: Array.isArray(saved.dholki) ? saved.dholki : [],
-                    barat:  Array.isArray(saved.barat)  ? saved.barat  : [],
-                    walima: Array.isArray(saved.walima) ? saved.walima : [],
+                    duaEKhair: Array.isArray(saved.duaEKhair) ? saved.duaEKhair : [],
+                    dholki:    Array.isArray(saved.dholki)    ? saved.dholki    : [],
+                    barat:     Array.isArray(saved.barat)     ? saved.barat     : [],
+                    walima:    Array.isArray(saved.walima)    ? saved.walima    : [],
                 });
             } else {
                 setGuestsByEvent({ ...EMPTY_GUESTS });
@@ -161,6 +164,8 @@ export default function RsvpPage() {
     async function handleSubmit(e) {
         e.preventDefault();
         if (!selectedGuest) { setError("Please select your name from the list first."); return; }
+        if (!email.trim()) { setError("Please enter your email address."); return; }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) { setError("Please enter a valid email address."); return; }
         setIsSubmitting(true); setError("");
         // Clean up guests: trim, remove empty strings
         const cleanGuests = {};
@@ -200,15 +205,16 @@ export default function RsvpPage() {
             setNameInput(data.name);
             setPhone(data.phone ?? "");
             setEmail(data.email ?? "");
-            setEvents({ dholki: data.dholki ?? false, barat: data.barat ?? false, walima: data.walima ?? false });
+            setEvents({ duaEKhair: data.dua_e_khair ?? false, dholki: data.dholki ?? false, barat: data.barat ?? false, walima: data.walima ?? false });
 
             // Restore per-event guests (handles both old flat array and new object)
             const saved = data.guests;
             if (saved && typeof saved === "object" && !Array.isArray(saved)) {
                 setGuestsByEvent({
-                    dholki: Array.isArray(saved.dholki) ? saved.dholki : [],
-                    barat:  Array.isArray(saved.barat)  ? saved.barat  : [],
-                    walima: Array.isArray(saved.walima) ? saved.walima : [],
+                    duaEKhair: Array.isArray(saved.duaEKhair) ? saved.duaEKhair : [],
+                    dholki:    Array.isArray(saved.dholki)    ? saved.dholki    : [],
+                    barat:     Array.isArray(saved.barat)     ? saved.barat     : [],
+                    walima:    Array.isArray(saved.walima)    ? saved.walima    : [],
                 });
             } else {
                 setGuestsByEvent({ ...EMPTY_GUESTS });
@@ -226,7 +232,7 @@ export default function RsvpPage() {
 
     // ---- Success screen ----
     if (submitResult) {
-        const confirmedEvents = EVENTS.filter(ev => submitResult.events[ev.key]);
+        const confirmedEvents = EVENTS.filter(ev => submitResult.events[ev.dbKey ?? ev.key]);
         const savedGuests = submitResult.guests;
         return (
             <div className="content-page">
@@ -272,7 +278,7 @@ export default function RsvpPage() {
                             setLookupName(""); setLookupStatus(null);
                         }}
                     >
-                        Edit or Submit Another RSVP
+                        Edit RSVP
                     </button>
                 </section>
             </div>
@@ -342,18 +348,21 @@ export default function RsvpPage() {
                                     const checked = events[ev.key];
                                     return (
                                         <div key={ev.key} className={`rsvp-event-item${checked ? " rsvp-event-item--checked" : ""}`}>
-                                            <label className="rsvp-event-header">
-                                                <input type="checkbox" checked={checked} onChange={() => toggleEvent(ev.key)} />
-                                                <span className="rsvp-event-check-box" aria-hidden="true">{checked ? "✓" : ""}</span>
-                                                <span className="rsvp-event-icon">{ev.icon}</span>
+                                            <div className="rsvp-event-header">
+                                                <label className="rsvp-event-check-label" htmlFor={`ev-${ev.key}`}>
+                                                    <input id={`ev-${ev.key}`} type="checkbox" checked={checked} onChange={() => toggleEvent(ev.key)} />
+                                                    <span className="rsvp-event-check-box" aria-hidden="true">{checked ? "✓" : ""}</span>
+                                                </label>
+                                                <span className="rsvp-event-icon" aria-hidden="true">{ev.icon}</span>
                                                 <div className="rsvp-event-info">
                                                     <span className="rsvp-event-name">{ev.label}</span>
                                                     <span className="rsvp-event-date">{ev.date}</span>
+                                                    <Link href={ev.href} className="rsvp-event-details-link" target="_blank" rel="noopener noreferrer">View Details →</Link>
                                                 </div>
                                                 {max > 0 && (
                                                     <span className="rsvp-event-seats">+{max} guest{max !== 1 ? "s" : ""}</span>
                                                 )}
-                                            </label>
+                                            </div>
 
                                             {checked && max > 0 && (
                                                 <div className="rsvp-event-guests">
@@ -403,8 +412,8 @@ export default function RsvpPage() {
                                 <input id="rsvp-phone" type="tel" placeholder="+1 (555) 000-0000" value={phone} onChange={e => setPhone(e.target.value)} />
                             </div>
                             <div className="form-row">
-                                <label htmlFor="rsvp-email">Email <span className="rsvp-optional-tag">(optional)</span></label>
-                                <input id="rsvp-email" type="email" placeholder="you@example.com" value={email} onChange={e => setEmail(e.target.value)} />
+                                <label htmlFor="rsvp-email">Email <span className="rsvp-required">*</span></label>
+                                <input id="rsvp-email" type="email" placeholder="you@example.com" value={email} onChange={e => setEmail(e.target.value)} required />
                             </div>
                         </div>
                     )}
