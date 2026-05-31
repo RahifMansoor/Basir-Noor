@@ -22,9 +22,9 @@ export default function Header() {
         pathname === "/barat-save-the-date";
     const visibleLinks =
         pathname === "/dua-e-khair"
-            ? links.filter((link) => link.href === "/baat-pakki")
+            ? links.filter((link) => link.href === "/baat-pakki" || link.href === "/rsvp")
             : pathname === "/welcome-bride" || pathname === "/barat" || pathname === "/walima"
-            ? links.filter((link) => !["/", "/walima", "/rsvp", "/save-the-date"].includes(link.href))
+            ? links.filter((link) => !["/", "/walima", "/save-the-date"].includes(link.href))
             : links;
 
     return (
