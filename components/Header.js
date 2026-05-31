@@ -8,10 +8,8 @@ export default function Header() {
     const disableBrandLink =
         pathname === "/save-the-date" ||
         pathname === "/welcome-bride" ||
-        pathname === "/baat-pakki" ||
         pathname === "/barat" ||
-        pathname === "/barat-save-the-date" ||
-        pathname === "/walima";
+        pathname === "/barat-save-the-date";
 
     const links = [
         { href: "/", label: "Home" },
