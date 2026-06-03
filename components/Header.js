@@ -18,13 +18,14 @@ export default function Header() {
 
     const hideNav =
         pathname === "/save-the-date" ||
-        pathname === "/baat-pakki" ||
         pathname === "/barat-save-the-date";
     const visibleLinks =
         pathname === "/dua-e-khair"
             ? links.filter((link) => link.href === "/baat-pakki" || link.href === "/rsvp")
-            : pathname === "/welcome-bride" || pathname === "/barat" || pathname === "/walima"
+            : pathname === "/welcome-bride" || pathname === "/barat"
             ? links.filter((link) => !["/", "/walima", "/save-the-date"].includes(link.href))
+            : pathname === "/walima"
+            ? links.filter((link) => !["/walima", "/save-the-date"].includes(link.href))
             : links;
 
     return (

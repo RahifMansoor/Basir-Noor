@@ -5,7 +5,12 @@ import Link from "next/link";
 
 export default function HomePage() {
     const audioRef = useRef(null);
-    const [phase, setPhase] = useState("idle"); // idle | opening | done
+    const [phase, setPhase] = useState(() => {
+        if (typeof window !== "undefined" && sessionStorage.getItem("invitationOpened")) {
+            return "done";
+        }
+        return "idle";
+    }); // idle | opening | done
 
     const [musicPlaying, setMusicPlaying] = useState(false);
 
@@ -14,7 +19,10 @@ export default function HomePage() {
         const audio = audioRef.current;
         if (audio) audio.play().then(() => setMusicPlaying(true)).catch(() => {});
         setPhase("opening");
-        setTimeout(() => setPhase("done"), 1500);
+        setTimeout(() => {
+            setPhase("done");
+            sessionStorage.setItem("invitationOpened", "1");
+        }, 1500);
     }, [phase]);
 
     const stopMusic = useCallback(() => {

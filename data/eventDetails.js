@@ -95,19 +95,19 @@ export const baatPakkiData = {
             text: "Bahut dua and congrats to Basir and Noor!",
         },
         {
-            author: "Fauzia, Patna",
+            author: "Fauzia Phuphi, Patna",
             text: "Alhumdulilah, Ma sha Allah, Subhan Allah. Lots of Dua and love to Basir and Noor. May Allah SWT bless both of them with happiness in life ever after. Ameen",
         },
         {
-            author: "Aapa, Dubai",
+            author: "Sofia Phuphi, Dubai",
             text: "Masha Allah. Dono ka sath aur dono ki zindagi hamesha mhakti rahe, khushiyon se bhari rahe. Ameen",
         },
         {
-            author: "Zarina Bhabhi, Calcutta",
+            author: "Zarina (Tayi Ammi), Calcutta",
             text: "Ma sha Allah, Subhanallah, Alhamdulillah, Allah Hu Akbar. May Allah SWT bless Basir and Noor with never ending happiness, Peace and love!",
         },
         {
-            author: "Nasir Bhai, Bhagalpur",
+            author: "Nasir Chachu, Bhagalpur",
             text: "Mashallah, Lots of love and dua to Basir and Noor.",
         },
         {
@@ -115,9 +115,14 @@ export const baatPakkiData = {
             text: "Love you and happiest to see you together loving Basir and sweety Noor. Allah nazare bad se bachaye. Dadi with love and Duaen.",
         },
         {
-            author: "Dr.Tariq Mansoor",
+            author: "Dr.Tariq Mansoor (Bade Abbu)",
             image: "/images/baat-pakki/comments/bp-17.png",
         },
+        {
+            author: "Atiya Phuphi, Calcutta",
+            text: "Ma sha Allah...... Bahut khoobsurat jodi Allah pak hamesha khush rakhkhe aur buri nazar se bachaye. Sabhi logon ki photo dekh achcha laga ...bahut bahut mubarak aur shukriya 🥰",
+        },
+
     ],
 };
 

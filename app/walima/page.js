@@ -76,22 +76,14 @@ export default function WalimaPage() {
 
             <div className="content-page event-page details-page-content">
                 <section className="event-hero">
-                    <p className="eyebrow">Walima Celebration</p>
-                    <h1>Walima Details</h1>
-                    <p>Walima is a way for the newlyweds to show their gratitude to Allah for bringing them together in marriage.</p>
+                    {/* <p className="eyebrow">Walima Celebration</p> */}
+                    <h1>Walima Celebration</h1>
+                    <p>Basir & Noor's Walima will be an evening of gratitude, joy, and togetherness as they celebrate this new chapter with family and friends.</p>
                     <div className="bp-date-location">
                         <span>October 18th, 2026 Sunday, 5:30 PM Onwards</span>
                         <span className="bp-date-dot">&middot;</span>
                         <span>Little Elm, TX</span>
                     </div>
-                </section>
-
-                <section className="panel event-highlight">
-                    <h2>Walima Celebration</h2>
-                    <p>
-                        Basir & Noor's Walima will be an evening of gratitude, joy, and togetherness as they celebrate
-                        this new chapter with family and friends.
-                    </p>
                 </section>
 
                 <section className="event-flyer">
