@@ -202,10 +202,9 @@ export const eventDetails = {
         eyebrow: "Colorful Celebration",
         intro:
             "A lively Mehndi evening filled with color, music, laughter, and joyful pre-wedding traditions.",
-        date: "Add the Mehndi date and start time here.",
-        location: "Add the Mehndi venue, hall, or home address here.",
-        dressCode:
-            "Bright festive outfits with vibrant colors, florals, and playful accessories.",
+        date: "Tuesday, October 6th\n3:00 PM Onwards",
+        location: "Mansoor Residence\n8505 High Meadows Dr\nPlano, TX 75025",
+        dressCode: "Shades of Mehndi",
         mood: "Vibrant, colorful, musical, and celebratory.",
         activities: [
             "Mehndi application and seating",

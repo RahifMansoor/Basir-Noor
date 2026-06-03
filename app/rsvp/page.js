@@ -7,13 +7,14 @@ import { GUEST_LIST } from "@/data/guestList";
 // key = DB column name; guestKey = field in GUEST_LIST
 const EVENTS = [
     { key: "duaEKhair", dbKey: "dua_e_khair", label: "Dua E Khair",    date: "September 27, 2026", icon: "🤲", guestKey: "duaEKhair", href: "/dua-e-khair"   },
+    { key: "mehndi",    dbKey: "mehndi",       label: "Mehndi",          date: "October 6, 2026",    icon: "🌿", guestKey: "mehndi",    href: "/mehndi"        },
     { key: "barat",     dbKey: "barat",        label: "Nikkah Ceremony", date: "October 10, 2026",   icon: "💍", guestKey: "nikah",     href: "/barat"         },
     { key: "dholki",    dbKey: "dholki",        label: "Welcome Bride",   date: "October 16, 2026",   icon: "🥁", guestKey: "qawwali",   href: "/welcome-bride" },
     { key: "walima",    dbKey: "walima",        label: "Walima",          date: "October 18, 2026",   icon: "✨", guestKey: "walima",    href: "/walima"        },
 ];
 
-const EMPTY_EVENTS = { duaEKhair: false, dholki: false, barat: false, walima: false };
-const EMPTY_GUESTS = { duaEKhair: [],    dholki: [],    barat: [],    walima: []    };
+const EMPTY_EVENTS = { duaEKhair: false, mehndi: false, dholki: false, barat: false, walima: false };
+const EMPTY_GUESTS = { duaEKhair: [],    mehndi: [],    dholki: [],    barat: [],    walima: []    };
 
 function matchGuest(name, query) {
     const q = query.toLowerCase();
@@ -107,11 +108,12 @@ export default function RsvpPage() {
             setNameInput(guest.name);
             setPhone(data.phone ?? "");
             setEmail(data.email ?? "");
-            setEvents({ duaEKhair: data.dua_e_khair ?? false, dholki: data.dholki ?? false, barat: data.barat ?? false, walima: data.walima ?? false });
+            setEvents({ duaEKhair: data.dua_e_khair ?? false, mehndi: data.mehndi ?? false, dholki: data.dholki ?? false, barat: data.barat ?? false, walima: data.walima ?? false });
             const saved = data.guests;
             if (saved && typeof saved === "object" && !Array.isArray(saved)) {
                 setGuestsByEvent({
                     duaEKhair: Array.isArray(saved.duaEKhair) ? saved.duaEKhair : [],
+                    mehndi:    Array.isArray(saved.mehndi)    ? saved.mehndi    : [],
                     dholki:    Array.isArray(saved.dholki)    ? saved.dholki    : [],
                     barat:     Array.isArray(saved.barat)     ? saved.barat     : [],
                     walima:    Array.isArray(saved.walima)    ? saved.walima    : [],
@@ -205,13 +207,14 @@ export default function RsvpPage() {
             setNameInput(data.name);
             setPhone(data.phone ?? "");
             setEmail(data.email ?? "");
-            setEvents({ duaEKhair: data.dua_e_khair ?? false, dholki: data.dholki ?? false, barat: data.barat ?? false, walima: data.walima ?? false });
+            setEvents({ duaEKhair: data.dua_e_khair ?? false, mehndi: data.mehndi ?? false, dholki: data.dholki ?? false, barat: data.barat ?? false, walima: data.walima ?? false });
 
             // Restore per-event guests (handles both old flat array and new object)
             const saved = data.guests;
             if (saved && typeof saved === "object" && !Array.isArray(saved)) {
                 setGuestsByEvent({
                     duaEKhair: Array.isArray(saved.duaEKhair) ? saved.duaEKhair : [],
+                    mehndi:    Array.isArray(saved.mehndi)    ? saved.mehndi    : [],
                     dholki:    Array.isArray(saved.dholki)    ? saved.dholki    : [],
                     barat:     Array.isArray(saved.barat)     ? saved.barat     : [],
                     walima:    Array.isArray(saved.walima)    ? saved.walima    : [],
