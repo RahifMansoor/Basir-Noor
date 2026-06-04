@@ -25,7 +25,7 @@ export const baatPakkiData = {
             text: "Mashallah they look wow. So happy and so proud of you!",
         },
         {
-            author: "Fauzia",
+            author: "Dr. Fauzia",
             text: "MA looks very nice. May Allah bless the kids with the best.",
         },
         {
@@ -219,6 +219,7 @@ export const eventDetails = {
         ],
         note: "Add the final entertainment lineup, host details, and entry timing once confirmed.",
         flyer: "/images/mehndi.png",
+        rsvpEnabled: true,
     },
     dholki: {
         slug: "dholki",
