@@ -21,43 +21,45 @@ export async function GET(request) {
 
 export async function POST(request) {
     try {
-        const { name, phone, email, events, guests, notes } = await request.json();
+        const { name, phone, email, events, guests, notes, unableEvents } = await request.json();
         if (!name?.trim()) {
             return NextResponse.json({ error: "Name is required." }, { status: 400 });
         }
         const sql = getDb();
         await ensureRsvpTable(sql);
+        // Store unableEvents inside the guests JSONB under _unable to avoid a schema migration
+        const guestsPayload = { ...(guests ?? {}), _unable: unableEvents ?? {} };
         const [row] = await sql`
             INSERT INTO rsvps (
                 name, name_lower, phone, email,
-                dholki, barat, walima,
-                mehndi, dua_e_khair, welcome_dulhan,
+                welcome_dulhan, barat, walima,
+                mehndi, dua_e_khair,
                 guests, notes
             ) VALUES (
                 ${name.trim()},
                 ${name.trim().toLowerCase()},
                 ${phone?.trim() || null},
                 ${email?.trim() || null},
-                ${events?.dholki     ?? false},
-                ${events?.barat      ?? false},
-                ${events?.walima     ?? false},
-                false,
-                ${events?.duaEKhair  ?? false},
-                false,
-                ${JSON.stringify(guests ?? {})},
+                ${events?.dholki    ?? false},
+                ${events?.barat     ?? false},
+                ${events?.walima    ?? false},
+                ${events?.mehndi    ?? false},
+                ${events?.duaEKhair ?? false},
+                ${JSON.stringify(guestsPayload)},
                 ${notes?.trim() || null}
             )
             ON CONFLICT (name_lower) DO UPDATE SET
-                name       = EXCLUDED.name,
-                phone      = EXCLUDED.phone,
-                email      = EXCLUDED.email,
-                dholki      = EXCLUDED.dholki,
-                barat       = EXCLUDED.barat,
-                walima      = EXCLUDED.walima,
-                dua_e_khair = EXCLUDED.dua_e_khair,
-                guests      = EXCLUDED.guests,
-                notes      = EXCLUDED.notes,
-                updated_at = NOW()
+                name           = EXCLUDED.name,
+                phone          = EXCLUDED.phone,
+                email          = EXCLUDED.email,
+                welcome_dulhan = EXCLUDED.welcome_dulhan,
+                barat          = EXCLUDED.barat,
+                walima         = EXCLUDED.walima,
+                mehndi         = EXCLUDED.mehndi,
+                dua_e_khair    = EXCLUDED.dua_e_khair,
+                guests         = EXCLUDED.guests,
+                notes          = EXCLUDED.notes,
+                updated_at     = NOW()
             RETURNING *
         `;
         return NextResponse.json(row);

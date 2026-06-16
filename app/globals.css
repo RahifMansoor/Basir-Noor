@@ -2507,6 +2507,51 @@ textarea:focus {
   border-color: var(--gold-dark);
 }
 
+.rsvp-event-item--unable {
+  border-color: var(--border);
+  opacity: 0.75;
+}
+.rsvp-event-item--unable .rsvp-event-check-box {
+  border-color: var(--border);
+}
+
+.rsvp-event-unable-btn {
+  flex-shrink: 0;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  background: transparent;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: color var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast);
+  white-space: nowrap;
+}
+.rsvp-event-unable-btn:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+.rsvp-event-unable-btn--active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+}
+.rsvp-event-unable-btn--active:hover {
+  background: var(--muted);
+  border-color: var(--muted);
+  color: #fff;
+}
+
+.rsvp-success-events--unable li {
+  opacity: 0.6;
+}
+.rsvp-success-events--unable .rsvp-success-date {
+  color: var(--muted);
+}
+
 .rsvp-event-info {
   flex: 1;
   display: flex;

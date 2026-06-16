@@ -132,8 +132,8 @@ export const eventDetails = {
         title: "Dua E Khair",
         eyebrow: "Blessings & Prayers",
         intro: "Collectively we will pray for the couple.",
-        date: "Sunday, September 27th\n5:00 PM Sharp",
-        location: "Mansoor Residence\n8505 High Meadows Drive\nPlano, TX 75025",
+        date: "Sunday, September 28th\n5:30 PM Sharp",
+        location: "Crystal Banquet\n6300 Independence Pkwy\nPlano, TX 75023",
         dressCode: "Thobes & kurtas for men. Women: abaya, modest gowns.",
         mood: "Reflective, warm, blessed, and intimate.",
         activities: [
@@ -220,6 +220,8 @@ export const eventDetails = {
         note: "Add the final entertainment lineup, host details, and entry timing once confirmed.",
         flyer: "/images/mehndi.png",
         rsvpEnabled: true,
+        hideActions: true,
+        hideDetails: true,
     },
     dholki: {
         slug: "dholki",

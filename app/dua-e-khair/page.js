@@ -110,6 +110,15 @@ export default function DuaEKhairPage() {
                 <p>{event.note}</p>
             </section>
 
+            <section className="event-flyer">
+                <img
+                    className="event-flyer-img"
+                    src="/images/dua-e-khair.png"
+                    alt="Dua E Khair invitation card"
+                    loading="lazy"
+                />
+            </section>
+
             <section className="details-grid">
                 <article className="detail-card">
                     <span className="card-icon">📅</span>
@@ -144,15 +153,6 @@ export default function DuaEKhairPage() {
                         ))}
                     </ul>
                 </article>
-            </section>
-
-            <section className="event-flyer">
-                <img
-                    className="event-flyer-img"
-                    src="/images/dua-e-khair.png"
-                    alt="Dua E Khair invitation card"
-                    loading="lazy"
-                />
             </section>
 
             <BaatPakkiComments page="dua-e-khair" />
