@@ -363,6 +363,12 @@ export default function RsvpPage() {
                     {selectedGuest && invitedEvents.length > 0 && (
                         <div className="rsvp-events-section">
                             <p className="rsvp-events-label">Which events will you attend?</p>
+                            <div className="rsvp-guest-disclaimer">
+                                <span className="rsvp-guest-disclaimer-icon">ℹ️</span>
+                                <span>
+                                    Your invitation may allow additional guests. The <strong>+1 guest</strong> badge means you can bring <strong>1 extra person</strong> — you are not counted in that number. So "+1 guest" = <strong>2 people total</strong> (you + 1).
+                                </span>
+                            </div>
                             <div className="rsvp-events-list">
                                 {invitedEvents.map(ev => {
                                     const max      = maxForEvent(ev);
