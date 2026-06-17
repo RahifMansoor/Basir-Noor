@@ -132,7 +132,7 @@ export const eventDetails = {
         title: "Dua E Khair",
         eyebrow: "Blessings & Prayers",
         intro: "Collectively we will pray for the couple.",
-        date: "Sunday, September 28th\n5:30 PM Sharp",
+        date: "Monday, September 28th\n5:30 PM Sharp",
         location: "Crystal Banquet\n6300 Independence Pkwy\nPlano, TX 75023",
         dressCode: "Thobes & kurtas for men. Women: abaya, modest gowns.",
         mood: "Reflective, warm, blessed, and intimate.",

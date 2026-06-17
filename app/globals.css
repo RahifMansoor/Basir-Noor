@@ -3183,3 +3183,37 @@ textarea:focus {
     border-radius: var(--radius-md);
   }
 }
+
+/* ---------- mehndi ladies-only banner ---------- */
+.mehndi-ladies-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 0 auto 2rem;
+  max-width: 600px;
+  padding: 14px 28px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(135deg, rgba(214,173,79,0.18) 0%, rgba(253,240,244,0.6) 100%);
+  border: 1.5px solid var(--gold);
+  color: var(--gold-dark);
+  font-family: var(--font-serif);
+  font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.mehndi-ladies-icon {
+  font-size: 1.2em;
+  line-height: 1;
+}
+
+@media (max-width: 480px) {
+  .mehndi-ladies-banner {
+    margin-bottom: 1.5rem;
+    padding: 12px 18px;
+    letter-spacing: 0.05em;
+  }
+}

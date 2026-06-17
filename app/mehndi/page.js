@@ -8,5 +8,14 @@ export const metadata = {
 };
 
 export default function MehndiPage() {
-    return <EventTemplate event={eventDetails.mehndi} />;
+    return (
+        <>
+            <div className="mehndi-ladies-banner">
+                <span className="mehndi-ladies-icon">🌼</span>
+                Ladies &amp; Girls Only
+                <span className="mehndi-ladies-icon">🌼</span>
+            </div>
+            <EventTemplate event={eventDetails.mehndi} />
+        </>
+    );
 }
