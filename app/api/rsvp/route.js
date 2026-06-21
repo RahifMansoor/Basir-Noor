@@ -1,6 +1,16 @@
 import { NextResponse } from "next/server";
 import { getDb, ensureRsvpTable } from "@/lib/db";
 
+const GUEST_NAME_MAX_LENGTH = 15;
+const GUEST_EVENT_KEYS = ["duaEKhair", "mehndi", "dholki", "barat", "walima"];
+
+function cleanGuestNames(value) {
+    if (!Array.isArray(value)) return [];
+    return value
+        .map(guest => String(guest ?? "").trim().slice(0, GUEST_NAME_MAX_LENGTH))
+        .filter(Boolean);
+}
+
 export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const name = searchParams.get("name")?.trim();
@@ -28,7 +38,10 @@ export async function POST(request) {
         const sql = getDb();
         await ensureRsvpTable(sql);
         // Store unableEvents inside the guests JSONB under _unable to avoid a schema migration
-        const guestsPayload = { ...(guests ?? {}), _unable: unableEvents ?? {} };
+        const guestsPayload = Object.fromEntries(
+            GUEST_EVENT_KEYS.map(key => [key, cleanGuestNames(guests?.[key])])
+        );
+        guestsPayload._unable = unableEvents ?? {};
         const [row] = await sql`
             INSERT INTO rsvps (
                 name, name_lower, phone, email,

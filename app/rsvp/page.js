@@ -15,10 +15,16 @@ const EVENTS = [
 const EMPTY_EVENTS = { duaEKhair: false, mehndi: false, dholki: false, barat: false, walima: false };
 const EMPTY_GUESTS = { duaEKhair: [],    mehndi: [],    dholki: [],    barat: [],    walima: []    };
 const EMPTY_UNABLE = { duaEKhair: false, mehndi: false, dholki: false, barat: false, walima: false };
+const GUEST_NAME_MAX_LENGTH = 15;
 
 function matchGuest(name, query) {
-    const q = query.toLowerCase();
-    return name.toLowerCase().split(/[\s&]+/).filter(Boolean).some(w => w.startsWith(q));
+    const normalizedName = name.toLowerCase().replace(/\s+/g, " ").trim();
+    const q = query.toLowerCase().replace(/\s+/g, " ").trim();
+    const nameWords = normalizedName.split(/[\s&]+/).filter(Boolean);
+    const queryWords = q.split(/[\s&]+/).filter(Boolean);
+
+    return normalizedName.includes(q)
+        || queryWords.every(queryWord => nameWords.some(nameWord => nameWord.startsWith(queryWord)));
 }
 
 export default function RsvpPage() {
@@ -47,11 +53,11 @@ export default function RsvpPage() {
     const lookupDropdownRef = useRef(null);
 
     const invitedEvents = selectedGuest
-        ? EVENTS.filter(ev => selectedGuest[ev.guestKey] != null)
+        ? EVENTS.filter(ev => Number(selectedGuest[ev.guestKey]) > 0)
         : [];
 
     function maxForEvent(ev) {
-        return selectedGuest ? (selectedGuest[ev.guestKey] ?? 1) - 1 : 0;
+        return selectedGuest ? Math.max(Number(selectedGuest[ev.guestKey] ?? 1) - 1, 0) : 0;
     }
 
     useEffect(() => {
@@ -177,7 +183,7 @@ export default function RsvpPage() {
         setGuestsByEvent(prev => ({ ...prev, [eventKey]: prev[eventKey].filter((_, idx) => idx !== i) }));
     }
     function updateGuest(eventKey, i, val) {
-        setGuestsByEvent(prev => ({ ...prev, [eventKey]: prev[eventKey].map((v, idx) => idx === i ? val : v) }));
+        setGuestsByEvent(prev => ({ ...prev, [eventKey]: prev[eventKey].map((v, idx) => idx === i ? val.slice(0, GUEST_NAME_MAX_LENGTH) : v) }));
     }
 
     async function handleSubmit(e) {
@@ -188,7 +194,7 @@ export default function RsvpPage() {
         setIsSubmitting(true); setError("");
         const cleanGuests = {};
         for (const key of Object.keys(guestsByEvent)) {
-            cleanGuests[key] = guestsByEvent[key].map(g => g.trim()).filter(Boolean);
+            cleanGuests[key] = guestsByEvent[key].map(g => g.trim().slice(0, GUEST_NAME_MAX_LENGTH)).filter(Boolean);
         }
         try {
             const res = await fetch("/api/rsvp", {
@@ -310,7 +316,7 @@ export default function RsvpPage() {
     // ---- Main form ----
     return (
         <div className="content-page">
-            <section className="panel full-width">
+            <section className="panel full-width rsvp-panel">
                 <h1>RSVP</h1>
                 <p>Type your name below to find your invitation, then confirm which events you'll attend.</p>
 
@@ -409,6 +415,7 @@ export default function RsvpPage() {
                                                                 type="text"
                                                                 placeholder={`Guest ${i + 1} full name`}
                                                                 value={g}
+                                                                maxLength={GUEST_NAME_MAX_LENGTH}
                                                                 onChange={e => updateGuest(ev.key, i, e.target.value)}
                                                             />
                                                             <button type="button" className="rsvp-guest-remove" aria-label="Remove guest" onClick={() => removeGuest(ev.key, i)}>✕</button>

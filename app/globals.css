@@ -693,6 +693,7 @@ main {
 }
 
 .full-width {
+  width: 100%;
   max-width: 800px;
   margin: 0 auto;
 }
@@ -702,6 +703,8 @@ main {
   margin-top: 24px;
   display: grid;
   gap: 16px;
+  width: 100%;
+  min-width: 0;
 }
 
 .form-row {
@@ -2361,8 +2364,28 @@ textarea:focus {
 }
 
 /* ---------- rsvp name autocomplete ---------- */
+.rsvp-panel {
+  overflow: visible;
+  z-index: 20;
+}
+
+.rsvp-panel p,
+.rsvp-lookup-section p,
+.rsvp-lookup-banner,
+.rsvp-no-match,
+.rsvp-no-events {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
 .rsvp-name-wrap {
   position: relative;
+  z-index: 20;
+  min-width: 0;
+}
+
+.rsvp-name-wrap:focus-within {
+  z-index: 300;
 }
 
 .rsvp-suggestions {
@@ -2374,7 +2397,7 @@ textarea:focus {
   border: 1.5px solid var(--border-strong);
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow);
-  z-index: 100;
+  z-index: 1000;
   max-height: 260px;
   overflow-y: auto;
   list-style: none;
@@ -2413,6 +2436,11 @@ textarea:focus {
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--ink);
+}
+
+.rsvp-name-selected span {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .rsvp-name-clear {
@@ -2557,6 +2585,7 @@ textarea:focus {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
 }
 
 .rsvp-event-seats {
@@ -2641,6 +2670,7 @@ textarea:focus {
   outline: none;
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
   width: auto;
+  min-width: 0;
 }
 
 .rsvp-guest-input:focus {
@@ -2808,6 +2838,7 @@ textarea:focus {
   color: var(--ink);
   line-height: 1.3;
   padding-right: 24px;
+  overflow-wrap: anywhere;
 }
 
 .rsvp-event-details-link {
@@ -2839,12 +2870,17 @@ textarea:focus {
   color: var(--gold-dark);
   font-weight: 600;
   margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .rsvp-optional-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
+}
+
+.rsvp-optional-grid > .form-row {
+  min-width: 0;
 }
 
 .rsvp-error {
@@ -2862,6 +2898,7 @@ textarea:focus {
 .rsvp-lookup-section {
   margin-top: 0;
   overflow: visible;
+  z-index: 1;
 }
 
 .rsvp-lookup-section h2 {
@@ -2874,6 +2911,12 @@ textarea:focus {
   gap: 10px;
   margin-top: 14px;
   align-items: flex-start;
+  width: 100%;
+  min-width: 0;
+}
+
+.rsvp-lookup-form .rsvp-name-wrap {
+  width: 100%;
 }
 
 .rsvp-lookup-input {
@@ -2983,6 +3026,9 @@ textarea:focus {
 }
 
 @media (max-width: 800px) {
+  .rsvp-form > .btn {
+    width: 100%;
+  }
   .rsvp-optional-grid {
     grid-template-columns: 1fr;
   }
@@ -2995,6 +3041,65 @@ textarea:focus {
   }
   .rsvp-events-grid {
     grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .rsvp-event-header {
+    display: grid;
+    grid-template-columns: 24px 36px minmax(0, 1fr);
+    align-items: start;
+    gap: 10px;
+    padding: 16px;
+  }
+
+  .rsvp-event-check-label,
+  .rsvp-event-icon {
+    margin-top: 2px;
+  }
+
+  .rsvp-event-name {
+    padding-right: 0;
+  }
+
+  .rsvp-event-unable-btn,
+  .rsvp-event-seats {
+    grid-column: 1 / -1;
+    justify-self: start;
+    margin-top: 2px;
+  }
+
+  .rsvp-event-seats {
+    white-space: normal;
+  }
+
+  .rsvp-event-guests {
+    padding: 0 16px 16px;
+  }
+
+  .rsvp-add-guest-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .rsvp-success-events {
+    display: flex;
+    width: 100%;
+  }
+
+  .rsvp-success-events li {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .rsvp-success-events li > div {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .rsvp-success-date {
+    flex-basis: 100%;
+    padding-left: 2rem;
   }
 }
 
