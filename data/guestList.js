@@ -96,7 +96,7 @@ export const GUEST_LIST = [
   { name: "Zahid Hashmi",            duaEKhair: null, mehndi: null, qawwali: null, nikah: null, walima: 2 },
   { name: "Firoz Khan",              duaEKhair: null, mehndi: null, qawwali: null, nikah: null, walima: 2 },
   { name: "Basheer Khan",            duaEKhair: null, mehndi: null, qawwali: null, nikah: null, walima: 2 },
-  { name: "Anwar Jamil",             duaEKhair: null, mehndi: null, qawwali: null, nikah: 2,    walima: null},
+  { name: "Anwar Jamil",             duaEKhair: null, mehndi: null, qawwali: null, nikah: 4,    walima: null},
   { name: "Khalid Parwez",           duaEKhair: null, mehndi: null, qawwali: null, nikah: 2,    walima: null },
   { name: "Reyaz Dawla",             duaEKhair: null, mehndi: null, qawwali: null, nikah: null, walima: 2 },
   { name: "Zarrar Khalid",           duaEKhair: null, mehndi: null, qawwali: null, nikah: null, walima: 2 },
