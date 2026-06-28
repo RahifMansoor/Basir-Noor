@@ -94,7 +94,7 @@ export const GUEST_LIST = [
   { name: "Haroon Jhaveri",          duaEKhair: null, mehndi: null, qawwali: null, nikah: null, walima: 2 },
   { name: "Asim Imran Haque",        duaEKhair: null, mehndi: null, qawwali: null, nikah: null, walima: 2 },
   { name: "Zahid Hashmi",            duaEKhair: null, mehndi: null, qawwali: null, nikah: null, walima: 2 },
-  { name: "Firoz Khan",              duaEKhair: null, mehndi: null, qawwali: null, nikah: null, walima: 2 },
+  { name: "Feroz Khan",              duaEKhair: null, mehndi: null, qawwali: null, nikah: null, walima: 2 },
   { name: "Basheer Khan",            duaEKhair: null, mehndi: null, qawwali: null, nikah: null, walima: 2 },
   { name: "Anwar Jamil",             duaEKhair: null, mehndi: null, qawwali: null, nikah: 4,    walima: null},
   { name: "Khalid Parwez",           duaEKhair: null, mehndi: null, qawwali: null, nikah: 2,    walima: null },
@@ -168,5 +168,11 @@ export const GUEST_LIST = [
   { name: "Aleema",                  duaEKhair: 2,    mehndi: 2,    qawwali: 2,    nikah: 2,    walima: 2 },
   { name: "Mahboob Alam",            duaEKhair: 4,    mehndi: 4,    qawwali: 4,    nikah: 4,    walima: 4 },
   { name: "Mahfooz Rahman",          duaEKhair: null,    mehndi: null,    qawwali: null,    nikah: 1,    walima: null },
-  { name: "Asifa Rahman",            duaEKhair: null,    mehndi: null,    qawwali: null,    nikah: null,    walima: 1 }
+  { name: "Asifa Rahman",            duaEKhair: null,    mehndi: null,    qawwali: null,    nikah: null,    walima: 1 },
+  { name: "Naim Keruwala",             duaEKhair: 2,    mehndi: 2,    qawwali: 2,    nikah: 2,    walima: 2 },
+  { name: "Ayaz Rasool",             duaEKhair: 2,    mehndi: 2,    qawwali: 2,    nikah: 2,    walima: 2 },
+  { name: "Nawaz Rasool",            duaEKhair: 2,    mehndi: 2,    qawwali: 2,    nikah: 2,    walima: 2 },
+  { name: "Emaan Haque",          duaEKhair: 2,    mehndi: 2,    qawwali: 2,    nikah: 2,    walima: 2 },
+  { name: "Amaan Haque",          duaEKhair: 2,    mehndi: 2,    qawwali: 2,    nikah: 2,    walima: 2 },
+
 ];
