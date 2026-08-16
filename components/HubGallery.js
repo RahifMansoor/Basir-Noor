@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef, useMemo } from "react";
-import { formatPhotoDate } from "@/lib/hubPhotos";
+import { formatPhotoDate, groupPhotosByBatch } from "@/lib/hubPhotos";
+import HubAlbumCard from "@/components/HubAlbumCard";
 
 const SWIPE_THRESHOLD = 50;
 
@@ -14,19 +15,7 @@ export default function HubGallery() {
     const [activeIndex, setActiveIndex] = useState(0);
     const touchStartX = useRef(null);
 
-    const batches = useMemo(() => {
-        const order = [];
-        const byKey = new Map();
-        for (const p of photos) {
-            const key = p.batch_id || `solo-${p.id}`;
-            if (!byKey.has(key)) {
-                byKey.set(key, { key, name: p.name, caption: p.caption, created_at: p.created_at, photos: [] });
-                order.push(key);
-            }
-            byKey.get(key).photos.push(p);
-        }
-        return order.map((key) => byKey.get(key));
-    }, [photos]);
+    const batches = useMemo(() => groupPhotosByBatch(photos), [photos]);
 
     const activeBatch = useMemo(
         () => batches.find((b) => b.key === activeBatchKey) || null,
@@ -103,31 +92,12 @@ export default function HubGallery() {
                 )}
                 <div className="hub-photo-grid">
                     {batches.map((b, i) => (
-                        <article
+                        <HubAlbumCard
                             key={b.key}
-                            className="hub-photo-card"
+                            batch={b}
+                            onOpenLightbox={openLightbox}
                             style={{ animationDelay: `${0.05 + i * 0.05}s` }}
-                        >
-                            <button
-                                type="button"
-                                className="hub-photo-img-btn"
-                                onClick={() => openLightbox(b.key, 0)}
-                                aria-label="View full photo"
-                            >
-                                <img src={`/api/hub/photos/${b.photos[0].id}`} alt={b.caption || `Photo by ${b.name}`} loading="lazy" />
-                                {b.photos.length > 1 && (
-                                    <span className="hub-photo-count-badge">📷 {b.photos.length}</span>
-                                )}
-                                <div className="hub-photo-overlay">
-                                    <span className="bp-zoom-icon">🔍</span>
-                                </div>
-                            </button>
-                            <div className="hub-photo-caption">
-                                <span className="hub-photo-caption-name">{b.name}</span>
-                                {b.caption && <span className="hub-photo-caption-text">{b.caption}</span>}
-                                <span className="hub-photo-caption-date">{formatPhotoDate(b.created_at)}</span>
-                            </div>
-                        </article>
+                        />
                     ))}
                 </div>
             </section>

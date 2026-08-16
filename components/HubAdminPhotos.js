@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { compressImage, formatPhotoDate, MAX_BATCH_SIZE } from "@/lib/hubPhotos";
+import { useState, useEffect, useRef, useMemo } from "react";
+import { compressImage, MAX_BATCH_SIZE, groupPhotosByBatch } from "@/lib/hubPhotos";
+import HubAdminAlbumCard from "@/components/HubAdminAlbumCard";
 
 export default function HubAdminPhotos({ adminKey }) {
     const [photos, setPhotos] = useState([]);
@@ -15,9 +16,10 @@ export default function HubAdminPhotos({ adminKey }) {
     const [submitting, setSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState(null);
     const [submitError, setSubmitError] = useState("");
-    const [deletingId, setDeletingId] = useState(null);
 
     const fileInputRef = useRef(null);
+
+    const batches = useMemo(() => groupPhotosByBatch(photos), [photos]);
 
     async function fetchPhotos() {
         try {
@@ -101,22 +103,6 @@ export default function HubAdminPhotos({ adminKey }) {
             setSubmitStatus("error");
         } finally {
             setSubmitting(false);
-        }
-    }
-
-    async function handleDelete(id) {
-        setDeletingId(id);
-        try {
-            const res = await fetch(`/api/hub/photos/${id}`, {
-                method: "DELETE",
-                headers: { "x-hub-admin-key": adminKey },
-            });
-            if (!res.ok) throw new Error("Failed to delete.");
-            setPhotos((prev) => prev.filter((p) => p.id !== id));
-        } catch (err) {
-            setFetchError(err.message);
-        } finally {
-            setDeletingId(null);
         }
     }
 
@@ -204,37 +190,13 @@ export default function HubAdminPhotos({ adminKey }) {
 
             {loading && <p className="bp-wish-loading">Loading photos...</p>}
             {fetchError && <p className="bp-wish-status bp-wish-status--error">{fetchError}</p>}
-            {!loading && !fetchError && photos.length === 0 && (
+            {!loading && !fetchError && batches.length === 0 && (
                 <p className="bp-wish-empty">No photos yet.</p>
             )}
 
-            <div className="hub-photo-grid">
-                {photos.map((p, i) => (
-                    <article
-                        key={p.id}
-                        className="hub-photo-card"
-                        style={{ animationDelay: `${0.05 + i * 0.05}s` }}
-                    >
-                        <img
-                            className="hub-admin-photo-img"
-                            src={`/api/hub/photos/${p.id}`}
-                            alt={p.caption || `Photo by ${p.name}`}
-                            loading="lazy"
-                        />
-                        <div className="hub-photo-caption">
-                            <span className="hub-photo-caption-name">{p.name}</span>
-                            {p.caption && <span className="hub-photo-caption-text">{p.caption}</span>}
-                            <span className="hub-photo-caption-date">{formatPhotoDate(p.created_at)}</span>
-                            <button
-                                type="button"
-                                className="hub-admin-delete-btn"
-                                onClick={() => handleDelete(p.id)}
-                                disabled={deletingId === p.id}
-                            >
-                                {deletingId === p.id ? "Deleting…" : "Delete"}
-                            </button>
-                        </div>
-                    </article>
+            <div className="hub-admin-album-list">
+                {batches.map((b) => (
+                    <HubAdminAlbumCard key={b.key} batch={b} adminKey={adminKey} onChanged={fetchPhotos} />
                 ))}
             </div>
         </section>
