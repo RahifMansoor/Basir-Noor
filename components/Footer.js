@@ -9,6 +9,10 @@ const footerMessages = {
     "/rsvp": "Thank you for celebrating with us.",
     "/welcome-bride": "Welcome to the family, Dulhan.",
     "/save-the-date": "October 18, 2026",
+    "/hub": "One place for updates, our team, and your favorite shots.",
+    "/hub/broadcast": "Stay in the loop.",
+    "/hub/dream-team": "The people making it all happen.",
+    "/hub/gallery": "Thank you for sharing your favorite moments.",
 };
 
 const FALLBACK_DRIVE = "https://drive.google.com/drive/folders/1Skqu1PNG6xgH-7VkMtapS_wRgguf-MTd?usp=sharing";
@@ -26,7 +30,7 @@ const driveLinks = {
     "/rsvp":           FALLBACK_DRIVE,
 };
 
-const noDriveBanner = new Set(["/rsvp", "/baat-pakki"]);
+const noDriveBanner = new Set(["/rsvp", "/baat-pakki", "/hub", "/hub/broadcast", "/hub/dream-team", "/hub/gallery"]);
 
 export default function Footer() {
     const pathname = usePathname();
