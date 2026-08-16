@@ -1,58 +1,18 @@
 "use client";
 
 import { useState, useEffect, useRef, useMemo } from "react";
+import { formatPhotoDate } from "@/lib/hubPhotos";
 
-const MAX_DIMENSION = 1600;
-const JPEG_QUALITY = 0.82;
-const MAX_BATCH_SIZE = 10;
 const SWIPE_THRESHOLD = 50;
-
-function formatDate(iso) {
-    return new Date(iso).toLocaleString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-    });
-}
-
-async function compressImage(file) {
-    let bitmap;
-    try {
-        bitmap = await createImageBitmap(file, { imageOrientation: "from-image" });
-    } catch {
-        bitmap = await createImageBitmap(file);
-    }
-
-    const scale = Math.min(1, MAX_DIMENSION / Math.max(bitmap.width, bitmap.height));
-    const width = Math.round(bitmap.width * scale);
-    const height = Math.round(bitmap.height * scale);
-
-    const canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(bitmap, 0, 0, width, height);
-
-    return canvas.toDataURL("image/jpeg", JPEG_QUALITY);
-}
 
 export default function HubGallery() {
     const [photos, setPhotos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [fetchError, setFetchError] = useState(null);
 
-    const [name, setName] = useState("");
-    const [caption, setCaption] = useState("");
-    const [selections, setSelections] = useState([]); // [{ dataUrl }]
-    const [processingFile, setProcessingFile] = useState(false);
-    const [submitting, setSubmitting] = useState(false);
-    const [submitStatus, setSubmitStatus] = useState(null);
-    const [submitError, setSubmitError] = useState("");
-
     const [activeBatchKey, setActiveBatchKey] = useState(null);
     const [activeIndex, setActiveIndex] = useState(0);
     const touchStartX = useRef(null);
-    const fileInputRef = useRef(null);
 
     const batches = useMemo(() => {
         const order = [];
@@ -73,91 +33,21 @@ export default function HubGallery() {
         [batches, activeBatchKey]
     );
 
-    async function fetchPhotos() {
-        try {
-            const res = await fetch("/api/hub/photos");
-            if (!res.ok) throw new Error("Failed to load photos.");
-            const data = await res.json();
-            setPhotos(data);
-        } catch (err) {
-            setFetchError(err.message);
-        } finally {
-            setLoading(false);
-        }
-    }
-
     useEffect(() => {
+        async function fetchPhotos() {
+            try {
+                const res = await fetch("/api/hub/photos");
+                if (!res.ok) throw new Error("Failed to load photos.");
+                const data = await res.json();
+                setPhotos(data);
+            } catch (err) {
+                setFetchError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        }
         fetchPhotos();
     }, []);
-
-    async function handleFileChange(e) {
-        const files = Array.from(e.target.files || []);
-        if (files.length === 0) return;
-
-        setSubmitStatus(null);
-
-        if (files.length > MAX_BATCH_SIZE) {
-            setSubmitStatus("error");
-            setSubmitError(`You can upload up to ${MAX_BATCH_SIZE} photos at once.`);
-            return;
-        }
-
-        setProcessingFile(true);
-        try {
-            const dataUrls = await Promise.all(files.map(compressImage));
-            setSelections(dataUrls.map((dataUrl) => ({ dataUrl })));
-        } catch {
-            setSubmitStatus("error");
-            setSubmitError("Couldn't read one of those images. Please try different photos.");
-        } finally {
-            setProcessingFile(false);
-        }
-    }
-
-    function removeSelection(i) {
-        setSelections((prev) => prev.filter((_, idx) => idx !== i));
-    }
-
-    function resetForm() {
-        setName("");
-        setCaption("");
-        setSelections([]);
-        if (fileInputRef.current) fileInputRef.current.value = "";
-    }
-
-    async function handleSubmit(e) {
-        e.preventDefault();
-        if (selections.length === 0) {
-            setSubmitStatus("error");
-            setSubmitError("Please choose at least one photo.");
-            return;
-        }
-        setSubmitting(true);
-        setSubmitStatus(null);
-        setSubmitError("");
-
-        try {
-            const res = await fetch("/api/hub/photos", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    name,
-                    caption,
-                    images: selections.map((s) => s.dataUrl),
-                }),
-            });
-            const data = await res.json();
-            if (!res.ok) throw new Error(data.error || "Failed to upload.");
-            setPhotos((prev) => [...data, ...prev]);
-            resetForm();
-            setSubmitStatus("success");
-        } catch (err) {
-            setSubmitError(err.message);
-            setSubmitStatus("error");
-        } finally {
-            setSubmitting(false);
-        }
-    }
 
     function openLightbox(batchKey, index = 0) {
         setActiveBatchKey(batchKey);
@@ -204,95 +94,12 @@ export default function HubGallery() {
 
     return (
         <>
-            <section className="bp-wish-section hub-upload-section">
-                <h2 className="bp-section-title">Add Photos</h2>
-                <form className="bp-wish-form" onSubmit={handleSubmit} noValidate>
-                    <div className="bp-wish-field">
-                        <label className="bp-wish-label" htmlFor="hub-photo-name">Your Name</label>
-                        <input
-                            id="hub-photo-name"
-                            className="bp-wish-input"
-                            type="text"
-                            placeholder="e.g. Auntie Fatima"
-                            maxLength={80}
-                            required
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                        />
-                    </div>
-                    <div className="bp-wish-field">
-                        <label className="bp-wish-label" htmlFor="hub-photo-caption">Caption (optional)</label>
-                        <input
-                            id="hub-photo-caption"
-                            className="bp-wish-input"
-                            type="text"
-                            placeholder="Say something about these moments"
-                            maxLength={300}
-                            value={caption}
-                            onChange={(e) => setCaption(e.target.value)}
-                        />
-                    </div>
-                    <div className="bp-wish-field">
-                        <label className="bp-wish-label" htmlFor="hub-photo-file">
-                            Photos <span className="hub-upload-hint">(choose one or select several at once)</span>
-                        </label>
-                        <input
-                            id="hub-photo-file"
-                            ref={fileInputRef}
-                            type="file"
-                            accept="image/*"
-                            multiple
-                            onChange={handleFileChange}
-                        />
-                        {processingFile && <p className="hub-upload-processing">Preparing photos…</p>}
-                        {selections.length > 0 && (
-                            <div className="hub-upload-preview-strip">
-                                {selections.map((s, i) => (
-                                    <div key={i} className="hub-upload-preview-item">
-                                        <img src={s.dataUrl} alt={`Selected photo ${i + 1}`} />
-                                        <button
-                                            type="button"
-                                            className="hub-upload-preview-remove"
-                                            aria-label="Remove photo"
-                                            onClick={() => removeSelection(i)}
-                                        >
-                                            ✕
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-
-                    {submitStatus === "success" && (
-                        <p className="bp-wish-status bp-wish-status--success">
-                            Thank you! Your photos have been added.
-                        </p>
-                    )}
-                    {submitStatus === "error" && (
-                        <p className="bp-wish-status bp-wish-status--error">{submitError}</p>
-                    )}
-
-                    <button
-                        className="bp-wish-submit"
-                        type="submit"
-                        disabled={submitting || processingFile || !name.trim() || selections.length === 0}
-                    >
-                        {submitting
-                            ? "Uploading…"
-                            : selections.length > 1
-                            ? `Share ${selections.length} Photos`
-                            : "Share Photo"}
-                    </button>
-                </form>
-            </section>
-
             <section className="bp-gallery-section hub-gallery-section">
                 <h2 className="bp-section-title">Shared Photos</h2>
                 {loading && <p className="bp-wish-loading">Loading photos...</p>}
                 {fetchError && <p className="bp-wish-status bp-wish-status--error">{fetchError}</p>}
                 {!loading && !fetchError && batches.length === 0 && (
-                    <p className="bp-wish-empty">No photos yet — be the first to share one!</p>
+                    <p className="bp-wish-empty">No photos yet — check back soon!</p>
                 )}
                 <div className="hub-photo-grid">
                     {batches.map((b, i) => (
@@ -318,7 +125,7 @@ export default function HubGallery() {
                             <div className="hub-photo-caption">
                                 <span className="hub-photo-caption-name">{b.name}</span>
                                 {b.caption && <span className="hub-photo-caption-text">{b.caption}</span>}
-                                <span className="hub-photo-caption-date">{formatDate(b.created_at)}</span>
+                                <span className="hub-photo-caption-date">{formatPhotoDate(b.created_at)}</span>
                             </div>
                         </article>
                     ))}
@@ -348,7 +155,7 @@ export default function HubGallery() {
                     <div className="hub-lb-caption">
                         <strong>{activePhoto.name}</strong>
                         {activePhoto.caption && <span> — {activePhoto.caption}</span>}
-                        <span className="bp-comment-timestamp"> · {formatDate(activePhoto.created_at)}</span>
+                        <span className="bp-comment-timestamp"> · {formatPhotoDate(activePhoto.created_at)}</span>
                     </div>
                     {activeBatch.photos.length > 1 && (
                         <div className="bp-lb-counter">{activeIndex + 1} / {activeBatch.photos.length}</div>

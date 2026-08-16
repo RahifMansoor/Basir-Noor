@@ -19,7 +19,7 @@ const hubLinks = [
         href: "/hub/gallery",
         icon: "📸",
         title: "Photo Gallery",
-        desc: "Browse shared photos and add your own.",
+        desc: "Browse the photos everyone has shared.",
     },
 ];
 

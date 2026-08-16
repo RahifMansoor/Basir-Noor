@@ -1,4 +1,6 @@
+import { NextResponse } from "next/server";
 import { getDb, ensureHubPhotosTable } from "@/lib/db";
+import { isAdminAuthorized } from "@/lib/adminAuth";
 
 export async function GET(request, { params }) {
     const { id } = await params;
@@ -25,5 +27,22 @@ export async function GET(request, { params }) {
         });
     } catch (err) {
         return new Response(err.message, { status: 500 });
+    }
+}
+
+export async function DELETE(request, { params }) {
+    if (!isAdminAuthorized(request)) {
+        return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
+    }
+
+    const { id } = await params;
+
+    try {
+        const sql = getDb();
+        await ensureHubPhotosTable(sql);
+        await sql`DELETE FROM hub_photos WHERE id = ${id}`;
+        return NextResponse.json({ ok: true });
+    } catch (err) {
+        return NextResponse.json({ error: err.message }, { status: 500 });
     }
 }

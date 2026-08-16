@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getDb, ensureHubPhotosTable } from "@/lib/db";
+import { isAdminAuthorized } from "@/lib/adminAuth";
 
 const MAX_BASE64_LENGTH = 6_000_000; // ~4.5MB decoded per photo
 const MAX_BATCH_SIZE = 10;
@@ -21,6 +22,10 @@ export async function GET() {
 }
 
 export async function POST(request) {
+    if (!isAdminAuthorized(request)) {
+        return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
+    }
+
     try {
         const { name, caption, images } = await request.json();
 

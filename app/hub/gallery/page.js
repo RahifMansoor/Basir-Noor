@@ -9,7 +9,7 @@ export default function HubGalleryPage() {
             <section className="event-hero">
                 <p className="eyebrow">The Hub</p>
                 <h1>📸 Photo Gallery</h1>
-                <p>Add your favorite moments and browse what everyone else has shared.</p>
+                <p>Browse the moments everyone has shared so far.</p>
             </section>
 
             <HubGallery />

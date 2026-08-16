@@ -3327,7 +3327,7 @@ textarea:focus {
 .hub-landing-grid {
   margin: 32px 0 20px;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 18px;
 }
 
@@ -3634,6 +3634,72 @@ textarea:focus {
   font-size: 0.72rem;
   color: var(--muted);
   letter-spacing: 0.04em;
+}
+
+/* ---------- hub admin ---------- */
+.hub-admin-gate {
+  max-width: 420px;
+  margin: 40px auto 0;
+}
+
+.hub-admin-logout {
+  text-align: right;
+  margin-bottom: 8px;
+}
+
+.hub-admin-panel {
+  margin-top: 48px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+}
+
+.hub-admin-list {
+  margin-top: 24px;
+  display: grid;
+  gap: 14px;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hub-admin-list-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.hub-admin-delete-btn {
+  align-self: flex-start;
+  margin-top: 8px;
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(180, 40, 40, 0.32);
+  background: rgba(180, 40, 40, 0.08);
+  color: #8b1c1c;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: background var(--transition-fast), opacity var(--transition-fast);
+  white-space: nowrap;
+}
+
+.hub-admin-delete-btn:hover:not(:disabled) {
+  background: rgba(180, 40, 40, 0.16);
+}
+
+.hub-admin-delete-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.hub-admin-photo-img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  display: block;
 }
 
 .hub-lb-caption {
