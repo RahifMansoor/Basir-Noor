@@ -1,21 +1,23 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { compressImage, formatPhotoDate } from "@/lib/hubPhotos";
+import { compressImage, formatPhotoDate, MAX_BATCH_SIZE } from "@/lib/hubPhotos";
 
-export default function HubAdminAlbumCard({ batch, adminKey, onChanged }) {
+export default function HubAdminAlbumCard({ batch, adminKey, category = "gallery", onChanged }) {
     const [editing, setEditing] = useState(false);
-    const [editName, setEditName] = useState(batch.name);
+    const [editName, setEditName] = useState(batch.name || "");
     const [editCaption, setEditCaption] = useState(batch.caption || "");
     const [saving, setSaving] = useState(false);
     const [saveError, setSaveError] = useState("");
 
     const [busyId, setBusyId] = useState(null); // id currently being deleted or replaced
     const [actionError, setActionError] = useState("");
+    const [addingPhotos, setAddingPhotos] = useState(false);
     const fileInputRefs = useRef({});
+    const addPhotosInputRef = useRef(null);
 
     function startEdit() {
-        setEditName(batch.name);
+        setEditName(batch.name || "");
         setEditCaption(batch.caption || "");
         setSaveError("");
         setEditing(true);
@@ -23,10 +25,6 @@ export default function HubAdminAlbumCard({ batch, adminKey, onChanged }) {
 
     async function handleSaveEdit(e) {
         e.preventDefault();
-        if (!editName.trim()) {
-            setSaveError("Name can't be empty.");
-            return;
-        }
         setSaving(true);
         setSaveError("");
         try {
@@ -90,12 +88,43 @@ export default function HubAdminAlbumCard({ batch, adminKey, onChanged }) {
         }
     }
 
+    async function handleAddPhotos(files) {
+        if (files.length === 0) return;
+        if (files.length > MAX_BATCH_SIZE) {
+            setActionError(`You can add up to ${MAX_BATCH_SIZE} photos at once.`);
+            return;
+        }
+        setAddingPhotos(true);
+        setActionError("");
+        try {
+            const images = await Promise.all(files.map(compressImage));
+            const res = await fetch("/api/hub/photos", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", "x-hub-admin-key": adminKey },
+                body: JSON.stringify({
+                    name: batch.name || "",
+                    caption: batch.caption || "",
+                    images,
+                    batchId: batch.key,
+                    category,
+                }),
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || "Failed to add photos.");
+            onChanged();
+        } catch (err) {
+            setActionError(err.message);
+        } finally {
+            setAddingPhotos(false);
+        }
+    }
+
     return (
         <article className="hub-admin-album-card">
             {!editing ? (
                 <div className="hub-admin-album-header">
                     <div>
-                        <span className="hub-photo-caption-name">{batch.name}</span>
+                        {batch.name && <span className="hub-photo-caption-name">{batch.name}</span>}
                         {batch.caption && <span className="hub-photo-caption-text"> — {batch.caption}</span>}
                         <span className="hub-photo-caption-date"> · {formatPhotoDate(batch.created_at)}</span>
                     </div>
@@ -111,7 +140,7 @@ export default function HubAdminAlbumCard({ batch, adminKey, onChanged }) {
                         maxLength={80}
                         value={editName}
                         onChange={(e) => setEditName(e.target.value)}
-                        placeholder="Uploader name"
+                        placeholder="Uploader name (optional)"
                     />
                     <input
                         className="bp-wish-input"
@@ -143,7 +172,7 @@ export default function HubAdminAlbumCard({ batch, adminKey, onChanged }) {
             <div className="hub-admin-thumb-strip">
                 {batch.photos.map((p) => (
                     <div key={p.id} className="hub-admin-thumb-item">
-                        <img src={`/api/hub/photos/${p.id}`} alt={batch.caption || batch.name} loading="lazy" />
+                        <img src={`/api/hub/photos/${p.id}`} alt={batch.caption || batch.name || "Photo"} loading="lazy" />
                         {busyId === p.id && <div className="hub-admin-thumb-busy">…</div>}
                         <div className="hub-admin-thumb-actions">
                             <button
@@ -178,6 +207,28 @@ export default function HubAdminAlbumCard({ batch, adminKey, onChanged }) {
                         />
                     </div>
                 ))}
+
+                <button
+                    type="button"
+                    className="hub-admin-thumb-add"
+                    title="Add photos to this post"
+                    disabled={addingPhotos}
+                    onClick={() => addPhotosInputRef.current?.click()}
+                >
+                    {addingPhotos ? "…" : "+"}
+                </button>
+                <input
+                    ref={addPhotosInputRef}
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    className="hub-admin-thumb-file-input"
+                    onChange={(e) => {
+                        const files = Array.from(e.target.files || []);
+                        e.target.value = "";
+                        if (files.length) handleAddPhotos(files);
+                    }}
+                />
             </div>
         </article>
     );

@@ -43,7 +43,7 @@ export default function HubAlbumCard({ batch, onOpenLightbox, style }) {
             >
                 <img
                     src={`/api/hub/photos/${photo.id}`}
-                    alt={batch.caption || `Photo by ${batch.name}`}
+                    alt={batch.caption || (batch.name ? `Photo by ${batch.name}` : "Shared photo")}
                     loading="lazy"
                     onClick={() => onOpenLightbox(batch.key, index)}
                 />
@@ -59,12 +59,9 @@ export default function HubAlbumCard({ batch, onOpenLightbox, style }) {
                         </div>
                     </>
                 )}
-                <div className="hub-photo-overlay">
-                    <span className="bp-zoom-icon">🔍</span>
-                </div>
             </div>
             <div className="hub-photo-caption">
-                <span className="hub-photo-caption-name">{batch.name}</span>
+                {batch.name && <span className="hub-photo-caption-name">{batch.name}</span>}
                 {batch.caption && <span className="hub-photo-caption-text">{batch.caption}</span>}
                 <span className="hub-photo-caption-date">{formatPhotoDate(batch.created_at)}</span>
             </div>

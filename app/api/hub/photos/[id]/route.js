@@ -49,10 +49,10 @@ export async function PATCH(request, { params }) {
 
         if (name !== undefined) {
             const trimmed = name.trim();
-            if (!trimmed || trimmed.length > 80) {
-                return NextResponse.json({ error: "Name must be 1-80 characters." }, { status: 400 });
+            if (trimmed.length > 80) {
+                return NextResponse.json({ error: "Name must be under 80 characters." }, { status: 400 });
             }
-            await sql`UPDATE hub_photos SET name = ${trimmed} WHERE id = ${id}`;
+            await sql`UPDATE hub_photos SET name = ${trimmed || null} WHERE id = ${id}`;
             sets.push("name");
         }
 

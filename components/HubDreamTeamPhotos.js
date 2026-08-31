@@ -2,11 +2,11 @@
 
 import { useState, useEffect, useRef, useMemo } from "react";
 import { formatPhotoDate, groupPhotosByBatch } from "@/lib/hubPhotos";
-import HubAlbumCard from "@/components/HubAlbumCard";
+import HubHeartPhotoCard from "@/components/HubHeartPhotoCard";
 
 const SWIPE_THRESHOLD = 50;
 
-export default function HubGallery() {
+export default function HubDreamTeamPhotos() {
     const [photos, setPhotos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [fetchError, setFetchError] = useState(null);
@@ -25,7 +25,7 @@ export default function HubGallery() {
     useEffect(() => {
         async function fetchPhotos() {
             try {
-                const res = await fetch("/api/hub/photos");
+                const res = await fetch("/api/hub/photos?category=dream-team");
                 if (!res.ok) throw new Error("Failed to load photos.");
                 const data = await res.json();
                 setPhotos(data);
@@ -83,16 +83,25 @@ export default function HubGallery() {
 
     return (
         <>
-            <section className="bp-gallery-section hub-gallery-section">
-                <h2 className="bp-section-title">Shared Photos</h2>
+            {/* Shared heart clip-path, scales with each frame's own box */}
+            <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden="true">
+                <defs>
+                    <clipPath id="hub-heart-clip" clipPathUnits="objectBoundingBox">
+                        <path d="M 0.5,0.15 C 0.45,0.05 0.3,0 0.2,0 C 0.05,0 0,0.15 0,0.3 C 0,0.5 0.2,0.65 0.5,0.9 C 0.8,0.65 1,0.5 1,0.3 C 1,0.15 0.95,0 0.8,0 C 0.7,0 0.55,0.05 0.5,0.15 Z" />
+                    </clipPath>
+                </defs>
+            </svg>
+
+            <section className="hub-section hub-heart-section">
+                <h2 className="hub-section-title">Photos</h2>
                 {loading && <p className="bp-wish-loading">Loading photos...</p>}
                 {fetchError && <p className="bp-wish-status bp-wish-status--error">{fetchError}</p>}
                 {!loading && !fetchError && batches.length === 0 && (
                     <p className="bp-wish-empty">No photos yet — check back soon!</p>
                 )}
-                <div className="hub-photo-grid">
+                <div className="hub-heart-grid">
                     {batches.map((b, i) => (
-                        <HubAlbumCard
+                        <HubHeartPhotoCard
                             key={b.key}
                             batch={b}
                             onOpenLightbox={openLightbox}
@@ -119,7 +128,7 @@ export default function HubGallery() {
                     <img
                         className="bp-lb-img"
                         src={`/api/hub/photos/${activePhoto.id}`}
-                        alt={activePhoto.caption || (activePhoto.name ? `Photo by ${activePhoto.name}` : "Shared photo")}
+                        alt={activePhoto.caption || (activePhoto.name ? `Photo of ${activePhoto.name}` : "Dream team photo")}
                         onClick={(e) => e.stopPropagation()}
                     />
                     <div className="hub-lb-caption">

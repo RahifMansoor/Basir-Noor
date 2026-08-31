@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { dreamTeam } from "@/data/hubData";
+import HubDreamTeamPhotos from "@/components/HubDreamTeamPhotos";
 
 export const metadata = { title: "Dream Team" };
 
@@ -23,6 +24,8 @@ export default function HubDreamTeamPage() {
                     ))}
                 </div>
             </section>
+
+            <HubDreamTeamPhotos />
 
             <div className="hub-back-link">
                 <Link className="btn btn-outline" href="/hub">

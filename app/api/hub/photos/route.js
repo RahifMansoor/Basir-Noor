@@ -5,14 +5,20 @@ import { isAdminAuthorized } from "@/lib/adminAuth";
 const MAX_BASE64_LENGTH = 6_000_000; // ~4.5MB decoded per photo
 const MAX_BATCH_SIZE = 10;
 const IMAGE_DATA_RE = /^data:(image\/(?:jpeg|png|webp));base64,(.+)$/;
+const CATEGORIES = ["gallery", "dream-team"];
 
-export async function GET() {
+export async function GET(request) {
     try {
         const sql = getDb();
         await ensureHubPhotosTable(sql);
+        const { searchParams } = new URL(request.url);
+        const category = CATEGORIES.includes(searchParams.get("category"))
+            ? searchParams.get("category")
+            : "gallery";
         const rows = await sql`
             SELECT id, name, caption, batch_id, created_at
             FROM hub_photos
+            WHERE category = ${category}
             ORDER BY created_at DESC
         `;
         return NextResponse.json(rows);
@@ -27,16 +33,16 @@ export async function POST(request) {
     }
 
     try {
-        const { name, caption, images } = await request.json();
+        const { name, caption, images, batchId, category } = await request.json();
 
-        if (!name?.trim() || !Array.isArray(images) || images.length === 0) {
+        if (!Array.isArray(images) || images.length === 0) {
             return NextResponse.json(
-                { error: "Name and at least one photo are required." },
+                { error: "At least one photo is required." },
                 { status: 400 }
             );
         }
 
-        if (name.trim().length > 80 || (caption && caption.trim().length > 300)) {
+        if ((name && name.trim().length > 80) || (caption && caption.trim().length > 300)) {
             return NextResponse.json(
                 { error: "Name must be under 80 chars; caption under 300 chars." },
                 { status: 400 }
@@ -72,15 +78,16 @@ export async function POST(request) {
         const sql = getDb();
         await ensureHubPhotosTable(sql);
 
-        const trimmedName = name.trim();
+        const trimmedName = name?.trim() || null;
         const trimmedCaption = caption?.trim() || null;
-        const batchId = crypto.randomUUID();
+        const finalBatchId = typeof batchId === "string" && batchId.trim() ? batchId.trim() : crypto.randomUUID();
+        const finalCategory = CATEGORIES.includes(category) ? category : "gallery";
 
         const rows = [];
         for (const { contentType, base64Data } of decoded) {
             const [row] = await sql`
-                INSERT INTO hub_photos (name, caption, content_type, image_data, batch_id)
-                VALUES (${trimmedName}, ${trimmedCaption}, ${contentType}, ${base64Data}, ${batchId})
+                INSERT INTO hub_photos (name, caption, content_type, image_data, batch_id, category)
+                VALUES (${trimmedName}, ${trimmedCaption}, ${contentType}, ${base64Data}, ${finalBatchId}, ${finalCategory})
                 RETURNING id, name, caption, batch_id, created_at
             `;
             rows.push(row);

@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import { compressImage, MAX_BATCH_SIZE, groupPhotosByBatch } from "@/lib/hubPhotos";
 import HubAdminAlbumCard from "@/components/HubAdminAlbumCard";
 
-export default function HubAdminPhotos({ adminKey }) {
+export default function HubAdminPhotos({ adminKey, category = "gallery", title = "📸 Photos" }) {
     const [photos, setPhotos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [fetchError, setFetchError] = useState(null);
@@ -23,7 +23,7 @@ export default function HubAdminPhotos({ adminKey }) {
 
     async function fetchPhotos() {
         try {
-            const res = await fetch("/api/hub/photos");
+            const res = await fetch(`/api/hub/photos?category=${category}`);
             if (!res.ok) throw new Error("Failed to load photos.");
             setPhotos(await res.json());
         } catch (err) {
@@ -35,7 +35,8 @@ export default function HubAdminPhotos({ adminKey }) {
 
     useEffect(() => {
         fetchPhotos();
-    }, []);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [category]);
 
     async function handleFileChange(e) {
         const files = Array.from(e.target.files || []);
@@ -91,6 +92,7 @@ export default function HubAdminPhotos({ adminKey }) {
                     name,
                     caption,
                     images: selections.map((s) => s.dataUrl),
+                    category,
                 }),
             });
             const data = await res.json();
@@ -108,26 +110,25 @@ export default function HubAdminPhotos({ adminKey }) {
 
     return (
         <section className="hub-admin-panel">
-            <h2 className="hub-section-title">📸 Photos</h2>
+            <h2 className="hub-section-title">{title}</h2>
 
             <form className="bp-wish-form" onSubmit={handleSubmit} noValidate>
                 <div className="bp-wish-field">
-                    <label className="bp-wish-label" htmlFor="admin-photo-name">Uploader Name</label>
+                    <label className="bp-wish-label" htmlFor={`admin-photo-name-${category}`}>Uploader Name (optional)</label>
                     <input
-                        id="admin-photo-name"
+                        id={`admin-photo-name-${category}`}
                         className="bp-wish-input"
                         type="text"
                         placeholder="e.g. Auntie Fatima"
                         maxLength={80}
-                        required
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                     />
                 </div>
                 <div className="bp-wish-field">
-                    <label className="bp-wish-label" htmlFor="admin-photo-caption">Caption (optional)</label>
+                    <label className="bp-wish-label" htmlFor={`admin-photo-caption-${category}`}>Caption (optional)</label>
                     <input
-                        id="admin-photo-caption"
+                        id={`admin-photo-caption-${category}`}
                         className="bp-wish-input"
                         type="text"
                         placeholder="Say something about these moments"
@@ -137,11 +138,11 @@ export default function HubAdminPhotos({ adminKey }) {
                     />
                 </div>
                 <div className="bp-wish-field">
-                    <label className="bp-wish-label" htmlFor="admin-photo-file">
+                    <label className="bp-wish-label" htmlFor={`admin-photo-file-${category}`}>
                         Photos <span className="hub-upload-hint">(choose one or select up to {MAX_BATCH_SIZE} at once)</span>
                     </label>
                     <input
-                        id="admin-photo-file"
+                        id={`admin-photo-file-${category}`}
                         ref={fileInputRef}
                         type="file"
                         accept="image/*"
@@ -178,7 +179,7 @@ export default function HubAdminPhotos({ adminKey }) {
                 <button
                     className="bp-wish-submit"
                     type="submit"
-                    disabled={submitting || processingFile || !name.trim() || selections.length === 0}
+                    disabled={submitting || processingFile || selections.length === 0}
                 >
                     {submitting
                         ? "Uploading…"
@@ -196,7 +197,13 @@ export default function HubAdminPhotos({ adminKey }) {
 
             <div className="hub-admin-album-list">
                 {batches.map((b) => (
-                    <HubAdminAlbumCard key={b.key} batch={b} adminKey={adminKey} onChanged={fetchPhotos} />
+                    <HubAdminAlbumCard
+                        key={b.key}
+                        batch={b}
+                        adminKey={adminKey}
+                        category={category}
+                        onChanged={fetchPhotos}
+                    />
                 ))}
             </div>
         </section>

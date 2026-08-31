@@ -99,7 +99,8 @@ export default function HubAdminPage() {
                         </button>
                     </div>
                     <HubAdminBroadcasts adminKey={adminKey} />
-                    <HubAdminPhotos adminKey={adminKey} />
+                    <HubAdminPhotos adminKey={adminKey} category="gallery" title="📸 Photos" />
+                    <HubAdminPhotos adminKey={adminKey} category="dream-team" title="🌟 Dream Team Photos" />
                 </>
             )}
 
