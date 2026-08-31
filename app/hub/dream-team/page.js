@@ -13,17 +13,19 @@ export default function HubDreamTeamPage() {
                 <p>Meet the day-of contacts and helpers.</p>
             </section>
 
-            <section className="hub-section">
-                <div className="hub-team-grid">
-                    {dreamTeam.map((m, i) => (
-                        <article key={i} className="hub-team-card">
-                            <h3>{m.name}</h3>
-                            <p className="hub-team-role">{m.role}</p>
-                            {m.contact && <p className="hub-team-contact">{m.contact}</p>}
-                        </article>
-                    ))}
-                </div>
-            </section>
+            {dreamTeam.length > 0 && (
+                <section className="hub-section">
+                    <div className="hub-team-grid">
+                        {dreamTeam.map((m, i) => (
+                            <article key={i} className="hub-team-card">
+                                <h3>{m.name}</h3>
+                                <p className="hub-team-role">{m.role}</p>
+                                {m.contact && <p className="hub-team-contact">{m.contact}</p>}
+                            </article>
+                        ))}
+                    </div>
+                </section>
+            )}
 
             <HubDreamTeamPhotos />
 

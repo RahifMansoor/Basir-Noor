@@ -92,24 +92,23 @@ export default function HubDreamTeamPhotos() {
                 </defs>
             </svg>
 
-            <section className="hub-section hub-heart-section">
-                <h2 className="hub-section-title">Photos</h2>
-                {loading && <p className="bp-wish-loading">Loading photos...</p>}
-                {fetchError && <p className="bp-wish-status bp-wish-status--error">{fetchError}</p>}
-                {!loading && !fetchError && batches.length === 0 && (
-                    <p className="bp-wish-empty">No photos yet — check back soon!</p>
-                )}
-                <div className="hub-heart-grid">
-                    {batches.map((b, i) => (
-                        <HubHeartPhotoCard
-                            key={b.key}
-                            batch={b}
-                            onOpenLightbox={openLightbox}
-                            style={{ animationDelay: `${0.05 + i * 0.05}s` }}
-                        />
-                    ))}
-                </div>
-            </section>
+            {(loading || fetchError || batches.length > 0) && (
+                <section className="hub-section hub-heart-section">
+                    <h2 className="hub-section-title">Photos</h2>
+                    {loading && <p className="bp-wish-loading">Loading photos...</p>}
+                    {fetchError && <p className="bp-wish-status bp-wish-status--error">{fetchError}</p>}
+                    <div className="hub-heart-grid">
+                        {batches.map((b, i) => (
+                            <HubHeartPhotoCard
+                                key={b.key}
+                                batch={b}
+                                onOpenLightbox={openLightbox}
+                                style={{ animationDelay: `${0.05 + i * 0.05}s` }}
+                            />
+                        ))}
+                    </div>
+                </section>
+            )}
 
             {activePhoto && (
                 <div
