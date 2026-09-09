@@ -116,7 +116,7 @@ export const baatPakkiData = {
         },
         {
             author: "Dr.Tariq Mansoor (Bade Abbu)",
-            image: "/images/baat-pakki/comments/bp-17.png",
+            image: "/images/baat-pakki/comments/bp-17.jpg",
         },
         {
             author: "Atiya Phuphi, Calcutta",
