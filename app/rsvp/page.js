@@ -12,6 +12,9 @@ const EVENTS = [
     { key: "walima",    dbKey: "walima",        label: "Walima",          date: "October 18, 2026",   icon: "✨", guestKey: "walima",    href: "/walima"        },
 ];
 
+const HIDDEN_RSVP_EVENT_KEYS = new Set(["mehndi"]);
+const RSVP_EVENTS = EVENTS.filter(ev => !HIDDEN_RSVP_EVENT_KEYS.has(ev.key));
+
 const EMPTY_EVENTS = { duaEKhair: false, mehndi: false, dholki: false, barat: false, walima: false };
 const EMPTY_GUESTS = { duaEKhair: [],    mehndi: [],    dholki: [],    barat: [],    walima: []    };
 const EMPTY_UNABLE = { duaEKhair: false, mehndi: false, dholki: false, barat: false, walima: false };
@@ -53,7 +56,7 @@ export default function RsvpPage() {
     const lookupDropdownRef = useRef(null);
 
     const invitedEvents = selectedGuest
-        ? EVENTS.filter(ev => Number(selectedGuest[ev.guestKey]) > 0)
+        ? RSVP_EVENTS.filter(ev => Number(selectedGuest[ev.guestKey]) > 0)
         : [];
 
     function maxForEvent(ev) {
@@ -236,14 +239,14 @@ export default function RsvpPage() {
         }
     }
 
-    const selectedEvents = EVENTS.filter(ev => events[ev.key]);
+    const selectedEvents = RSVP_EVENTS.filter(ev => events[ev.key]);
 
     // ---- Success screen ----
     if (submitResult) {
-        const confirmedEvents    = EVENTS.filter(ev => submitResult.events[ev.dbKey ?? ev.key]);
+        const confirmedEvents    = RSVP_EVENTS.filter(ev => submitResult.events[ev.dbKey ?? ev.key]);
         const savedGuests        = submitResult.guests;
         const savedUnable        = (savedGuests && typeof savedGuests === "object") ? (savedGuests._unable ?? {}) : {};
-        const unableEventsResult = EVENTS.filter(ev => savedUnable[ev.key]);
+        const unableEventsResult = RSVP_EVENTS.filter(ev => savedUnable[ev.key]);
         return (
             <div className="content-page">
                 <section className="panel full-width rsvp-success-panel">
