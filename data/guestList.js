@@ -26,7 +26,7 @@ export const GUEST_LIST = [
   { name: "Zafar Anjum",             duaEKhair: 6,    mehndi: null, qawwali: null, nikah: null, walima: 5 },
   { name: "Sultan Omar",             duaEKhair: 5,    mehndi: 2,    qawwali: 2,    nikah: null, walima: 5 },
   { name: "Nasser Khawaja",          duaEKhair: 4,    mehndi: null, qawwali: 2,    nikah: null, walima: 4 },
-  { name: "Farha Mubashir",          duaEKhair: 3,    mehndi: null, qawwali: 2,    nikah: null, walima: 2 },
+  { name: "Farha Mubashir",          duaEKhair: 3,    mehndi: null, qawwali: null,    nikah: null, walima: 2 },
   { name: "Mujib Khan",              duaEKhair: 4,    mehndi: null, qawwali: 2,    nikah: null, walima: 4 },
   { name: "Waseem Iqbal",            duaEKhair: 3,    mehndi: null, qawwali: 2,    nikah: 2, walima: 3 },
   { name: "Sajid Sheikh",            duaEKhair: 5,    mehndi: null, qawwali: null, nikah: null, walima: 2 },
