@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 
 export default function Header() {
     const pathname = usePathname();
+    if (pathname === "/jeopardy" || pathname.startsWith("/jeopardy/")) return null;
     const disableBrandLink =
         pathname === "/save-the-date" ||
         pathname === "/barat-save-the-date";
@@ -12,6 +13,7 @@ export default function Header() {
     const links = [
         { href: "/", label: "Home" },
         { href: "/hub", label: "Hub" },
+        { href: "/jeopardy", label: "Jeopardy" },
         { href: "/baat-pakki", label: "Baat Pakki" },
         { href: "/walima", label: "Walima" },
         { href: "/rsvp", label: "RSVP" },

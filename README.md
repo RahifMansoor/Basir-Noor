@@ -4,6 +4,8 @@ A premium, modern wedding website built with **Next.js** (App Router) and deploy
 
 ## Pages
 
+- **Islamic Jeopardy** (`/jeopardy`) — Live team game, with `/jeopardy/display` for the projector and `/jeopardy/admin` for the host. Requires the separate game service; see [setup and event guide](game/README.md).
+
 - **Home** (`/`) — Hero section with CTA and wedding info panels
 - **Details** (`/details`) — Venue, schedule, dress code, and accommodations
 - **RSVP** (`/rsvp`) — Interactive form with dynamic guest fields
