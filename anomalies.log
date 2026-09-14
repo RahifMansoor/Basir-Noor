@@ -1,0 +1,139 @@
+[2026-09-01 17:30:17.907841] HIGH_CONNECTION_COUNT | proc=System Idle Process pid=0 exe= | 154 simultaneous network connections
+[2026-09-01 17:30:17.907841] NEW_PROCESS_HIGH_USAGE | proc=dwm.exe pid=268 exe=C:\Windows\System32\dwm.exe | first time seen, cpu=22.2%, mem=70MB
+[2026-09-01 17:30:17.907841] NEW_PROCESS_HIGH_USAGE | proc=MemCompression pid=2828 exe=MemCompression | first time seen, cpu=1.7%, mem=779MB
+[2026-09-01 17:30:17.907841] NEW_PROCESS_HIGH_USAGE | proc=MsMpEng.exe pid=5616 exe=C:\ProgramData\Microsoft\Windows Defender\Platform\4.18.26070.9-0\MsMpEng.exe | first time seen, cpu=585.5%, mem=513MB
+[2026-09-01 17:30:17.907841] NEW_PROCESS_HIGH_USAGE | proc=Code.exe pid=9264 exe=C:\Users\rahif\AppData\Local\Programs\Microsoft VS Code\Code.exe | first time seen, cpu=67.6%, mem=490MB
+[2026-09-01 17:30:17.907841] NEW_PROCESS_HIGH_USAGE | proc=perfmon.exe pid=12280 exe=C:\Windows\System32\perfmon.exe | first time seen, cpu=62.4%, mem=114MB
+[2026-09-01 17:30:17.907841] HIGH_CONNECTION_COUNT | proc=chrome.exe pid=19220 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | 43 simultaneous network connections
+[2026-09-01 17:30:17.907841] DUPLICATE_INSTANCE_SPIKE | proc=chrome.exe pid=None exe= | 99 instances running at once (baseline ~1.0)
+[2026-09-01 17:30:17.907841] DUPLICATE_INSTANCE_SPIKE | proc=svchost.exe pid=None exe= | 95 instances running at once (baseline ~1.0)
+[2026-09-01 17:30:17.907841] DUPLICATE_INSTANCE_SPIKE | proc=msedgewebview2.exe pid=None exe= | 6 instances running at once (baseline ~1.0)
+[2026-09-01 17:30:17.907841] DUPLICATE_INSTANCE_SPIKE | proc=conhost.exe pid=None exe= | 6 instances running at once (baseline ~1.0)
+[2026-09-01 17:30:17.907841] DUPLICATE_INSTANCE_SPIKE | proc=postgres.exe pid=None exe= | 7 instances running at once (baseline ~1.0)
+[2026-09-01 17:30:17.907841] DUPLICATE_INSTANCE_SPIKE | proc=Code.exe pid=None exe= | 14 instances running at once (baseline ~1.0)
+[2026-09-01 17:30:17.907841] DUPLICATE_INSTANCE_SPIKE | proc=RuntimeBroker.exe pid=None exe= | 8 instances running at once (baseline ~1.0)
+[2026-09-01 17:31:06.931538] HIGH_CONNECTION_COUNT | proc=System Idle Process pid=0 exe= | 104 simultaneous network connections
+[2026-09-01 17:31:06.931538] MEMORY_SPIKE | proc=chrome.exe pid=4652 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=978MB is z=4.3 above its own baseline (avg 131MB)
+[2026-09-01 17:31:06.931538] MEMORY_SPIKE | proc=svchost.exe pid=5408 exe=C:\Windows\System32\svchost.exe | mem=37MB is z=3.2 above its own baseline (avg 12MB)
+[2026-09-01 17:31:06.931538] MEMORY_SPIKE | proc=svchost.exe pid=5416 exe=C:\Windows\System32\svchost.exe | mem=39MB is z=3.5 above its own baseline (avg 12MB)
+[2026-09-01 17:31:06.931538] MEMORY_SPIKE | proc=svchost.exe pid=7900 exe=C:\Windows\System32\svchost.exe | mem=36MB is z=3.1 above its own baseline (avg 12MB)
+[2026-09-01 17:31:06.931538] MEMORY_SPIKE | proc=svchost.exe pid=8060 exe=C:\Windows\System32\svchost.exe | mem=35MB is z=3.0 above its own baseline (avg 12MB)
+[2026-09-01 17:31:06.931538] CPU_SPIKE | proc=chrome.exe pid=9908 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | cpu=8.2% is z=3.4 above its own baseline (avg 0.5%)
+[2026-09-01 17:31:06.931538] MEMORY_SPIKE | proc=chrome.exe pid=16476 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=757MB is z=3.2 above its own baseline (avg 131MB)
+[2026-09-01 17:31:06.931538] CPU_SPIKE | proc=chrome.exe pid=19024 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | cpu=35.4% is z=15.4 above its own baseline (avg 0.5%)
+[2026-09-01 17:31:06.931538] CPU_SPIKE | proc=chrome.exe pid=19212 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | cpu=9.8% is z=4.1 above its own baseline (avg 0.5%)
+[2026-09-01 17:31:06.931538] CPU_SPIKE | proc=chrome.exe pid=19220 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | cpu=7.8% is z=3.2 above its own baseline (avg 0.5%)
+[2026-09-01 17:31:06.931538] HIGH_CONNECTION_COUNT | proc=chrome.exe pid=19220 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | 74 simultaneous network connections
+[2026-09-01 17:31:06.931538] CPU_SPIKE | proc=chrome.exe pid=23680 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | cpu=26.8% is z=11.6 above its own baseline (avg 0.5%)
+[2026-09-01 17:31:06.931538] MEMORY_SPIKE | proc=chrome.exe pid=26144 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=1482MB is z=6.9 above its own baseline (avg 131MB)
+[2026-09-01 17:31:39.444579] HIGH_CONNECTION_COUNT | proc=System Idle Process pid=0 exe= | 202 simultaneous network connections
+[2026-09-01 17:31:39.444579] MEMORY_SPIKE | proc=chrome.exe pid=4652 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=981MB is z=4.3 above its own baseline (avg 132MB)
+[2026-09-01 17:31:39.444579] MEMORY_SPIKE | proc=svchost.exe pid=5408 exe=C:\Windows\System32\svchost.exe | mem=37MB is z=3.2 above its own baseline (avg 12MB)
+[2026-09-01 17:31:39.444579] MEMORY_SPIKE | proc=svchost.exe pid=5416 exe=C:\Windows\System32\svchost.exe | mem=38MB is z=3.4 above its own baseline (avg 12MB)
+[2026-09-01 17:31:39.444579] MEMORY_SPIKE | proc=svchost.exe pid=7900 exe=C:\Windows\System32\svchost.exe | mem=36MB is z=3.1 above its own baseline (avg 12MB)
+[2026-09-01 17:31:39.444579] MEMORY_SPIKE | proc=svchost.exe pid=8060 exe=C:\Windows\System32\svchost.exe | mem=35MB is z=3.0 above its own baseline (avg 12MB)
+[2026-09-01 17:31:39.444579] MEMORY_SPIKE | proc=chrome.exe pid=16476 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=759MB is z=3.2 above its own baseline (avg 132MB)
+[2026-09-01 17:31:39.444579] CPU_SPIKE | proc=chrome.exe pid=19024 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | cpu=15.2% is z=3.9 above its own baseline (avg 0.9%)
+[2026-09-01 17:31:39.444579] HIGH_CONNECTION_COUNT | proc=chrome.exe pid=19220 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | 84 simultaneous network connections
+[2026-09-01 17:31:39.444579] CPU_SPIKE | proc=chrome.exe pid=23680 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | cpu=12.9% is z=3.2 above its own baseline (avg 0.9%)
+[2026-09-01 17:31:39.444579] MEMORY_SPIKE | proc=chrome.exe pid=26144 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=1483MB is z=6.9 above its own baseline (avg 132MB)
+[2026-09-01 17:32:01.478032] HIGH_CONNECTION_COUNT | proc=System Idle Process pid=0 exe= | 177 simultaneous network connections
+[2026-09-01 17:32:01.478032] MEMORY_SPIKE | proc=chrome.exe pid=4652 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=980MB is z=4.3 above its own baseline (avg 132MB)
+[2026-09-01 17:32:01.478032] MEMORY_SPIKE | proc=svchost.exe pid=5408 exe=C:\Windows\System32\svchost.exe | mem=38MB is z=3.4 above its own baseline (avg 12MB)
+[2026-09-01 17:32:01.478032] MEMORY_SPIKE | proc=svchost.exe pid=5416 exe=C:\Windows\System32\svchost.exe | mem=38MB is z=3.4 above its own baseline (avg 12MB)
+[2026-09-01 17:32:01.478032] MEMORY_SPIKE | proc=svchost.exe pid=7900 exe=C:\Windows\System32\svchost.exe | mem=36MB is z=3.1 above its own baseline (avg 12MB)
+[2026-09-01 17:32:01.478032] MEMORY_SPIKE | proc=svchost.exe pid=8060 exe=C:\Windows\System32\svchost.exe | mem=35MB is z=3.0 above its own baseline (avg 12MB)
+[2026-09-01 17:32:01.478032] MEMORY_SPIKE | proc=chrome.exe pid=16476 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=758MB is z=3.2 above its own baseline (avg 132MB)
+[2026-09-01 17:32:01.478032] CPU_SPIKE | proc=chrome.exe pid=19024 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | cpu=14.8% is z=4.3 above its own baseline (avg 0.7%)
+[2026-09-01 17:32:01.478032] HIGH_CONNECTION_COUNT | proc=chrome.exe pid=19220 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | 62 simultaneous network connections
+[2026-09-01 17:32:01.478032] MEMORY_SPIKE | proc=chrome.exe pid=26144 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=1475MB is z=6.9 above its own baseline (avg 132MB)
+[2026-09-01 17:32:19.550780] HIGH_CONNECTION_COUNT | proc=System Idle Process pid=0 exe= | 199 simultaneous network connections
+[2026-09-01 17:32:19.550780] MEMORY_SPIKE | proc=chrome.exe pid=4652 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=920MB is z=4.0 above its own baseline (avg 132MB)
+[2026-09-01 17:32:19.550780] MEMORY_SPIKE | proc=svchost.exe pid=5408 exe=C:\Windows\System32\svchost.exe | mem=37MB is z=3.2 above its own baseline (avg 12MB)
+[2026-09-01 17:32:19.550780] MEMORY_SPIKE | proc=svchost.exe pid=5416 exe=C:\Windows\System32\svchost.exe | mem=38MB is z=3.4 above its own baseline (avg 12MB)
+[2026-09-01 17:32:19.550780] MEMORY_SPIKE | proc=svchost.exe pid=7900 exe=C:\Windows\System32\svchost.exe | mem=36MB is z=3.1 above its own baseline (avg 12MB)
+[2026-09-01 17:32:19.550780] MEMORY_SPIKE | proc=svchost.exe pid=8060 exe=C:\Windows\System32\svchost.exe | mem=35MB is z=3.0 above its own baseline (avg 12MB)
+[2026-09-01 17:32:19.550780] MEMORY_SPIKE | proc=chrome.exe pid=16476 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=758MB is z=3.2 above its own baseline (avg 132MB)
+[2026-09-01 17:32:19.550780] CPU_SPIKE | proc=chrome.exe pid=19024 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | cpu=10.6% is z=3.3 above its own baseline (avg 0.6%)
+[2026-09-01 17:32:19.550780] HIGH_CONNECTION_COUNT | proc=chrome.exe pid=19220 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | 61 simultaneous network connections
+[2026-09-01 17:32:19.550780] MEMORY_SPIKE | proc=chrome.exe pid=26144 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=1477MB is z=6.9 above its own baseline (avg 132MB)
+[2026-09-01 17:32:35.897624] HIGH_CONNECTION_COUNT | proc=System Idle Process pid=0 exe= | 198 simultaneous network connections
+[2026-09-01 17:32:35.897624] MEMORY_SPIKE | proc=chrome.exe pid=4652 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=922MB is z=4.1 above its own baseline (avg 132MB)
+[2026-09-01 17:32:35.897624] MEMORY_SPIKE | proc=svchost.exe pid=5408 exe=C:\Windows\System32\svchost.exe | mem=37MB is z=3.2 above its own baseline (avg 12MB)
+[2026-09-01 17:32:35.897624] MEMORY_SPIKE | proc=svchost.exe pid=5416 exe=C:\Windows\System32\svchost.exe | mem=38MB is z=3.4 above its own baseline (avg 12MB)
+[2026-09-01 17:32:35.897624] MEMORY_SPIKE | proc=svchost.exe pid=7900 exe=C:\Windows\System32\svchost.exe | mem=36MB is z=3.1 above its own baseline (avg 12MB)
+[2026-09-01 17:32:35.897624] MEMORY_SPIKE | proc=svchost.exe pid=8060 exe=C:\Windows\System32\svchost.exe | mem=35MB is z=3.0 above its own baseline (avg 12MB)
+[2026-09-01 17:32:35.897624] MEMORY_SPIKE | proc=chrome.exe pid=16476 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=760MB is z=3.2 above its own baseline (avg 132MB)
+[2026-09-01 17:32:35.897624] CPU_SPIKE | proc=chrome.exe pid=19024 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | cpu=13.0% is z=4.6 above its own baseline (avg 0.6%)
+[2026-09-01 17:32:35.897624] HIGH_CONNECTION_COUNT | proc=chrome.exe pid=19220 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | 53 simultaneous network connections
+[2026-09-01 17:32:35.897624] MEMORY_SPIKE | proc=chrome.exe pid=26144 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=1477MB is z=6.9 above its own baseline (avg 132MB)
+[2026-09-01 17:32:52.192852] HIGH_CONNECTION_COUNT | proc=System Idle Process pid=0 exe= | 195 simultaneous network connections
+[2026-09-01 17:32:52.192852] MEMORY_SPIKE | proc=chrome.exe pid=4652 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=918MB is z=4.0 above its own baseline (avg 131MB)
+[2026-09-01 17:32:52.192852] MEMORY_SPIKE | proc=svchost.exe pid=5408 exe=C:\Windows\System32\svchost.exe | mem=37MB is z=3.2 above its own baseline (avg 12MB)
+[2026-09-01 17:32:52.192852] MEMORY_SPIKE | proc=svchost.exe pid=5416 exe=C:\Windows\System32\svchost.exe | mem=39MB is z=3.4 above its own baseline (avg 12MB)
+[2026-09-01 17:32:52.192852] MEMORY_SPIKE | proc=svchost.exe pid=7900 exe=C:\Windows\System32\svchost.exe | mem=36MB is z=3.1 above its own baseline (avg 12MB)
+[2026-09-01 17:32:52.192852] MEMORY_SPIKE | proc=svchost.exe pid=8060 exe=C:\Windows\System32\svchost.exe | mem=35MB is z=3.0 above its own baseline (avg 12MB)
+[2026-09-01 17:32:52.192852] MEMORY_SPIKE | proc=chrome.exe pid=16476 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=761MB is z=3.2 above its own baseline (avg 131MB)
+[2026-09-01 17:32:52.192852] HIGH_CONNECTION_COUNT | proc=chrome.exe pid=19220 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | 62 simultaneous network connections
+[2026-09-01 17:32:52.192852] MEMORY_SPIKE | proc=chrome.exe pid=26144 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=1470MB is z=6.9 above its own baseline (avg 131MB)
+[2026-09-01 17:33:06.883168] HIGH_CONNECTION_COUNT | proc=System Idle Process pid=0 exe= | 192 simultaneous network connections
+[2026-09-01 17:33:06.883168] MEMORY_SPIKE | proc=chrome.exe pid=4652 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=919MB is z=4.1 above its own baseline (avg 131MB)
+[2026-09-01 17:33:06.883168] MEMORY_SPIKE | proc=svchost.exe pid=5408 exe=C:\Windows\System32\svchost.exe | mem=37MB is z=3.3 above its own baseline (avg 12MB)
+[2026-09-01 17:33:06.883168] MEMORY_SPIKE | proc=svchost.exe pid=5416 exe=C:\Windows\System32\svchost.exe | mem=39MB is z=3.4 above its own baseline (avg 12MB)
+[2026-09-01 17:33:06.883168] MEMORY_SPIKE | proc=svchost.exe pid=7900 exe=C:\Windows\System32\svchost.exe | mem=36MB is z=3.1 above its own baseline (avg 12MB)
+[2026-09-01 17:33:06.883168] MEMORY_SPIKE | proc=svchost.exe pid=8060 exe=C:\Windows\System32\svchost.exe | mem=35MB is z=3.0 above its own baseline (avg 12MB)
+[2026-09-01 17:33:06.883168] MEMORY_SPIKE | proc=chrome.exe pid=16476 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=762MB is z=3.2 above its own baseline (avg 131MB)
+[2026-09-01 17:33:06.883168] HIGH_CONNECTION_COUNT | proc=chrome.exe pid=19220 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | 60 simultaneous network connections
+[2026-09-01 17:33:06.883168] MEMORY_SPIKE | proc=chrome.exe pid=26144 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=1469MB is z=6.9 above its own baseline (avg 131MB)
+[2026-09-01 17:33:21.117946] HIGH_CONNECTION_COUNT | proc=System Idle Process pid=0 exe= | 133 simultaneous network connections
+[2026-09-01 17:33:21.117946] CPU_SPIKE | proc=chrome.exe pid=4652 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | cpu=23.0% is z=10.2 above its own baseline (avg 0.4%)
+[2026-09-01 17:33:21.117946] MEMORY_SPIKE | proc=chrome.exe pid=4652 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=842MB is z=3.7 above its own baseline (avg 131MB)
+[2026-09-01 17:33:21.117946] MEMORY_SPIKE | proc=svchost.exe pid=5408 exe=C:\Windows\System32\svchost.exe | mem=37MB is z=3.3 above its own baseline (avg 12MB)
+[2026-09-01 17:33:21.117946] MEMORY_SPIKE | proc=svchost.exe pid=5416 exe=C:\Windows\System32\svchost.exe | mem=39MB is z=3.4 above its own baseline (avg 12MB)
+[2026-09-01 17:33:21.117946] MEMORY_SPIKE | proc=svchost.exe pid=7900 exe=C:\Windows\System32\svchost.exe | mem=36MB is z=3.1 above its own baseline (avg 12MB)
+[2026-09-01 17:33:21.117946] MEMORY_SPIKE | proc=svchost.exe pid=8060 exe=C:\Windows\System32\svchost.exe | mem=35MB is z=3.0 above its own baseline (avg 12MB)
+[2026-09-01 17:33:21.117946] MEMORY_SPIKE | proc=chrome.exe pid=16476 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=763MB is z=3.3 above its own baseline (avg 131MB)
+[2026-09-01 17:33:21.117946] HIGH_CONNECTION_COUNT | proc=chrome.exe pid=19220 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | 45 simultaneous network connections
+[2026-09-01 17:33:21.117946] MEMORY_SPIKE | proc=chrome.exe pid=26144 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=1469MB is z=6.9 above its own baseline (avg 131MB)
+[2026-09-01 17:33:36.243887] HIGH_CONNECTION_COUNT | proc=System Idle Process pid=0 exe= | 115 simultaneous network connections
+[2026-09-01 17:33:36.243887] CPU_SPIKE | proc=chrome.exe pid=4528 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | cpu=12.5% is z=5.4 above its own baseline (avg 0.4%)
+[2026-09-01 17:33:36.243887] MEMORY_SPIKE | proc=chrome.exe pid=4652 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=828MB is z=3.6 above its own baseline (avg 131MB)
+[2026-09-01 17:33:36.243887] MEMORY_SPIKE | proc=svchost.exe pid=5408 exe=C:\Windows\System32\svchost.exe | mem=37MB is z=3.3 above its own baseline (avg 12MB)
+[2026-09-01 17:33:36.243887] MEMORY_SPIKE | proc=svchost.exe pid=5416 exe=C:\Windows\System32\svchost.exe | mem=39MB is z=3.5 above its own baseline (avg 12MB)
+[2026-09-01 17:33:36.243887] MEMORY_SPIKE | proc=svchost.exe pid=7900 exe=C:\Windows\System32\svchost.exe | mem=36MB is z=3.1 above its own baseline (avg 12MB)
+[2026-09-01 17:33:36.243887] MEMORY_SPIKE | proc=svchost.exe pid=8060 exe=C:\Windows\System32\svchost.exe | mem=35MB is z=3.0 above its own baseline (avg 12MB)
+[2026-09-01 17:33:36.243887] MEMORY_SPIKE | proc=chrome.exe pid=16476 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=765MB is z=3.3 above its own baseline (avg 131MB)
+[2026-09-01 17:33:36.243887] CPU_SPIKE | proc=chrome.exe pid=19024 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | cpu=27.0% is z=11.9 above its own baseline (avg 0.4%)
+[2026-09-01 17:33:36.243887] CPU_SPIKE | proc=chrome.exe pid=19212 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | cpu=17.7% is z=7.7 above its own baseline (avg 0.4%)
+[2026-09-01 17:33:36.243887] HIGH_CONNECTION_COUNT | proc=chrome.exe pid=19220 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | 94 simultaneous network connections
+[2026-09-01 17:33:36.243887] MEMORY_SPIKE | proc=chrome.exe pid=26144 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=1472MB is z=6.9 above its own baseline (avg 131MB)
+[2026-09-01 17:33:54.312384] HIGH_CONNECTION_COUNT | proc=System Idle Process pid=0 exe= | 193 simultaneous network connections
+[2026-09-01 17:33:54.312384] CPU_SPIKE | proc=csrss.exe pid=900 exe=C:\Windows\System32\csrss.exe | cpu=5.6% is z=4.2 above its own baseline (avg 0.9%)
+[2026-09-01 17:33:54.312384] CPU_SPIKE | proc=chrome.exe pid=1980 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | cpu=29.9% is z=12.2 above its own baseline (avg 0.4%)
+[2026-09-01 17:33:54.312384] MEMORY_SPIKE | proc=chrome.exe pid=4652 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=820MB is z=3.6 above its own baseline (avg 131MB)
+[2026-09-01 17:33:54.312384] MEMORY_SPIKE | proc=svchost.exe pid=5408 exe=C:\Windows\System32\svchost.exe | mem=37MB is z=3.3 above its own baseline (avg 12MB)
+[2026-09-01 17:33:54.312384] MEMORY_SPIKE | proc=svchost.exe pid=5416 exe=C:\Windows\System32\svchost.exe | mem=39MB is z=3.5 above its own baseline (avg 12MB)
+[2026-09-01 17:33:54.312384] MEMORY_SPIKE | proc=svchost.exe pid=7900 exe=C:\Windows\System32\svchost.exe | mem=36MB is z=3.1 above its own baseline (avg 12MB)
+[2026-09-01 17:33:54.312384] MEMORY_SPIKE | proc=svchost.exe pid=8060 exe=C:\Windows\System32\svchost.exe | mem=35MB is z=3.0 above its own baseline (avg 12MB)
+[2026-09-01 17:33:54.312384] MEMORY_SPIKE | proc=chrome.exe pid=16476 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=770MB is z=3.3 above its own baseline (avg 131MB)
+[2026-09-01 17:33:54.312384] CPU_SPIKE | proc=chrome.exe pid=19024 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | cpu=15.1% is z=6.1 above its own baseline (avg 0.4%)
+[2026-09-01 17:33:54.312384] HIGH_CONNECTION_COUNT | proc=chrome.exe pid=19220 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | 120 simultaneous network connections
+[2026-09-01 17:33:54.312384] CPU_SPIKE | proc=chrome.exe pid=26144 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | cpu=10.0% is z=4.0 above its own baseline (avg 0.4%)
+[2026-09-01 17:33:54.312384] MEMORY_SPIKE | proc=chrome.exe pid=26144 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=1463MB is z=6.9 above its own baseline (avg 131MB)
+[2026-09-01 17:34:10.653145] HIGH_CONNECTION_COUNT | proc=System Idle Process pid=0 exe= | 223 simultaneous network connections
+[2026-09-01 17:34:10.653145] CPU_SPIKE | proc=csrss.exe pid=900 exe=C:\Windows\System32\csrss.exe | cpu=6.9% is z=4.0 above its own baseline (avg 1.1%)
+[2026-09-01 17:34:10.653145] MEMORY_SPIKE | proc=chrome.exe pid=4652 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=820MB is z=3.6 above its own baseline (avg 131MB)
+[2026-09-01 17:34:10.653145] MEMORY_SPIKE | proc=svchost.exe pid=5408 exe=C:\Windows\System32\svchost.exe | mem=38MB is z=3.3 above its own baseline (avg 12MB)
+[2026-09-01 17:34:10.653145] MEMORY_SPIKE | proc=svchost.exe pid=5416 exe=C:\Windows\System32\svchost.exe | mem=38MB is z=3.4 above its own baseline (avg 12MB)
+[2026-09-01 17:34:10.653145] MEMORY_SPIKE | proc=svchost.exe pid=7900 exe=C:\Windows\System32\svchost.exe | mem=36MB is z=3.1 above its own baseline (avg 12MB)
+[2026-09-01 17:34:10.653145] MEMORY_SPIKE | proc=svchost.exe pid=8060 exe=C:\Windows\System32\svchost.exe | mem=35MB is z=3.0 above its own baseline (avg 12MB)
+[2026-09-01 17:34:10.653145] MEMORY_SPIKE | proc=chrome.exe pid=16476 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=770MB is z=3.3 above its own baseline (avg 131MB)
+[2026-09-01 17:34:10.653145] HIGH_CONNECTION_COUNT | proc=chrome.exe pid=19220 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | 84 simultaneous network connections
+[2026-09-01 17:34:10.653145] CPU_SPIKE | proc=chrome.exe pid=23680 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | cpu=12.3% is z=4.7 above its own baseline (avg 0.5%)
+[2026-09-01 17:34:10.653145] MEMORY_SPIKE | proc=chrome.exe pid=26144 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=1462MB is z=6.9 above its own baseline (avg 131MB)
+[2026-09-01 17:34:24.949636] HIGH_CONNECTION_COUNT | proc=System Idle Process pid=0 exe= | 201 simultaneous network connections
+[2026-09-01 17:34:24.949636] MEMORY_SPIKE | proc=chrome.exe pid=4652 exe=C:\Program Files\Google\Chrome\Application\chrome.exe | mem=820MB is z=3.6 above its own baseline (avg 131MB)
+[2026-09-01 17:34:24.949636] MEMORY_SPIKE | proc=svchost.exe pid=5408 exe=C:\Windows\System32\svchost.exe | mem=38MB is z=3.3 above its own baseline (avg 12MB)
+[2026-09-01 17:34:24.949636] MEMORY_SPIKE | proc=svchost.exe pid=5416 exe=C:\Windows\System32\svchost.exe | mem=38MB is z=3.4 above its own baseline (avg 12MB)
+[2026-09-01 17:34:24.949636] MEMORY_SPIKE | proc=svchost.exe pid=7900 exe=C:\Windows\System32\svchost.exe | mem=36MB is z=3.1 above its own baseline (avg 12MB)
+[2026-09-01 17:34:24.949636] MEMORY_SPIKE | proc=svchost.exe pid=8060 exe=C:\Windows\System32\svchost.exe | mem=35MB is z=3.0 above its own baseline (avg 12MB)
