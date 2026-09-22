@@ -1,6 +1,7 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { Game } = require('./engine.cjs');
+const { questions, categories } = require('./questions.cjs');
 const command = (g, action, payload = {}, now = 1000) => g.command(action, { ...payload, version: g.state.version }, now);
 const setup = () => {
   const g = new Game(), man = g.join('Ahmed', 'men'), woman = g.join('Aisha', 'women');
@@ -62,4 +63,11 @@ test('whole board completes, ties and score corrections, reset clears identities
   command(g, 'reset', { confirm: 'RESET' });
   assert.equal(g.state.phase, 'lobby');
   assert.equal(Object.keys(g.state.players).length, 0);
+});
+test('added categories and clue values appear on the board', () => {
+  assert.equal(questions.length, 51);
+  assert.equal(categories.length, 10);
+  assert.equal(new Set(questions.map(q => q.id)).size, questions.length);
+  assert.equal(questions.find(q => q.category === 'Pakistani Food' && q.answer.includes('sajji')).value, 100);
+  assert.equal(questions.find(q => q.category === 'Islamic Culture, Language & History' && q.answer.includes('Rekhta')).value, 500);
 });

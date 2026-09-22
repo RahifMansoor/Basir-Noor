@@ -50,7 +50,7 @@ State is saved to disk before successful mutations are acknowledged, using a tem
 
 ## Event operation
 
-1. Review the 25 clues and accepted answers in `game/questions.cjs` with the host. Edit before the event and restart the service; do not change the bank during an active game.
+1. Review the 51 clues and accepted answers in `game/questions.cjs` with the host. The 26 added clues include four choices; players can answer aloud with the letter or the response in question form. Edit before the event and restart the service; do not change the bank during an active game.
 2. Open `/jeopardy/display` on the projector and select Fullscreen. Open `/jeopardy/admin` on a separate device so answers stay private.
 3. Share `/jeopardy`, allow guests to register, and optionally close registration. Counts mean registered players, not connected devices. A returning browser keeps its team via a private random token.
 4. Start the game. Select a clue, read it aloud, then open buzzers. Players get 15 seconds to buzz; the first eligible packet received by the server wins, regardless of device timestamps.
@@ -68,7 +68,7 @@ npm run test:game
 npm run build
 ```
 
-The integration test creates a temporary service and real WebSocket clients. It registers 300 players in batches of 25, keeps all connected, and sends a simultaneous 300-player buzzer burst. It asserts exactly one winner, matching host/display state, private answers/tokens, host authorization, exactly-once scoring, reconnect identity, and saved state across restart. Unit tests cover timeout handoff, stale rounds/actions, closed registration, all 25 clues, score adjustments, and reset.
+The integration test creates a temporary service and real WebSocket clients. It registers 300 players in batches of 25, keeps all connected, and sends a simultaneous 300-player buzzer burst. It asserts exactly one winner, matching host/display state, private answers/tokens, host authorization, exactly-once scoring, reconnect identity, and saved state across restart. Unit tests cover timeout handoff, stale rounds/actions, closed registration, the complete clue board, score adjustments, and reset.
 
 A local Windows run completed 300 registrations in 1,670 ms and all 300 buzzer acknowledgments in 86 ms. This is a local functional/load result, not an Internet latency or production capacity guarantee. The initial test attempting all 300 new TCP connections together hit local connection refusals; the included test stages connections and tests simultaneous buzzing after registration. Rehearse on the deployed host and venue Wi-Fi with the expected devices before the event. Mobile latency affects first-received ordering; no browser-based system can establish who physically tapped first across different networks.
 
