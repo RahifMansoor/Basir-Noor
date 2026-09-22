@@ -31,7 +31,16 @@ The standalone service reads environment variables from its process, not Next.js
 
 ## Production deployment
 
-Keep the Next.js website on Vercel. Deploy `npm run game` as **one always-running Node process** on a host that supports WebSockets and a persistent disk. Vercel Functions cannot host this persistent WebSocket service: [Vercel guidance](https://vercel.com/kb/guide/do-vercel-serverless-functions-support-websocket-connections). Configure these service variables:
+The website deploys on Vercel, and `render.yaml` describes `npm run game` as a separate free Render web service. Connect the same repository and production branch to both providers. After the one-time setup, each push starts both deployments independently. The game needs one long-running process; Vercel's WebSocket Functions can run multiple instances and have a limited lifetime, so the current file-backed game server cannot run there unchanged. See [Vercel's WebSocket guidance](https://vercel.com/kb/guide/do-vercel-serverless-functions-support-websocket-connections) and [Render's free-tier guidance](https://render.com/docs/free).
+
+1. In Render, create a free Node web service from this repository's `main` branch with `npm ci --omit=dev`, `npm run game`, and `/health`. The `render.yaml` file records the same configuration for future Blueprint use.
+2. Set `JEOPARDY_ADMIN_KEY` to a private password of at least 16 characters. Set `JEOPARDY_ORIGINS` to the exact Vercel website origins, comma-separated, for example `https://your-site.vercel.app,https://your-site.com`. Include every production origin players or hosts will use; omit trailing slashes and preview URLs unless those previews should access the live game. These values are secrets/settings in Render, not committed to Git.
+3. Copy the game's public HTTPS URL from Render. In the Vercel website project's production environment, set `NEXT_PUBLIC_JEOPARDY_URL` to that URL, then redeploy the website once so the client bundle gets it. The game URL needs no trailing slash. Keep the Vercel project's existing environment variables, including `HUB_ADMIN_KEY` if `/hub/admin` uses it.
+4. Check `https://your-game-service.onrender.com/health` for `{ "ok": true }`, then open `/jeopardy/admin` on the Vercel site and verify that it connects. Future pushes to the shared production branch deploy both services automatically; neither deploy waits for the other.
+
+The free service stores game state on an ephemeral filesystem. Render deletes it on redeploy, restart, or idle spin-down, resetting the board, scores, and registrations. It can also take about a minute to wake after 15 minutes without incoming traffic. Keep the game active during an event and avoid deploying until it ends. Use a paid persistent disk or an external database if event state must survive a restart.
+
+For another persistent Node host, configure these service variables:
 
 | Variable | Value |
 | --- | --- |
@@ -40,7 +49,7 @@ Keep the Next.js website on Vercel. Deploy `npm run game` as **one always-runnin
 | `JEOPARDY_STATE_FILE` | File on a persistent local volume, e.g. `/data/state.json` |
 | `PORT` | Host-assigned port, default `4001` |
 
-`JEOPARDY_ADMIN_KEY` is still accepted as a temporary fallback for older deployments, but new setups should use `HUB_ADMIN_KEY` so `/hub/admin` and `/jeopardy/admin` share one password.
+`JEOPARDY_ADMIN_KEY` is used by the free Render service. Set `HUB_ADMIN_KEY` instead if the game and `/hub/admin` should share one password.
 
 Set `NEXT_PUBLIC_JEOPARDY_URL=https://your-game-service.example.com` in the **website’s** Vercel environment, then rebuild/redeploy the website. This public URL is baked into the client at build time. Never put the host password in a `NEXT_PUBLIC_` variable.
 

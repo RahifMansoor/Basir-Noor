@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: basir-noor-jeopardy
+    runtime: node
+    plan: free
+    buildCommand: npm ci --omit=dev
+    startCommand: npm run game
+    healthCheckPath: /health
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: JEOPARDY_ADMIN_KEY
+        sync: false
+      - key: JEOPARDY_ORIGINS
+        sync: false

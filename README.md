@@ -33,7 +33,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 2. Import the repo into Vercel.
 3. Add environment variable in Vercel project settings:
    - `RSVP_WEBHOOK_URL` = your webhook endpoint that writes to your spreadsheet.
-4. Deploy — Next.js is auto-detected.
+4. Deploy — Next.js is auto-detected. To deploy the live Jeopardy game alongside the website, follow the [game service deployment guide](game/README.md). The included `render.yaml` describes the free Render service; set `NEXT_PUBLIC_JEOPARDY_URL` in Vercel to its public URL.
 
 ## Spreadsheet/Excel Tracking Setup
 
