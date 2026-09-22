@@ -17,22 +17,24 @@ test('one winner, stale rounds rejected, answers and tokens hidden', () => {
   assert.equal(g.view().question.answer, undefined);
   assert.equal(g.view().players, undefined);
   assert.ok(!JSON.stringify(g.view(true)).includes(man.token));
-  command(g, 'correct');
-  assert.equal(g.state.scores.men, 100);
+  assert.throws(() => command(g, 'correct'), /Choose the team/);
+  command(g, 'correct', { team: 'women' });
+  assert.deepEqual(g.state.scores, { men: 0, women: 100 });
+  assert.equal(g.state.selectionTeam, 'women');
   assert.ok(g.view().question.answer);
-  assert.throws(() => command(g, 'correct'));
-  assert.equal(g.state.scores.men, 100);
+  assert.throws(() => command(g, 'correct', { team: 'women' }));
+  assert.equal(g.state.scores.women, 100);
 });
-test('timeout deducts once and opens a fresh round to the other team', () => {
+test('wrong answers and timeouts award no points and open a fresh round to the other team', () => {
   const { g, man, woman } = setup(), old = g.state.round;
   g.buzz(man.id, old, 1100);
-  assert.equal(g.tick(11100), true);
-  assert.equal(g.state.scores.men, -100);
+  command(g, 'incorrect', {}, 2000);
+  assert.equal(g.state.scores.men, 0);
   assert.equal(g.buzz(man.id, g.state.round, 11200), false);
   assert.equal(g.buzz(woman.id, old, 11200), false);
   assert.equal(g.buzz(woman.id, g.state.round, 11200), true);
   g.tick(21200); g.tick(30000);
-  assert.equal(g.state.scores.women, -100);
+  assert.deepEqual(g.state.scores, { men: 0, women: 0 });
   assert.equal(g.state.phase, 'revealed');
 });
 test('no late buzz, no replayed host action, and registration validation', () => {

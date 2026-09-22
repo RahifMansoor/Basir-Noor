@@ -24,7 +24,6 @@ class Game {
   open(now) { Object.assign(this.state, { phase: 'open', winner: null, round: randomUUID(), deadline: now + 15000, message: 'Buzz in when you know the answer!' }); }
   incorrect(now, timeout = false) {
     const s = this.state;
-    s.scores[s.winner.team] -= this.question().value;
     s.attempted.push(s.winner.team);
     if (s.attempted.length === 2) this.reveal();
     else { this.open(now); s.message = `${timeout ? 'Time expired' : 'Incorrect answer'}. The other team can buzz!`; }
@@ -63,7 +62,8 @@ class Game {
         this.open(now); break;
       case 'correct':
         if (s.phase !== 'answering') throw Error('There is no answer to judge.');
-        s.scores[s.winner.team] += this.question().value; s.selectionTeam = s.winner.team; this.reveal(); s.message = `${s.winner.name} is correct!`; break;
+        if (!['men', 'women'].includes(payload.team)) throw Error('Choose the team that earns the points.');
+        s.scores[payload.team] += this.question().value; s.selectionTeam = payload.team; this.reveal(); s.message = `Team ${payload.team === 'men' ? 'Men' : 'Women'} earns ${this.question().value} points!`; break;
       case 'incorrect':
         if (s.phase !== 'answering') throw Error('There is no answer to judge.');
         this.incorrect(now); break;

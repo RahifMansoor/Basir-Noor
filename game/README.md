@@ -63,8 +63,8 @@ State is saved to disk before successful mutations are acknowledged, using a tem
 2. Open `/jeopardy/display` on the projector and select Fullscreen. Open `/jeopardy/admin` on a separate device so answers stay private.
 3. Share `/jeopardy`, allow guests to register, and optionally close registration. Counts mean registered players, not connected devices. A returning browser keeps its team via a private random token.
 4. Start the game. Select a clue, read it aloud, then open buzzers. Players get 15 seconds to buzz; the first eligible packet received by the server wins, regardless of device timestamps.
-5. The winner has 10 seconds to answer aloud in question form. Judge with Correct or Incorrect. Correct adds the clue value. Incorrect/timeout subtracts it and automatically opens a fresh window for the other team. Each team gets one attempt per clue. If nobody buzzes, the answer is revealed without a score change.
-6. Return to the board. The last correct team tells the host which clue to choose. After all clues, highest score wins; a tie is shown as a tie. This simplified event edition has one board and no Daily Doubles or Final Jeopardy.
+5. The winner has 10 seconds to answer aloud in question form. For a correct answer, choose Men or Women in the host buttons to award that team the clue value. Incorrect answers and timeouts award no points and automatically open a fresh window for the other team. Each team gets one attempt per clue. If nobody buzzes, the answer is revealed without a score change.
+6. Return to the board. The team awarded the last correct answer tells the host which clue to choose. After all clues, highest score wins; a tie is shown as a tie. This simplified event edition has one board and no Daily Doubles or Final Jeopardy.
 7. Use Reveal / skip to end a clue without scoring, and score corrections with a reason to resolve judging mistakes. A host disconnect does not pause timers. A disconnected winner can still answer aloud; otherwise their timeout applies.
 8. Reset requires typing `RESET`; it clears scores, clues, and registrations. Reset after the event when names no longer need to be retained.
 

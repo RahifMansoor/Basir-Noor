@@ -112,16 +112,20 @@ export default function Jeopardy({ mode }) {
           {hostButton('registration', game.registrationOpen ? 'Close registration' : 'Open registration')}
           {game.phase === 'lobby' && hostButton('start', 'Start game')}
           {game.phase === 'reading' && hostButton('open', 'Open buzzers · 15 sec')}
-          {game.phase === 'answering' && <>{hostButton('correct', `Correct +${game.question.value}`)}{hostButton('incorrect', `Incorrect −${game.question.value}`)}</>}
+          {game.phase === 'answering' && <>
+            <button disabled={!connected || busy} onClick={() => command('correct', { team: 'men' })}>Correct · Men +{game.question.value}</button>
+            <button disabled={!connected || busy} onClick={() => command('correct', { team: 'women' })}>Correct · Women +{game.question.value}</button>
+            {hostButton('incorrect', 'Incorrect · no points')}
+          </>}
           {['reading', 'open', 'answering'].includes(game.phase) && hostButton('reveal', 'Reveal / skip without scoring')}
           {game.phase === 'revealed' && hostButton('board', 'Return to board')}
         </div>
-        <p className={styles.note}>Read the clue, then open buzzers. Judge spoken answers before the 10-second timer ends. A wrong answer or timeout loses points and gives the other team a 15-second chance.</p>
+        <p className={styles.note}>Read the clue, then open buzzers. For a correct answer, choose the team that earns the points. A wrong answer or timeout awards no points and gives the other team a 15-second chance.</p>
         <details><summary>Correct a score</summary><form className={styles.adjust} onSubmit={async e => { e.preventDefault(); if (await command('adjust', { team: adjustTeam, points: Number(points), reason })) setReason(''); }}><label>Team<select value={adjustTeam} onChange={e => setAdjustTeam(e.target.value)}><option value="men">Men</option><option value="women">Women</option></select></label><label>Points (+ or −)<input type="number" min="-5000" max="5000" step="1" required value={points} onChange={e => setPoints(e.target.value)} /></label><label>Reason<input required maxLength={120} value={reason} onChange={e => setReason(e.target.value)} /></label><button disabled={busy}>Apply adjustment</button></form></details>
         <details><summary>Registered players ({game.roster?.length || 0})</summary><ul className={styles.roster}>{game.roster?.map(p => <li key={p.id}>{p.name}<span>{teamName(p.team)}</span></li>)}</ul></details>
         <details><summary>Start a new event</summary><p>This clears all names, scores, and played clues. Everyone will need to join again.</p><form className={styles.adjust} onSubmit={async e => { e.preventDefault(); if (await command('reset', { confirm: reset })) setReset(''); }}><label>Type RESET<input value={reset} onChange={e => setReset(e.target.value)} /></label><button disabled={reset !== 'RESET' || busy}>Reset event</button></form></details>
       </section>}
     </>}
-    {!display && <details className={styles.rules}><summary>How to play</summary><p>Choose a team, then enter your name. The host selects clues from the board. Wait until buzzers open, then tap once. The first eligible buzz received by the server wins; connection speed can affect arrival order. Answer aloud in the form of a question within 10 seconds.</p><p>Correct: your team earns the clue value and chooses the next clue. Incorrect or timed out: your team loses that value and the other team gets a chance. Each team gets one attempt per clue. No buzz within 15 seconds reveals the answer. Highest score after all {game?.board.length ?? 51} clues wins; equal scores are a tie. This event edition uses one board, with no Daily Doubles or Final Jeopardy.</p></details>}
+    {!display && <details className={styles.rules}><summary>How to play</summary><p>Choose a team, then enter your name. The host selects clues from the board. Wait until buzzers open, then tap once. The first eligible buzz received by the server wins; connection speed can affect arrival order. Answer aloud in the form of a question within 10 seconds.</p><p>Correct: the host chooses which team earns the clue value and picks the next clue. Incorrect or timed out: no points are lost, and the other team gets a chance. Each team gets one attempt per clue. No buzz within 15 seconds reveals the answer. Highest score after all {game?.board.length ?? 51} clues wins; equal scores are a tie. This event edition uses one board, with no Daily Doubles or Final Jeopardy.</p></details>}
   </section>;
 }
