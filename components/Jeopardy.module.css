@@ -1,4 +1,16 @@
-.shell { max-width: 1250px; margin: 0 auto; padding: 48px 24px 80px; color: var(--ink); background: transparent; border-radius: 24px; margin-top: 28px; margin-bottom: 28px; }
+.shell { --ink: #392d46; --muted: #72677d; --gold: #e5d5ee; --gold-dark: #76558f; --card: rgba(255, 253, 255, .94); --border: rgba(105, 76, 130, .17); --border-strong: rgba(105, 76, 130, .32); --shadow: 0 16px 42px rgba(80, 53, 98, .10); max-width: 1250px; margin: 28px auto; padding: 48px 24px 80px; color: var(--ink); background: linear-gradient(rgba(251, 247, 253, .89), rgba(251, 247, 253, .89)), url('/images/jeopardy-florals.svg') repeat, #fbf7fd; background-size: auto, 360px 360px, auto; border: 1px solid #ecdfef; border-radius: 24px; box-shadow: 0 24px 70px rgba(88, 57, 108, .09); }
+.shell { position: relative; isolation: isolate; overflow: hidden; }
+.shell > :not(.flowerLayer, .buzzerDock) { position: relative; z-index: 1; }
+.shell > .buzzerDock { z-index: 2; }
+.flowerLayer { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.floatingFlower { position: absolute; width: 20px; height: 20px; opacity: 0; animation: flowerFloat var(--flower-duration) ease-in-out var(--flower-delay) infinite; }
+@keyframes flowerFloat {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(.72); opacity: 0; }
+  12% { opacity: .68; }
+  50% { transform: translate3d(var(--flower-drift-x), calc(var(--flower-drift-y) * -.35), 0) rotate(150deg) scale(1); opacity: .85; }
+  100% { transform: translate3d(calc(var(--flower-drift-x) * -.55), var(--flower-drift-y), 0) rotate(320deg) scale(.8); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .floatingFlower { animation: none; opacity: .4; } }
 .heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .heading h1 { font: 600 clamp(40px, 6vw, 74px)/1.08 var(--font-serif); margin: 10px 0; }
 .heading em { color: var(--gold-dark); font-weight: 500; }
@@ -10,7 +22,7 @@
 .links { display: flex; flex-wrap: wrap; gap: 24px; font-size: 12px; margin: 26px 0; color: var(--gold-dark); }
 .shell button, .shell input, .shell select { font: inherit; border-radius: var(--radius-sm); padding: 12px 16px; }
 .shell button { cursor: pointer; border: 1px solid var(--gold); color: var(--ink); background: var(--gold); font-weight: 600; transition: background .15s, transform .15s; }
-.shell button:hover:enabled { background: #ead095; transform: translateY(-1px); }
+.shell button:hover:enabled { background: #d7bee5; transform: translateY(-1px); }
 .shell button:disabled { cursor: default; opacity: .5; }
 .shell :is(button, input, select, summary, a):focus-visible { outline: 3px solid var(--gold-dark); outline-offset: 4px; }
 .shell input, .shell select { display: block; width: 100%; background: var(--card); color: var(--ink); border: 1px solid var(--border-strong); margin: 8px 0 16px; }
@@ -19,7 +31,7 @@
 .panel h2, .host h2 { font: 600 34px var(--font-serif); margin: 6px 0 20px; }
 .teamPicker { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 24px 0; }
 .teamPicker button { background: transparent; color: var(--ink); border-color: var(--border-strong); font-size: 23px; padding: 22px 10px; }
-.teamPicker button:hover:enabled, .teamPicker button.selected { background: #f3e5d2; color: var(--ink); }
+.teamPicker button:hover:enabled, .teamPicker button.selected { background: #eee2f3; color: var(--ink); }
 .teamPicker small { display: block; font-size: 11px; font-weight: 400; margin-top: 8px; }
 .note { font-size: 12px; line-height: 1.8; color: var(--muted); margin-top: 16px; }
 .identity { margin: 20px 0; font-size: 14px; }
@@ -35,22 +47,22 @@
 .boardScroll { overflow-x: auto; }
 .board { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; min-width: 580px; }
 .column { display: grid; grid-template-rows: 74px; grid-auto-rows: 84px; gap: 10px; }
-.column h3 { display: flex; align-items: center; justify-content: center; text-align: center; font-size: 13px; padding: 10px; background: #f3e5d2; border-radius: 8px; }
+.column h3 { display: flex; align-items: center; justify-content: center; text-align: center; font-size: 13px; padding: 10px; background: #e9dcef; border-radius: 8px; }
 .column button { background: var(--card); border-color: var(--border); color: var(--gold-dark); font: 600 34px var(--font-serif); }
 .column button:disabled { opacity: 1; }
 .column button:hover:enabled { color: var(--ink); }
-.column button.used { color: #948274; background: #f2e9e4; }
+.column button.used { color: #96889e; background: #f1eaf4; }
 .clue { padding: clamp(24px, 5vw, 70px); border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--card); box-shadow: var(--shadow); text-align: center; }
 .clue h2 { font: 500 clamp(24px, 3vw, 42px)/1.3 var(--font-serif); margin: 22px 0; white-space: pre-line; }
 .answer { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 24px; color: var(--gold-dark); }
 .answer span { font-size: 10px; letter-spacing: 2px; }
 .answer p { margin-top: 12px; font-size: 22px; }
-.winner { padding: 22px; text-align: center; background: #f3e5d2; color: var(--ink); border-radius: 12px; margin-bottom: 16px; }
+.winner { padding: 22px; text-align: center; background: #e9dcef; color: var(--ink); border-radius: 12px; margin-bottom: 16px; }
 .winner span { font-size: 11px; letter-spacing: 2px; }
 .winner h2 { font: 600 44px var(--font-serif); overflow-wrap: anywhere; }
-.buzzerDock { position: sticky; bottom: 0; padding: 18px 0 12px; background: rgba(253, 240, 244, 0.97); margin-top: 20px; text-align: center; }
+.buzzerDock { position: sticky; bottom: 0; padding: 18px 0 12px; background: rgba(251, 247, 253, 0.97); margin-top: 20px; text-align: center; }
 .buzzerDock .buzzer { width: 100%; min-height: 88px; font-size: 24px; letter-spacing: 3px; background: var(--gold); box-shadow: 0 5px 0 var(--gold-dark); touch-action: manipulation; }
-.buzzerDock .buzzer:disabled { background: #eee2db; color: var(--muted); box-shadow: none; }
+.buzzerDock .buzzer:disabled { background: #ebe2ef; color: var(--muted); box-shadow: none; }
 .buzzerDock p { font-size: 10px; margin-top: 14px; color: var(--muted); }
 .host { border-top: 1px solid var(--border); margin-top: 30px; padding-top: 24px; }
 .hostTitle { display: flex; align-items: center; justify-content: space-between; }

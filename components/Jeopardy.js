@@ -6,6 +6,14 @@ import { io } from 'socket.io-client';
 import styles from './Jeopardy.module.css';
 
 const teamName = team => team === 'men' ? 'Men' : 'Women';
+const flowers = [
+  [3, 6, 17, 18, 20], [10, 26, 15, -14, 16], [18, 62, 18, 20, -18],
+  [24, 14, 16, 16, 28], [31, 44, 14, -18, 14], [39, 10, 19, 12, 30],
+  [46, 58, 16.5, -20, -16], [52, 22, 18, 22, 18], [58, 76, 15.5, -16, -22],
+  [64, 36, 17.5, 19, 22], [71, 12, 16, -13, 26], [78, 52, 18.5, 15, -18],
+  [84, 24, 14.5, -17, 18], [90, 68, 17, 12, -16], [96, 16, 19, -11, 24],
+  [8, 84, 15.8, 18, -20],
+];
 export default function Jeopardy({ mode }) {
   const admin = mode === 'admin', display = mode === 'display';
   const socket = useRef(null), offset = useRef(0), buzzerLock = useRef(false);
@@ -68,6 +76,9 @@ export default function Jeopardy({ mode }) {
   const hostButton = (action, label) => <button disabled={!connected || busy} onClick={() => command(action)}>{label}</button>;
 
   return <section className={`${styles.shell} ${display ? styles.display : ''}`}>
+    <div className={styles.flowerLayer} aria-hidden="true">
+      {flowers.map(([left, top, duration, driftX, driftY], index) => <svg key={index} className={styles.floatingFlower} viewBox="0 0 40 40" style={{ left: `${left}%`, top: `${top}%`, '--flower-duration': `${duration}s`, '--flower-delay': `${(index * 1.3) % 5}s`, '--flower-drift-x': `${driftX}vw`, '--flower-drift-y': `${driftY}vh` }}><g fill="#d7bee6" stroke="#b998cb" strokeWidth=".7"><ellipse cx="20" cy="11" rx="5.5" ry="9"/><ellipse cx="28.6" cy="17.2" rx="5.5" ry="9" transform="rotate(72 28.6 17.2)"/><ellipse cx="25.3" cy="27.2" rx="5.5" ry="9" transform="rotate(144 25.3 27.2)"/><ellipse cx="14.7" cy="27.2" rx="5.5" ry="9" transform="rotate(216 14.7 27.2)"/><ellipse cx="11.4" cy="17.2" rx="5.5" ry="9" transform="rotate(288 11.4 17.2)"/></g><circle cx="20" cy="20" r="4" fill="#f7effa" stroke="#b998cb" strokeWidth=".8"/></svg>)}
+    </div>
     <header className={styles.heading}>
       <div><p className={styles.eyebrow}>EVENT NIGHT · KNOWLEDGE & COMMUNITY</p><h1>Islamic <em>Jeopardy!</em></h1><p>Two teams. One board. A little friendly competition.</p></div>
       <div className={styles.connection}><span className={connected ? styles.live : styles.offline} />{connected ? 'Live' : 'Disconnected'}{display && <button onClick={() => document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen().catch(() => setError('Fullscreen is unavailable in this browser.'))}>Fullscreen</button>}</div>
