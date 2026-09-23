@@ -66,10 +66,19 @@ test('whole board completes, ties and score corrections, reset clears identities
   assert.equal(g.state.phase, 'lobby');
   assert.equal(Object.keys(g.state.players).length, 0);
 });
-test('added categories and clue values appear on the board', () => {
-  assert.equal(questions.length, 51);
-  assert.equal(categories.length, 10);
+test('five requested categories and clue values appear on the board', () => {
+  assert.equal(questions.length, 25);
+  assert.deepEqual(categories, [
+    'Famous Muslims in the United States',
+    'Wedding Traditions',
+    'Food',
+    'Culture',
+    'Bride and Groom (Test)',
+  ]);
   assert.equal(new Set(questions.map(q => q.id)).size, questions.length);
-  assert.equal(questions.find(q => q.category === 'Pakistani Food' && q.answer.includes('sajji')).value, 100);
-  assert.equal(questions.find(q => q.category === 'Islamic Culture, Language & History' && q.answer.includes('Rekhta')).value, 500);
+  for (const category of categories) {
+    assert.deepEqual(questions.filter(q => q.category === category).map(q => q.value), [100, 200, 300, 400, 500]);
+  }
+  assert.equal(questions.find(q => q.category === 'Culture' && q.answer.includes('Rekhta')).value, 300);
+  assert.equal(questions.find(q => q.category === 'Bride and Groom (Test)' && q.answer.includes('purple')).value, 500);
 });
