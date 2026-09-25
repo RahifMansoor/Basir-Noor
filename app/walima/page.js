@@ -1,7 +1,7 @@
 import BaatPakkiComments from "@/components/BaatPakkiComments";
 
 const venueMapUrl =
-    "https://www.google.com/maps/search/?api=1&query=2621+W+Eldorado+Pkwy%2C+Little+Elm%2C+TX+75068";
+    "https://www.google.com/maps/search/?api=1&query=Knotting+Hill+Place%2C+2621+W+Eldorado+Pkwy%2C+Little+Elm%2C+TX+75068";
 
 // Add a local venue photo later, for example: /images/details/knotting-hill-place.jpg
 const venueImage = "/images/details/knotting-hill-place.jpg";
@@ -142,9 +142,9 @@ export default function WalimaPage() {
                             >
                                 Open in Google Maps
                             </a>
-                            <p>Join us at Knotting Hill Place, an elegant North Texas estate venue known for its
-                            beautiful interiors, landscaped grounds, and grand celebration spaces.</p>
                         </p>
+                        <p>Join us at Knotting Hill Place, an elegant North Texas estate venue known for its
+                            beautiful interiors, landscaped grounds, and grand celebration spaces.</p>
                     </article>
 
                     <article className="detail-card">

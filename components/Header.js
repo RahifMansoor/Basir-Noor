@@ -15,6 +15,7 @@ export default function Header() {
         { href: "/hub", label: "Hub" },
         { href: "/baat-pakki", label: "Baat Pakki" },
         { href: "/walima", label: "Walima" },
+        { href: "/jeopardy", label: "Jeopardy" },
         { href: "/rsvp", label: "RSVP" },
     ];
 
