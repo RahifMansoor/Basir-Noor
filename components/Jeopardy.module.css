@@ -35,11 +35,11 @@
 .teamPicker small { display: block; font-size: 11px; font-weight: 400; margin-top: 8px; }
 .note { font-size: 12px; line-height: 1.8; color: var(--muted); margin-top: 16px; }
 .identity { margin: 20px 0; font-size: 14px; }
-.scores { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 26px; }
-.scores article { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 22px 28px; border: 1px solid var(--border); background: var(--card); border-radius: var(--radius-md); box-shadow: 0 8px 24px rgba(42, 31, 24, 0.06); }
+.scores { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 26px; }
+.scores article { position: relative; min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 22px 28px; border: 1px solid var(--border); background: var(--card); border-radius: var(--radius-md); box-shadow: 0 8px 24px rgba(42, 31, 24, 0.06); }
 .scores span { letter-spacing: 2px; font-size: 12px; color: var(--gold-dark); }
 .scores small { display: block; margin-top: 8px; font-size: 11px; color: var(--muted); }
-.scores strong { font: 600 46px var(--font-serif); }
+.scores strong { min-width: 0; font: 600 46px var(--font-serif); font-variant-numeric: tabular-nums lining-nums; }
 .scores article.winning { border-color: var(--gold-dark); }
 .status { display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 84px; padding: 18px 0; font-size: 14px; line-height: 1.6; }
 .status strong { font-size: 32px; color: var(--gold-dark); }
@@ -48,8 +48,8 @@
 .status strong.paused small { display: block; margin: 5px 0 0; text-align: center; letter-spacing: 0; }
 .boardScroll { overflow-x: auto; }
 .board { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; min-width: 580px; }
-.column { display: grid; grid-template-rows: 74px; grid-auto-rows: 84px; gap: 10px; }
-.column h3 { display: flex; align-items: center; justify-content: center; text-align: center; font-size: 13px; padding: 10px; background: #e9dcef; border-radius: 8px; }
+.column { display: grid; grid-template-rows: 96px; grid-auto-rows: 84px; gap: 10px; }
+.column h3 { display: flex; align-items: center; justify-content: center; text-align: center; overflow-wrap: anywhere; font-size: clamp(15px, 1.45vw, 20px); line-height: 1.18; padding: 12px 9px; background: #e9dcef; border-radius: 8px; }
 .column button { background: var(--card); border-color: var(--border); color: var(--gold-dark); font: 600 34px var(--font-serif); }
 .column button:disabled { opacity: 1; }
 .column button:hover:enabled { color: var(--ink); }
@@ -70,6 +70,9 @@
 .hostTitle { display: flex; align-items: center; justify-content: space-between; }
 .hostTitle button { font-size: 11px; }
 .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.chooserControls { flex-basis: 100%; display: grid; grid-template-columns: auto 1fr 1fr; align-items: center; gap: 10px; padding: 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--card); }
+.chooserControls span { color: var(--gold-dark); font-size: 11px; font-weight: 600; letter-spacing: 1px; }
+.chooserControls button.selected { color: var(--card); background: var(--gold-dark); border-color: var(--gold-dark); }
 .scratchHost { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 18px; margin: 18px 0 24px; padding: 22px; border: 1px solid var(--border); border-radius: var(--radius-md); background: linear-gradient(135deg, rgba(238, 226, 243, .92), rgba(255, 253, 255, .96)); }
 .scratchHost h3 { font: 600 28px var(--font-serif); margin: 4px 0 6px; }
 .scratchHost p:not(.eyebrow) { color: var(--muted); font-size: 12px; line-height: 1.6; }
@@ -81,6 +84,8 @@
 .quickButtons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .customScore { display: grid; grid-template-columns: 1fr 1fr auto; align-items: end; gap: 10px; margin-top: 10px; }
 .customScore input, .customScore select { margin-bottom: 0; }
+.winnerControls { display: flex; align-items: center; gap: 12px; margin-top: 14px; }
+.winnerControls small { color: var(--muted); font-size: 11px; }
 .scoreboardLink { display: inline-block; margin-top: 18px; color: var(--gold-dark); font-size: 13px; font-weight: 600; }
 .shell details { padding: 18px 0; border-bottom: 1px solid var(--border); font-size: 13px; line-height: 1.8; }
 .shell summary { cursor: pointer; color: var(--gold-dark); }
@@ -100,20 +105,24 @@
 .display { max-width: 1600px; }
 .display .heading h1 { font-size: clamp(36px, 4vw, 54px); }
 .display .clue { padding: 28px; }
-.display .column { grid-template-rows: 64px; grid-auto-rows: min(9vh, 84px); }
+.display .column { grid-template-rows: 88px; grid-auto-rows: min(9vh, 84px); }
 .display .links { display: none; }
 .scoreboard { max-width: 1600px; min-height: calc(100vh - 56px); display: flex; flex-direction: column; }
 .scoreboard .links { display: none; }
 .scoreboard .scores { flex: 1; align-items: stretch; margin-top: clamp(30px, 7vh, 90px); }
-.scoreboard .scores article { flex-direction: column; justify-content: center; text-align: center; padding: clamp(30px, 6vw, 90px); }
+.scoreboard .scores article { flex-direction: column; justify-content: center; text-align: center; overflow: hidden; padding: clamp(30px, 5vw, 76px); }
 .scoreboard .scores span { font-size: clamp(14px, 2vw, 24px); }
 .scoreboard .scores small { font-size: clamp(11px, 1.2vw, 16px); }
-.scoreboard .scores strong { font-size: clamp(76px, 15vw, 210px); line-height: .9; margin-top: 24px; }
+.scoreboard .scores strong { max-width: 100%; white-space: nowrap; font-size: clamp(72px, 11vw, 168px); line-height: .9; letter-spacing: -.045em; margin-top: 24px; }
+.scorePulse { animation: scoreCardPulse .9s cubic-bezier(.2, .85, .25, 1); }
+.scoreValue { animation: scoreNumberPop .8s cubic-bezier(.15, .85, .2, 1.2); }
+.scoreSparks { position: absolute; inset: 50%; pointer-events: none; }
+.scoreSparks i { position: absolute; width: 9px; height: 9px; border-radius: 50%; background: var(--gold-dark); opacity: 0; animation: scoreSpark .85s calc(var(--spark-index) * .035s) ease-out; }
 .scoreboardStatus { text-align: center; padding: 32px 16px 10px; color: var(--muted); }
 .scoreboardStatus span { color: var(--gold-dark); font-size: 11px; letter-spacing: 2px; }
 .scoreboardStatus p { margin-top: 10px; }
 .scoreboardStatus h2 { font: 600 clamp(32px, 5vw, 64px) var(--font-serif); color: var(--gold-dark); margin-top: 16px; }
-.scratchOverlay { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 20px; overflow-y: auto; background: rgba(40, 28, 49, .72); backdrop-filter: blur(9px); }
+.shell > .scratchOverlay { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 20px; overflow-y: auto; background: rgba(40, 28, 49, .72); backdrop-filter: blur(9px); }
 .scratchModal { position: relative; width: min(680px, 100%); padding: clamp(22px, 4vw, 38px); text-align: center; border: 1px solid rgba(255, 255, 255, .55); border-radius: var(--radius-lg); background: #fbf7fd; box-shadow: 0 28px 90px rgba(28, 17, 36, .42); animation: scratchModalIn .55s cubic-bezier(.2, .9, .25, 1.15); }
 .scratchModal h2 { font: 600 clamp(30px, 5vw, 48px)/1.05 var(--font-serif); margin: 8px 0; }
 .scratchInstructions { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 0 auto 20px; max-width: 520px; }
@@ -132,5 +141,22 @@
 @keyframes scratchResultIn { from { opacity: 0; transform: translateY(12px) scale(.9); } to { opacity: 1; transform: none; } }
 @keyframes scratchBurst { 0% { opacity: 0; transform: rotate(var(--burst-angle)) translateX(0) scale(.2); } 15% { opacity: 1; } 75% { opacity: 1; } 100% { opacity: 0; transform: rotate(var(--burst-angle)) translateX(var(--burst-distance)) rotate(260deg) scale(1); } }
 @keyframes scratchWinPulse { 50% { transform: scale(1.018); box-shadow: 0 34px 100px rgba(118, 85, 143, .48); } }
-@media (prefers-reduced-motion: reduce) { .scratchModal, .scratchResult, .scratchExplosion i, .scratchRevealed { animation: none; } }
-@media (max-width: 640px) { .shell { margin: 12px 8px; padding: 28px 16px; border-radius: 16px; } .heading { align-items: start; flex-direction: column; } .heading > div > p:last-child { font-size: 12px; } .scores { gap: 8px; } .scores article { padding: 16px 12px; flex-direction: column; align-items: start; } .scores strong { font-size: 36px; } .panel { padding: 22px 16px; } .column { grid-template-rows: 70px repeat(5, 64px); } .board { min-width: 530px; gap: 6px; } .column { gap: 6px; } .customScore { grid-template-columns: 1fr 1fr; } .customScore button { grid-column: 1 / -1; } .scoreboard .scores article { align-items: center; } .scoreboard .scores strong { font-size: clamp(64px, 21vw, 110px); } .scratchHost { grid-template-columns: 1fr; } .scratchHost > button { width: 100%; } .scratchWinners { grid-template-columns: 1fr; } .scratchOverlay { padding: 10px; } .scratchModal { padding: 22px 14px; } .scratchCard { border-width: 4px; } .scratchResult { inset: auto 7px 7px; padding: 9px; } }
+.shell > .winnerCelebration { position: fixed; inset: 0; z-index: 1100; display: grid; place-items: center; overflow: hidden; background: radial-gradient(circle at center, rgba(255, 253, 249, .93), rgba(67, 44, 82, .92)); }
+.winnerRays { position: absolute; width: min(110vw, 1100px); aspect-ratio: 1; background: repeating-conic-gradient(from 0deg, rgba(245, 201, 107, .28) 0 8deg, transparent 8deg 18deg); animation: winnerRaysSpin 18s linear infinite; }
+.winnerAnnouncement { position: relative; z-index: 2; display: grid; justify-items: center; width: min(780px, calc(100% - 32px)); padding: clamp(34px, 7vw, 84px); text-align: center; border: 2px solid rgba(255,255,255,.7); border-radius: var(--radius-lg); background: rgba(255, 253, 255, .9); box-shadow: 0 34px 100px rgba(36, 21, 46, .5); animation: winnerAnnouncementIn 1s cubic-bezier(.18, .9, .2, 1.2); }
+.winnerAnnouncement p { color: var(--gold-dark); font-size: 12px; font-weight: 700; letter-spacing: 4px; }
+.winnerAnnouncement h2 { font: 600 clamp(64px, 13vw, 150px)/.9 var(--font-serif); margin: 16px 0; color: var(--ink); }
+.winnerAnnouncement strong { font: 600 clamp(28px, 5vw, 54px) var(--font-serif); color: var(--gold-dark); }
+.winnerAnnouncement small { margin-top: 20px; color: var(--muted); }
+.winnerCrown { font-size: clamp(64px, 10vw, 110px); color: #c69332; filter: drop-shadow(0 10px 16px rgba(198,147,50,.35)); animation: winnerCrownBounce 1.5s ease-in-out infinite; }
+.winnerConfetti { position: absolute; inset: 0; pointer-events: none; }
+.winnerConfetti i { position: absolute; top: -8%; width: 11px; height: 18px; border-radius: 3px; background: var(--confetti-color); animation: winnerConfettiFall var(--confetti-duration) var(--confetti-delay) linear infinite; }
+@keyframes scoreCardPulse { 0% { box-shadow: 0 0 0 rgba(118,85,143,0); } 35% { box-shadow: 0 0 55px rgba(118,85,143,.42); border-color: var(--gold-dark); } 100% { box-shadow: 0 8px 24px rgba(42,31,24,.06); } }
+@keyframes scoreNumberPop { 0% { opacity: .25; transform: translateY(24px) scale(.72) rotateX(65deg); } 55% { transform: translateY(-7px) scale(1.12); color: var(--gold-dark); } 100% { opacity: 1; transform: none; } }
+@keyframes scoreSpark { 0% { opacity: 1; transform: rotate(calc(var(--spark-index) * 36deg)) translateX(0) scale(.4); } 100% { opacity: 0; transform: rotate(calc(var(--spark-index) * 36deg)) translateX(130px) scale(1); } }
+@keyframes winnerRaysSpin { to { transform: rotate(360deg); } }
+@keyframes winnerAnnouncementIn { from { opacity: 0; transform: scale(.45) rotate(-5deg); } 65% { transform: scale(1.04) rotate(1deg); } to { opacity: 1; transform: none; } }
+@keyframes winnerCrownBounce { 50% { transform: translateY(-12px) rotate(5deg); } }
+@keyframes winnerConfettiFall { from { transform: translate3d(0,-10vh,0) rotate(0); } to { transform: translate3d(var(--confetti-drift),115vh,0) rotate(760deg); } }
+@media (prefers-reduced-motion: reduce) { .scratchModal, .scratchResult, .scratchExplosion i, .scratchRevealed, .scorePulse, .scoreValue, .scoreSparks i, .winnerRays, .winnerAnnouncement, .winnerCrown, .winnerConfetti i { animation: none; } }
+@media (max-width: 640px) { .shell { margin: 12px 8px; padding: 28px 16px; border-radius: 16px; } .heading { align-items: start; flex-direction: column; } .heading > div > p:last-child { font-size: 12px; } .scores { gap: 8px; } .scores article { padding: 16px 12px; flex-direction: column; align-items: start; } .scores strong { font-size: 36px; } .panel { padding: 22px 16px; } .column { grid-template-rows: 88px repeat(5, 64px); } .column h3 { font-size: 15px; } .board { min-width: 600px; gap: 6px; } .column { gap: 6px; } .chooserControls { grid-template-columns: 1fr 1fr; } .chooserControls span { grid-column: 1 / -1; } .customScore { grid-template-columns: 1fr 1fr; } .customScore button { grid-column: 1 / -1; } .winnerControls { align-items: stretch; flex-direction: column; } .scoreboard .scores article { align-items: center; } .scoreboard .scores strong { font-size: clamp(54px, 17vw, 88px); } .scratchHost { grid-template-columns: 1fr; } .scratchHost > button { width: 100%; } .scratchWinners { grid-template-columns: 1fr; } .shell > .scratchOverlay { padding: 10px; } .scratchModal { padding: 22px 14px; } .scratchCard { border-width: 4px; } .scratchResult { inset: auto 7px 7px; padding: 9px; } .winnerAnnouncement h2 { font-size: clamp(58px, 20vw, 96px); } }

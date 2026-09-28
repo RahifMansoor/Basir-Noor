@@ -1,7 +1,7 @@
 const { randomUUID, randomBytes, randomInt } = require('node:crypto');
 const { questions, categories } = require('./questions.cjs');
 const freshScratch = () => ({ active: false, id: null, winnerIds: [], results: {} });
-const freshState = () => ({ version: 0, phase: 'lobby', registrationOpen: true, scores: { men: 0, women: 0 }, players: {}, used: [], current: null, winner: null, attempted: [], deadline: null, pausedRemaining: null, round: randomUUID(), selectionTeam: null, scratch: freshScratch(), message: 'Welcome! Choose a team and join the game.' });
+const freshState = () => ({ version: 0, phase: 'lobby', registrationOpen: true, scores: { men: 0, women: 0 }, players: {}, used: [], current: null, winner: null, attempted: [], deadline: null, pausedRemaining: null, round: randomUUID(), selectionTeam: null, chooserTeam: null, eligibleTeam: null, declaredWinner: null, scratch: freshScratch(), message: 'Welcome! Choose a team and join the game.' });
 class Game {
   constructor(saved) { this.state = saved ? { ...freshState(), ...saved, scratch: saved.scratch || freshScratch() } : freshState(); }
   question() { return questions.find(q => q.id === this.state.current); }
@@ -28,12 +28,12 @@ class Game {
     this.state.version++;
     return p;
   }
-  open(now) { Object.assign(this.state, { phase: 'open', winner: null, round: randomUUID(), deadline: now + 15000, pausedRemaining: null, message: 'Buzz in when you know the answer!' }); }
+  open(now, eligibleTeam = this.state.eligibleTeam) { Object.assign(this.state, { phase: 'open', winner: null, eligibleTeam, round: randomUUID(), deadline: now + 15000, pausedRemaining: null, message: `Team ${eligibleTeam === 'men' ? 'Men' : 'Women'} can buzz now!` }); }
   incorrect(now, timeout = false) {
     const s = this.state;
     s.attempted.push(s.winner.team);
     if (s.attempted.length === 2) this.awaitReveal(timeout ? 'Time expired. Both teams have had a chance; the host may reveal the answer.' : 'Both teams have answered incorrectly. The host may reveal the answer.');
-    else { this.open(now); s.message = `${timeout ? 'Time expired' : 'Incorrect answer'}. The other team can buzz!`; }
+    else { const otherTeam = s.attempted[0] === 'men' ? 'women' : 'men'; this.open(now, otherTeam); s.message = `${timeout ? 'Time expired' : 'Incorrect answer'}. Team ${otherTeam === 'men' ? 'Men' : 'Women'} can buzz now!`; }
   }
   awaitReveal(message) { Object.assign(this.state, { phase: 'awaitingReveal', deadline: null, pausedRemaining: null, message }); }
   reveal() { Object.assign(this.state, { phase: 'revealed', deadline: null, pausedRemaining: null, message: 'Answer revealed. The host will return to the board.' }); }
@@ -48,7 +48,7 @@ class Game {
   buzz(playerId, round, now = Date.now()) {
     const s = this.state, p = s.players[playerId];
     if (!p) throw Error('Join the game first.');
-    if (s.phase !== 'open' || round !== s.round || now >= s.deadline || s.attempted.includes(p.team)) return false;
+    if (s.phase !== 'open' || round !== s.round || now >= s.deadline || s.eligibleTeam !== p.team || s.attempted.includes(p.team)) return false;
     // No awaits: the first eligible packet handled by this process wins atomically.
     Object.assign(s, { phase: 'answering', winner: { id: p.id, name: p.name, team: p.team }, deadline: now + 10000, pausedRemaining: null, message: `${p.name} has the floor. Answer in the form of a question!` });
     s.version++; return true;
@@ -61,9 +61,13 @@ class Game {
       case 'start':
         if (s.phase !== 'lobby') throw Error('The game has already started.');
         s.phase = 'board'; s.message = 'Choose a category and point value.'; break;
+      case 'chooser':
+        if (s.phase !== 'board' || !['men', 'women'].includes(payload.team)) throw Error('Choose Men or Women while the board is open.');
+        s.chooserTeam = payload.team; s.message = `Team ${payload.team === 'men' ? 'Men' : 'Women'} chooses the next clue and gets the first chance to buzz.`; break;
       case 'select':
         if (s.phase !== 'board' || s.used.includes(payload.id) || !questions.some(q => q.id === payload.id)) throw Error('Choose an unused clue from the board.');
-        Object.assign(s, { current: payload.id, phase: 'reading', winner: null, attempted: [], deadline: null, pausedRemaining: null, round: randomUUID(), message: 'Listen to the clue. Buzzers will open when the host is ready.' });
+        if (!['men', 'women'].includes(s.chooserTeam)) throw Error('Choose which team gets the first chance to buzz.');
+        Object.assign(s, { current: payload.id, phase: 'reading', eligibleTeam: s.chooserTeam, winner: null, attempted: [], deadline: null, pausedRemaining: null, round: randomUUID(), message: `Listen to the clue. Team ${s.chooserTeam === 'men' ? 'Men' : 'Women'} will buzz first.` });
         s.used.push(payload.id); break;
       case 'open':
         if (s.phase !== 'reading') throw Error('Read a clue before opening buzzers.');
@@ -74,11 +78,11 @@ class Game {
       case 'resume':
         if (!['open', 'answering'].includes(s.phase) || !Number.isFinite(s.pausedRemaining)) throw Error('There is no paused timer to resume.');
         s.deadline = now + s.pausedRemaining; s.pausedRemaining = null;
-        s.message = s.phase === 'open' ? 'Buzz in when you know the answer!' : `${s.winner.name} has the floor. Answer in the form of a question!`; break;
+        s.message = s.phase === 'open' ? `Team ${s.eligibleTeam === 'men' ? 'Men' : 'Women'} can buzz now!` : `${s.winner.name} has the floor. Answer in the form of a question!`; break;
       case 'correct':
         if (s.phase !== 'answering') throw Error('There is no answer to judge.');
         if (!['men', 'women'].includes(payload.team)) throw Error('Choose the team that earns the points.');
-        s.scores[payload.team] += this.question().value; s.selectionTeam = payload.team; this.reveal(); s.message = `Team ${payload.team === 'men' ? 'Men' : 'Women'} earns ${this.question().value} points!`; break;
+        s.scores[payload.team] += this.question().value; s.selectionTeam = payload.team; s.declaredWinner = null; this.reveal(); s.message = `Team ${payload.team === 'men' ? 'Men' : 'Women'} earns ${this.question().value} points!`; break;
       case 'incorrect':
         if (s.phase !== 'answering') throw Error('There is no answer to judge.');
         this.incorrect(now); break;
@@ -87,10 +91,18 @@ class Game {
         this.reveal(); break;
       case 'board':
         if (s.phase !== 'revealed') throw Error('Finish the clue first.');
-        Object.assign(s, { phase: s.used.length === questions.length ? 'finished' : 'board', current: null, winner: null, deadline: null, pausedRemaining: null, message: s.used.length === questions.length ? 'Game complete! Thank you for playing.' : 'Choose the next clue.' }); break;
+        Object.assign(s, { phase: s.used.length === questions.length ? 'finished' : 'board', current: null, winner: null, chooserTeam: null, eligibleTeam: null, deadline: null, pausedRemaining: null, message: s.used.length === questions.length ? 'Game complete! Thank you for playing.' : 'Choose which team picks the next clue.' }); break;
       case 'adjust':
         if (!['men', 'women'].includes(payload.team) || !Number.isInteger(payload.points) || Math.abs(payload.points) > 5000 || typeof payload.reason !== 'string' || !payload.reason.trim() || payload.reason.length > 120) throw Error('Enter a team, whole-number adjustment (up to 5,000), and a reason.');
-        s.scores[payload.team] += payload.points; s.message = `Host adjustment: ${payload.team} ${payload.points >= 0 ? '+' : ''}${payload.points}. ${payload.reason.trim()}`; break;
+        s.scores[payload.team] += payload.points; s.declaredWinner = null; s.message = `Host adjustment: ${payload.team} ${payload.points >= 0 ? '+' : ''}${payload.points}. ${payload.reason.trim()}`; break;
+      case 'declareWinner': {
+        if (s.scores.men === s.scores.women) throw Error('Break the tie before declaring a winner.');
+        const team = s.scores.men > s.scores.women ? 'men' : 'women';
+        s.declaredWinner = { team, declaredAt: now }; s.message = `Team ${team === 'men' ? 'Men' : 'Women'} wins!`; break;
+      }
+      case 'clearWinner':
+        if (!s.declaredWinner) throw Error('No winner celebration is active.');
+        s.declaredWinner = null; break;
       case 'scratchStart': {
         if (s.scratch.active) throw Error('End the current scratch game before starting another.');
         const ids = Object.keys(s.players);

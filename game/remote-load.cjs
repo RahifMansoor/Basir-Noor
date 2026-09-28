@@ -58,6 +58,7 @@ const emit = (socket, event, data) => socket.timeout(30000).emitWithAck(event, d
     };
     await command('registration');
     await command('start');
+    await command('chooser', { team: 'men' });
     await command('select', { id: hostState.board.find(q => !hostState.used.includes(q.id)).id });
     await command('open');
 

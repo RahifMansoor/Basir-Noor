@@ -85,7 +85,7 @@ function createGameServer({ adminKey, origins = ['http://localhost:3000'], state
       const s = game.state;
       const p = s.players[socket.data.playerId];
       if (!p) throw Error('Join the game first.');
-      if (s.phase !== 'open' || round !== s.round || s.attempted.includes(p.team) || Date.now() >= s.deadline) return { won: false };
+      if (s.phase !== 'open' || round !== s.round || s.eligibleTeam !== p.team || s.attempted.includes(p.team) || Date.now() >= s.deadline) return { won: false };
       const won = mutate(() => game.buzz(p.id, round));
       if (won) publish();
       return { won };

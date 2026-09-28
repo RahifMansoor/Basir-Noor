@@ -68,7 +68,7 @@ export default function Jeopardy({ mode }) {
   }
   const timerPaused = Number.isFinite(game?.pausedRemaining);
   const remaining = timerPaused ? Math.max(1, Math.ceil(game.pausedRemaining / 1000)) : game?.deadline ? Math.max(0, Math.ceil((game.deadline - now) / 1000)) : null;
-  const canBuzz = connected && player && game?.phase === 'open' && !timerPaused && !game.attempted.includes(player.team) && remaining > 0 && !busy;
+  const canBuzz = connected && player && game?.phase === 'open' && game.eligibleTeam === player.team && !timerPaused && !game.attempted.includes(player.team) && remaining > 0 && !busy;
   async function buzz() {
     if (!canBuzz || buzzerLock.current) return;
     buzzerLock.current = true;
@@ -83,7 +83,7 @@ export default function Jeopardy({ mode }) {
       {flowers.map(([left, top, duration, driftX, driftY], index) => <svg key={index} className={styles.floatingFlower} viewBox="0 0 40 40" style={{ left: `${left}%`, top: `${top}%`, '--flower-duration': `${duration}s`, '--flower-delay': `${(index * 1.3) % 5}s`, '--flower-drift-x': `${driftX}vw`, '--flower-drift-y': `${driftY}vh` }}><g fill="#d7bee6" stroke="#b998cb" strokeWidth=".7"><ellipse cx="20" cy="11" rx="5.5" ry="9"/><ellipse cx="28.6" cy="17.2" rx="5.5" ry="9" transform="rotate(72 28.6 17.2)"/><ellipse cx="25.3" cy="27.2" rx="5.5" ry="9" transform="rotate(144 25.3 27.2)"/><ellipse cx="14.7" cy="27.2" rx="5.5" ry="9" transform="rotate(216 14.7 27.2)"/><ellipse cx="11.4" cy="17.2" rx="5.5" ry="9" transform="rotate(288 11.4 17.2)"/></g><circle cx="20" cy="20" r="4" fill="#f7effa" stroke="#b998cb" strokeWidth=".8"/></svg>)}
     </div>
     <header className={styles.heading}>
-      <div><p className={styles.eyebrow}>EVENT NIGHT · KNOWLEDGE & COMMUNITY</p><h1>Islamic <em>Jeopardy!</em></h1><p>Two teams. One board. A little friendly competition.</p></div>
+      <div><p className={styles.eyebrow}>{scoreboard ? 'LIVE EVENT · MEN VS. WOMEN' : 'EVENT NIGHT · KNOWLEDGE & COMMUNITY'}</p><h1>{scoreboard ? 'Game Scoreboard' : <>Islamic <em>Jeopardy!</em></>}</h1><p>{scoreboard ? 'One scoreboard for every game in the session.' : 'Two teams. One board. A little friendly competition.'}</p></div>
       <div className={styles.connection}><span className={connected ? styles.live : styles.offline} />{connected ? 'Live' : 'Disconnected'}{(display || scoreboard) && <button onClick={() => document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen().catch(() => setError('Fullscreen is unavailable in this browser.'))}>Fullscreen</button>}</div>
     </header>
     <nav className={styles.links} aria-label="Game views"><Link href="/">Wedding home</Link><Link href="/jeopardy">Join game</Link>{!admin && !display && !scoreboard && <a href="#game-rules">Game rules</a>}<Link href="/jeopoardy/scoreboard">Scoreboard</Link><Link href="/jeopardy/display">Display board</Link><Link href="/jeopardy/admin">Host controls</Link></nav>
@@ -99,18 +99,18 @@ export default function Jeopardy({ mode }) {
     </form>}
     {player && !admin && !display && !scoreboard && <p className={styles.identity}>Playing as <strong>{player.name}</strong> · Team {teamName(player.team)}</p>}
     {game && <>
-      <div className={styles.scores}>{['men', 'women'].map(t => <article key={t} className={(scoreboard ? game.scores[t] > game.scores[t === 'men' ? 'women' : 'men'] : game.winner?.team === t) ? styles.winning : ''}><div><span>TEAM {t.toUpperCase()}</span><small>{game.counts[t]} registered</small></div><strong>{game.scores[t].toLocaleString()}</strong></article>)}</div>
+      <div className={styles.scores}>{['men', 'women'].map(t => <article key={scoreboard ? `${t}-${game.scores[t]}` : t} className={`${(scoreboard ? game.scores[t] > game.scores[t === 'men' ? 'women' : 'men'] : game.winner?.team === t) ? styles.winning : ''} ${scoreboard ? styles.scorePulse : ''}`}><div><span>TEAM {t.toUpperCase()}</span><small>{game.counts[t]} registered</small></div><strong className={styles.scoreValue}>{game.scores[t].toLocaleString()}</strong>{scoreboard && <div className={styles.scoreSparks} aria-hidden="true">{Array.from({ length: 10 }, (_, index) => <i key={index} style={{ '--spark-index': index }} />)}</div>}</article>)}</div>
       {scoreboard ? <div className={styles.scoreboardStatus} aria-live="polite"><span>{game.phase === 'lobby' ? 'SESSION NOT STARTED' : game.phase === 'finished' ? 'FINAL SCORE' : 'SESSION IN PROGRESS'}</span><p>{game.phase === 'lobby' ? 'The host will start the session from the admin page.' : game.message}</p>{game.phase === 'finished' && <h2>{game.scores.men === game.scores.women ? 'It’s a tie!' : `Team ${teamName(game.scores.men > game.scores.women ? 'men' : 'women')} wins!`}</h2>}</div> : <>
       <div className={styles.status} aria-live="polite"><p>{game.message}</p>{remaining !== null && <strong className={timerPaused ? styles.paused : ''} aria-label={timerPaused ? `Timer paused with ${remaining} seconds remaining` : `${remaining} seconds remaining`}>{timerPaused ? 'PAUSED' : remaining}<small>{timerPaused ? `${remaining} sec left` : 'sec'}</small></strong>}</div>
       {game.winner && <div className={styles.winner} aria-live="assertive"><span>FIRST TO BUZZ · TEAM {teamName(game.winner.team).toUpperCase()}</span><h2>{game.winner.name}</h2>{game.phase === 'answering' && <p>You have the floor!</p>}</div>}
       {game.question ? <article className={styles.clue}><p className={styles.eyebrow}>{game.question.category} · {game.question.value} POINTS</p><h2>{game.question.clue}</h2>{game.question.answer && <div className={styles.answer}><span>{game.phase === 'revealed' ? 'ANSWER' : 'HOST ONLY · ACCEPTED ANSWER'}</span><p>{game.question.answer}</p></div>}</article> : <>
         {game.phase === 'lobby' && <p className={styles.boardHint}>Get settled in. The host will start the game shortly.</p>}
         {game.phase === 'finished' && <h2 className={styles.result}>{game.scores.men === game.scores.women ? 'It’s a tie!' : `Team ${teamName(game.scores.men > game.scores.women ? 'men' : 'women')} wins!`}</h2>}
-        {game.selectionTeam && game.phase === 'board' && <p className={styles.boardHint}>Team {teamName(game.selectionTeam)} chooses the next clue. Tell the host your choice.</p>}
-        <div className={styles.boardScroll}><div className={styles.board}>{game.categories.map(category => <div className={styles.column} key={category}><h3>{category}</h3>{game.board.filter(q => q.category === category).map(q => <button key={q.id} disabled={!admin || !connected || busy || game.phase !== 'board' || game.used.includes(q.id)} className={game.used.includes(q.id) ? styles.used : ''} onClick={() => command('select', { id: q.id })} aria-label={`${category}, ${q.value} points${game.used.includes(q.id) ? ', played' : ''}`}>{game.used.includes(q.id) ? '—' : q.value}</button>)}</div>)}</div></div>
+        {game.phase === 'board' && <p className={styles.boardHint}>{game.chooserTeam ? `Team ${teamName(game.chooserTeam)} chooses and gets the first chance to buzz.` : admin ? 'Choose which team is picking before selecting a clue.' : 'The host is choosing which team picks next.'}</p>}
+        <div className={styles.boardScroll}><div className={styles.board}>{game.categories.map(category => <div className={styles.column} key={category}><h3>{category}</h3>{game.board.filter(q => q.category === category).map(q => <button key={q.id} disabled={!admin || !connected || busy || game.phase !== 'board' || !game.chooserTeam || game.used.includes(q.id)} className={game.used.includes(q.id) ? styles.used : ''} onClick={() => command('select', { id: q.id })} aria-label={`${category}, ${q.value} points${game.used.includes(q.id) ? ', played' : ''}`}>{game.used.includes(q.id) ? '—' : q.value}</button>)}</div>)}</div></div>
       </>}
       </>}
-      {!admin && !display && !scoreboard && player && <div className={styles.buzzerDock}><button className={styles.buzzer} disabled={!canBuzz} onClick={buzz}>{canBuzz ? 'BUZZ IN' : game.phase === 'answering' && game.winner?.id === player.id ? 'YOU’RE UP!' : game.attempted.includes(player.team) ? 'OTHER TEAM’S TURN' : 'BUZZER LOCKED'}</button><p>Wait for the host to open buzzers. First eligible buzz received by the server wins.</p></div>}
+      {!admin && !display && !scoreboard && player && <div className={styles.buzzerDock}><button className={styles.buzzer} disabled={!canBuzz} onClick={buzz}>{canBuzz ? 'BUZZ IN' : game.phase === 'answering' && game.winner?.id === player.id ? 'YOU’RE UP!' : game.phase === 'open' && game.eligibleTeam !== player.team ? `TEAM ${teamName(game.eligibleTeam).toUpperCase()} ONLY` : game.attempted.includes(player.team) ? 'OTHER TEAM’S TURN' : 'BUZZER LOCKED'}</button><p>Wait for the host to open buzzers. The team that chose the clue gets the first chance.</p></div>}
       {admin && connected && <section className={styles.host}>
         <div className={styles.hostTitle}><h2>Host console</h2><button onClick={() => { setHostKey(null); setPassword(''); setConnected(false); setGame(null); }}>Sign out</button></div>
         <section className={styles.scratchHost} aria-labelledby="scratch-host-title">
@@ -121,7 +121,8 @@ export default function Jeopardy({ mode }) {
         <div className={styles.actions}>
           {hostButton('registration', game.registrationOpen ? 'Close registration' : 'Open registration')}
           {game.phase === 'lobby' && hostButton('start', 'Start session')}
-          {game.phase === 'reading' && hostButton('open', 'Open buzzers · 15 sec')}
+          {game.phase === 'board' && <div className={styles.chooserControls} role="group" aria-label="Choose which team can buzz first"><span>Who is choosing?</span>{['men', 'women'].map(t => <button key={t} className={game.chooserTeam === t ? styles.selected : ''} aria-pressed={game.chooserTeam === t} disabled={busy} onClick={() => command('chooser', { team: t })}>Team {teamName(t)}</button>)}</div>}
+          {game.phase === 'reading' && hostButton('open', `Open Team ${teamName(game.eligibleTeam)} buzzers · 15 sec`)}
           {['open', 'answering'].includes(game.phase) && (timerPaused ? hostButton('resume', `Resume timer · ${remaining} sec`) : hostButton('pause', 'Pause timer'))}
           {game.phase === 'answering' && <>
             <button disabled={!connected || busy} onClick={() => command('correct', { team: 'men' })}>Correct · Men +{game.question.value}</button>
@@ -140,6 +141,7 @@ export default function Jeopardy({ mode }) {
             <label>Custom points<input type="number" min="1" max="5000" step="1" required value={points} onChange={e => setPoints(e.target.value)} /></label>
             <button disabled={!connected || busy}>Add points</button>
           </form>
+          <div className={styles.winnerControls}>{game.declaredWinner ? <button disabled={busy} onClick={() => command('clearWinner')}>End winner celebration</button> : <button disabled={busy || game.scores.men === game.scores.women} onClick={() => command('declareWinner')}>Declare leading team the winner</button>}<small>{game.scores.men === game.scores.women ? 'Break the tie before declaring a winner.' : `Team ${teamName(game.scores.men > game.scores.women ? 'men' : 'women')} is currently leading.`}</small></div>
           <Link className={styles.scoreboardLink} href="/jeopoardy/scoreboard" target="_blank" rel="noopener noreferrer">Open scoreboard ↗</Link>
         </section>
         <details><summary>Correct a score</summary><form className={styles.adjust} onSubmit={async e => { e.preventDefault(); if (await command('adjust', { team: adjustTeam, points: Number(points), reason })) setReason(''); }}><label>Team<select value={adjustTeam} onChange={e => setAdjustTeam(e.target.value)}><option value="men">Men</option><option value="women">Women</option></select></label><label>Points (+ or −)<input type="number" min="-5000" max="5000" step="1" required value={points} onChange={e => setPoints(e.target.value)} /></label><label>Reason<input required maxLength={120} value={reason} onChange={e => setReason(e.target.value)} /></label><button disabled={busy}>Apply adjustment</button></form></details>
@@ -147,8 +149,9 @@ export default function Jeopardy({ mode }) {
         <details><summary>Start a new session</summary><p>This clears all names, scores, and played clues. Everyone will need to join again.</p><form className={styles.adjust} onSubmit={async e => { e.preventDefault(); if (await command('reset', { confirm: reset })) setReset(''); }}><label>Type RESET<input value={reset} onChange={e => setReset(e.target.value)} /></label><button disabled={reset !== 'RESET' || busy}>Reset session</button></form></details>
       </section>}
     </>}
-    {!admin && !display && !scoreboard && <details id="game-rules" className={styles.rules} open><summary>Jeopardy rules</summary><ol><li>Choose Men or Women, enter your name, and stay on that team for the session.</li><li>The host selects and reads each clue. Wait until the buzzer opens before tapping <strong>Buzz in</strong>.</li><li>The first eligible buzz received by the game server wins. Connection speed can affect which response arrives first.</li><li>The winner answers aloud within 10 seconds and should respond in the form of a question.</li><li>A correct answer earns the clue’s points. An incorrect answer or timeout earns no points and gives the other team a chance.</li><li>Each team gets one attempt per clue. When buzzing time expires—or after both teams miss—the answer stays hidden until the host selects <strong>Reveal answer</strong>.</li><li>The host may pause and resume a running timer. Buzzing is disabled while paused.</li><li>After all {game?.board.length ?? 51} clues, the team with the highest score wins. Equal scores are a tie.</li></ol></details>}
+    {!admin && !display && !scoreboard && <details id="game-rules" className={styles.rules} open><summary>Jeopardy rules</summary><ol><li>Choose Men or Women, enter your name, and stay on that team for the session.</li><li>The host identifies the team choosing the clue. That team gets the first chance to buzz.</li><li>The host reads the clue. Wait until your team’s buzzer opens before tapping <strong>Buzz in</strong>.</li><li>The first eligible buzz received by the game server wins. Connection speed can affect which response arrives first.</li><li>The winner answers aloud within 10 seconds and should respond in the form of a question.</li><li>A correct answer earns the clue’s points. An incorrect answer or timeout earns no points and gives the other team a chance.</li><li>Each team gets one attempt per clue. When buzzing time expires—or after both teams miss—the answer stays hidden until the host selects <strong>Reveal answer</strong>.</li><li>The host may pause and resume a running timer. Buzzing is disabled while paused.</li><li>After all {game?.board.length ?? 51} clues, the team with the highest score wins. Equal scores are a tie.</li></ol></details>}
     {!admin && !display && !scoreboard && player && scratchPrize?.active && <ScratchOverlay key={scratchPrize.id} scratch={scratchPrize} name={player.name} />}
+    {scoreboard && game?.declaredWinner && <WinnerCelebration team={game.declaredWinner.team} scores={game.scores} />}
   </section>;
 }
 
@@ -213,5 +216,17 @@ function ScratchOverlay({ scratch, name }) {
       {revealed && <div className={styles.scratchExplosion} aria-hidden="true">{particles.map(particle => <i key={particle.id} style={{ '--burst-angle': `${particle.angle}deg`, '--burst-distance': `${particle.distance}px`, '--burst-delay': `${particle.delay}s`, '--burst-color': particle.color, '--burst-size': `${particle.size}px` }} />)}</div>}
       {!revealed && <small className={styles.scratchHint}>Keep going — it only pops when most of the card is clear.</small>}
     </div>
+  </div>;
+}
+
+function WinnerCelebration({ team, scores }) {
+  const confetti = useMemo(() => Array.from({ length: 96 }, (_, index) => ({
+    id: index, left: (index * 37) % 100, delay: (index % 16) * .08, duration: 2.7 + (index % 7) * .23,
+    color: ['#f5c96b', '#d7bee5', '#76558f', '#f3a6c8', '#fffdf9'][index % 5], drift: ((index * 29) % 180) - 90,
+  })), []);
+  return <div className={styles.winnerCelebration} role="dialog" aria-modal="true" aria-live="assertive">
+    <div className={styles.winnerRays} aria-hidden="true" />
+    <div className={styles.winnerConfetti} aria-hidden="true">{confetti.map(piece => <i key={piece.id} style={{ left: `${piece.left}%`, '--confetti-delay': `${piece.delay}s`, '--confetti-duration': `${piece.duration}s`, '--confetti-color': piece.color, '--confetti-drift': `${piece.drift}px` }} />)}</div>
+    <div className={styles.winnerAnnouncement}><span className={styles.winnerCrown} aria-hidden="true">♛</span><p>THE WINNING TEAM</p><h2>Team {teamName(team)}</h2><strong>{scores[team].toLocaleString()} points</strong><small>The host can end this celebration from the admin page.</small></div>
   </div>;
 }

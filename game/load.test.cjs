@@ -50,12 +50,13 @@ test('300 live players: simultaneous buzz, authorization, reconnect and restart'
   assert.equal(publicState.scratch.winners, undefined);
   assert.ok(!JSON.stringify(publicState).includes('/images/jeopardy/scratch/'));
   await cmd('scratchEnd');
-  await cmd('start'); await cmd('select', { id: '0-0' }); await cmd('open');
+  await cmd('start'); await cmd('chooser', { team: 'men' }); await cmd('select', { id: '0-0' }); await cmd('open');
   const burstStart = performance.now();
   const results = await Promise.all(players.map(({ s }) => emit(s, 'buzz', { round: app.game.state.round })));
   const burstMs = Math.round(performance.now() - burstStart);
   assert.equal(results.filter(r => r.won).length, 1);
   const winner = players[results.findIndex(r => r.won)].player;
+  assert.equal(winner.team, 'men');
   assert.equal(app.game.state.winner.id, winner.id);
   await new Promise(resolve => setTimeout(resolve, 180));
   assert.equal(publicState.winner.id, winner.id); assert.equal(hostState.winner.id, winner.id);

@@ -5,7 +5,7 @@ const { questions, categories } = require('./questions.cjs');
 const command = (g, action, payload = {}, now = 1000) => g.command(action, { ...payload, version: g.state.version }, now);
 const setup = () => {
   const g = new Game(), man = g.join('Ahmed', 'men'), woman = g.join('Aisha', 'women');
-  command(g, 'start'); command(g, 'select', { id: '0-0' }); command(g, 'open');
+  command(g, 'start'); command(g, 'chooser', { team: 'men' }); command(g, 'select', { id: '0-0' }); command(g, 'open');
   return { g, man, woman };
 };
 test('one winner, stale rounds rejected, answers and tokens hidden', () => {
@@ -40,6 +40,19 @@ test('wrong answers and timeouts give the other team a chance, then wait for hos
   command(g, 'reveal');
   assert.equal(g.state.phase, 'revealed');
   assert.ok(g.view().question.answer);
+});
+test('the choosing team gets the first buzz and the other team gets a chance after a miss', () => {
+  const g = new Game(), man = g.join('Ahmed', 'men'), woman = g.join('Aisha', 'women');
+  command(g, 'start');
+  assert.throws(() => command(g, 'select', { id: '0-0' }), /first chance/);
+  command(g, 'chooser', { team: 'women' }); command(g, 'select', { id: '0-0' }); command(g, 'open');
+  assert.equal(g.state.eligibleTeam, 'women');
+  assert.equal(g.buzz(man.id, g.state.round, 1100), false);
+  assert.equal(g.buzz(woman.id, g.state.round, 1100), true);
+  command(g, 'incorrect', {}, 2000);
+  assert.equal(g.state.eligibleTeam, 'men');
+  assert.equal(g.buzz(woman.id, g.state.round, 2100), false);
+  assert.equal(g.buzz(man.id, g.state.round, 2100), true);
 });
 test('host can pause and resume buzzer and answer timers without losing remaining time', () => {
   const { g, man } = setup();
@@ -99,11 +112,15 @@ test('whole board completes, ties and score corrections, reset clears identities
   const g = new Game();
   g.join('Guest', 'women'); command(g, 'start');
   for (const q of g.view().board) {
-    command(g, 'select', { id: q.id }); command(g, 'reveal'); command(g, 'board');
+    command(g, 'chooser', { team: 'women' }); command(g, 'select', { id: q.id }); command(g, 'reveal'); command(g, 'board');
   }
   assert.equal(g.state.phase, 'finished');
   command(g, 'adjust', { team: 'men', points: 100, reason: 'Host correction' });
   assert.equal(g.state.scores.men, 100);
+  command(g, 'declareWinner');
+  assert.equal(g.view().declaredWinner.team, 'men');
+  command(g, 'clearWinner');
+  assert.equal(g.state.declaredWinner, null);
   assert.throws(() => command(g, 'reset', { confirm: 'no' }));
   command(g, 'reset', { confirm: 'RESET' });
   assert.equal(g.state.phase, 'lobby');
