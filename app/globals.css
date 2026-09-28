@@ -73,6 +73,188 @@ h4 {
   line-height: 1.15;
 }
 
+/* ---------- jeopardy join QR display ---------- */
+.jeopardy-join-page {
+  position: relative;
+  left: 50%;
+  isolation: isolate;
+  width: min(1500px, 96vw);
+  min-height: calc(100svh - 40px);
+  margin: 20px auto 0;
+  padding: clamp(42px, 7vw, 100px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(340px, 0.72fr);
+  align-items: center;
+  gap: clamp(48px, 8vw, 120px);
+  overflow: hidden;
+  color: #392d46;
+  border: 1px solid rgba(105, 76, 130, 0.17);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(rgba(251, 247, 253, 0.9), rgba(251, 247, 253, 0.9)),
+    url('/images/jeopardy-florals.svg') repeat,
+    #fbf7fd;
+  background-size: auto, 360px 360px, auto;
+  box-shadow: 0 24px 70px rgba(88, 57, 108, 0.11);
+  transform: translateX(-50%);
+}
+
+.jeopardy-join-copy,
+.jeopardy-join-qr-card {
+  position: relative;
+  z-index: 1;
+}
+
+.jeopardy-join-eyebrow {
+  margin-bottom: 16px;
+  color: #76558f;
+  font-size: clamp(0.7rem, 1vw, 0.9rem);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+}
+
+.jeopardy-join-copy h1 {
+  max-width: 780px;
+  font-size: clamp(4rem, 7vw, 7.5rem);
+  font-weight: 600;
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+}
+
+.jeopardy-join-copy h1 em {
+  display: block;
+  color: #76558f;
+  font-weight: 500;
+}
+
+.jeopardy-join-lede {
+  max-width: 690px;
+  margin-top: 28px;
+  color: #72677d;
+  font-size: clamp(1.05rem, 1.65vw, 1.45rem);
+  line-height: 1.65;
+}
+
+.jeopardy-join-steps {
+  margin-top: 38px;
+  display: grid;
+  gap: 16px;
+  list-style: none;
+  color: #51445d;
+  font-size: clamp(0.95rem, 1.2vw, 1.15rem);
+}
+
+.jeopardy-join-steps li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.jeopardy-join-steps span {
+  flex: 0 0 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  color: #76558f;
+  font-size: 0.78rem;
+  font-weight: 700;
+  border: 1px solid rgba(105, 76, 130, 0.25);
+  border-radius: 50%;
+  background: rgba(255, 253, 255, 0.84);
+}
+
+.jeopardy-join-qr-card {
+  width: min(100%, 570px);
+  justify-self: center;
+  padding: clamp(20px, 2.5vw, 34px);
+  text-align: center;
+  border: 1px solid rgba(105, 76, 130, 0.18);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 253, 255, 0.96);
+  box-shadow: 0 22px 60px rgba(80, 53, 98, 0.18);
+}
+
+.jeopardy-join-qr-card img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+}
+
+.jeopardy-join-qr-card > p {
+  margin-top: 22px;
+  color: #76558f;
+  font-size: clamp(0.85rem, 1.2vw, 1.05rem);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+}
+
+.jeopardy-join-url {
+  display: inline-block;
+  margin-top: 8px;
+  color: #72677d;
+  font-size: clamp(0.72rem, 1vw, 0.9rem);
+  overflow-wrap: anywhere;
+}
+
+.jeopardy-join-flower {
+  position: absolute;
+  z-index: 0;
+  color: #c9add8;
+  line-height: 1;
+  opacity: 0.35;
+  animation: jeopardyJoinFloat 8s ease-in-out infinite;
+}
+
+.jeopardy-join-flower--one { top: 6%; left: 48%; font-size: 4rem; }
+.jeopardy-join-flower--two { right: 3%; bottom: 3%; font-size: 7rem; animation-delay: -2.5s; }
+.jeopardy-join-flower--three { left: 2%; bottom: 7%; font-size: 3.5rem; animation-delay: -5s; }
+
+@keyframes jeopardyJoinFloat {
+  0%, 100% { transform: translateY(0) rotate(-6deg); }
+  50% { transform: translateY(-16px) rotate(8deg); }
+}
+
+@media (max-width: 800px) {
+  .jeopardy-join-page {
+    min-height: auto;
+    grid-template-columns: 1fr;
+    gap: 38px;
+    padding: 48px 24px;
+    text-align: center;
+  }
+
+  .jeopardy-join-copy h1 {
+    font-size: clamp(3.5rem, 15vw, 6rem);
+  }
+
+  .jeopardy-join-lede {
+    margin-inline: auto;
+  }
+
+  .jeopardy-join-steps {
+    width: fit-content;
+    margin-inline: auto;
+    text-align: left;
+  }
+
+  .jeopardy-join-qr-card {
+    width: min(100%, 480px);
+  }
+}
+
+@media (max-width: 480px) {
+  .jeopardy-join-page {
+    width: 100vw;
+    margin-top: 0;
+    padding: 38px 16px;
+    border-radius: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jeopardy-join-flower { animation: none; }
+}
+
 /* ===== HEADER / NAV ===== */
 .site-header {
   display: flex;
