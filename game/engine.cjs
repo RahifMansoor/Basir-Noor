@@ -25,15 +25,16 @@ class Game {
   incorrect(now, timeout = false) {
     const s = this.state;
     s.attempted.push(s.winner.team);
-    if (s.attempted.length === 2) this.reveal();
+    if (s.attempted.length === 2) this.awaitReveal(timeout ? 'Time expired. Both teams have had a chance; the host may reveal the answer.' : 'Both teams have answered incorrectly. The host may reveal the answer.');
     else { this.open(now); s.message = `${timeout ? 'Time expired' : 'Incorrect answer'}. The other team can buzz!`; }
   }
+  awaitReveal(message) { Object.assign(this.state, { phase: 'awaitingReveal', deadline: null, pausedRemaining: null, message }); }
   reveal() { Object.assign(this.state, { phase: 'revealed', deadline: null, pausedRemaining: null, message: 'Answer revealed. The host will return to the board.' }); }
   tick(now = Date.now()) {
     const s = this.state;
     if (!s.deadline || now < s.deadline) return false;
     if (s.phase === 'answering') this.incorrect(now, true);
-    else if (s.phase === 'open') this.reveal();
+    else if (s.phase === 'open') this.awaitReveal('Buzzing time expired. The answer remains hidden until the host reveals it.');
     else return false;
     s.version++; return true;
   }
@@ -75,7 +76,7 @@ class Game {
         if (s.phase !== 'answering') throw Error('There is no answer to judge.');
         this.incorrect(now); break;
       case 'reveal':
-        if (!['reading', 'open', 'answering'].includes(s.phase)) throw Error('No active clue.');
+        if (!['reading', 'open', 'answering', 'awaitingReveal'].includes(s.phase)) throw Error('No active clue.');
         this.reveal(); break;
       case 'board':
         if (s.phase !== 'revealed') throw Error('Finish the clue first.');

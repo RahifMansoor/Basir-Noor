@@ -25,7 +25,7 @@ test('one winner, stale rounds rejected, answers and tokens hidden', () => {
   assert.throws(() => command(g, 'correct', { team: 'women' }));
   assert.equal(g.state.scores.women, 100);
 });
-test('wrong answers and timeouts award no points and open a fresh round to the other team', () => {
+test('wrong answers and timeouts give the other team a chance, then wait for host reveal', () => {
   const { g, man, woman } = setup(), old = g.state.round;
   g.buzz(man.id, old, 1100);
   command(g, 'incorrect', {}, 2000);
@@ -35,7 +35,11 @@ test('wrong answers and timeouts award no points and open a fresh round to the o
   assert.equal(g.buzz(woman.id, g.state.round, 11200), true);
   g.tick(21200); g.tick(30000);
   assert.deepEqual(g.state.scores, { men: 0, women: 0 });
+  assert.equal(g.state.phase, 'awaitingReveal');
+  assert.equal(g.view().question.answer, undefined);
+  command(g, 'reveal');
   assert.equal(g.state.phase, 'revealed');
+  assert.ok(g.view().question.answer);
 });
 test('host can pause and resume buzzer and answer timers without losing remaining time', () => {
   const { g, man } = setup();
@@ -59,9 +63,12 @@ test('no late buzz, no replayed host action, and registration validation', () =>
   const { g, man } = setup();
   assert.equal(g.buzz(man.id, g.state.round, 16000), false);
   g.tick(16000);
-  assert.equal(g.state.phase, 'revealed');
+  assert.equal(g.state.phase, 'awaitingReveal');
+  assert.equal(g.view().question.answer, undefined);
   assert.deepEqual(g.state.scores, { men: 0, women: 0 });
   assert.throws(() => g.command('board', { version: -1 }));
+  assert.throws(() => command(g, 'board'), /Finish the clue/);
+  command(g, 'reveal');
   command(g, 'board');
   assert.throws(() => command(g, 'select', { id: '0-0' }));
   command(g, 'registration');
