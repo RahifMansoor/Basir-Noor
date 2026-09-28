@@ -30,9 +30,12 @@ test('wrong answers and timeouts give the other team a chance, then wait for hos
   g.buzz(man.id, old, 1100);
   command(g, 'incorrect', {}, 2000);
   assert.equal(g.state.scores.men, 0);
+  assert.equal(g.state.phase, 'reading');
   assert.equal(g.buzz(man.id, g.state.round, 11200), false);
   assert.equal(g.buzz(woman.id, old, 11200), false);
-  assert.equal(g.buzz(woman.id, g.state.round, 11200), true);
+  assert.equal(g.buzz(woman.id, g.state.round, 11200), false);
+  command(g, 'open', {}, 12000);
+  assert.equal(g.buzz(woman.id, g.state.round, 12100), true);
   g.tick(21200); g.tick(30000);
   assert.deepEqual(g.state.scores, { men: 0, women: 0 });
   assert.equal(g.state.phase, 'awaitingReveal');
@@ -51,8 +54,11 @@ test('the choosing team gets the first buzz and the other team gets a chance aft
   assert.equal(g.buzz(woman.id, g.state.round, 1100), true);
   command(g, 'incorrect', {}, 2000);
   assert.equal(g.state.eligibleTeam, 'men');
+  assert.equal(g.state.phase, 'reading');
   assert.equal(g.buzz(woman.id, g.state.round, 2100), false);
-  assert.equal(g.buzz(man.id, g.state.round, 2100), true);
+  assert.equal(g.buzz(man.id, g.state.round, 2100), false);
+  command(g, 'open', {}, 2200);
+  assert.equal(g.buzz(man.id, g.state.round, 2300), true);
 });
 test('host can pause and resume buzzer and answer timers without losing remaining time', () => {
   const { g, man } = setup();

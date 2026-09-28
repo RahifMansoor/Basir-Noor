@@ -33,7 +33,10 @@ class Game {
     const s = this.state;
     s.attempted.push(s.winner.team);
     if (s.attempted.length === 2) this.awaitReveal(timeout ? 'Time expired. Both teams have had a chance; the host may reveal the answer.' : 'Both teams have answered incorrectly. The host may reveal the answer.');
-    else { const otherTeam = s.attempted[0] === 'men' ? 'women' : 'men'; this.open(now, otherTeam); s.message = `${timeout ? 'Time expired' : 'Incorrect answer'}. Team ${otherTeam === 'men' ? 'Men' : 'Women'} can buzz now!`; }
+    else {
+      const otherTeam = s.attempted[0] === 'men' ? 'women' : 'men';
+      Object.assign(s, { phase: 'reading', winner: null, eligibleTeam: otherTeam, round: randomUUID(), deadline: null, pausedRemaining: null, message: `${timeout ? 'Time expired' : 'Incorrect answer'}. The host can now open Team ${otherTeam === 'men' ? 'Men' : 'Women'} buzzers for 15 seconds.` });
+    }
   }
   awaitReveal(message) { Object.assign(this.state, { phase: 'awaitingReveal', deadline: null, pausedRemaining: null, message }); }
   reveal() { Object.assign(this.state, { phase: 'revealed', deadline: null, pausedRemaining: null, message: 'Answer revealed. The host will return to the board.' }); }
