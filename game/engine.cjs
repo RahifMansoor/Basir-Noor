@@ -112,8 +112,8 @@ class Game {
         if (ids.length < 2) throw Error('At least two registered players are needed for the scratch game.');
         for (let i = ids.length - 1; i > 0; i--) { const j = randomInt(i + 1); [ids[i], ids[j]] = [ids[j], ids[i]]; }
         const winnerIds = ids.slice(0, 2), results = {};
-        winnerIds.forEach((id, index) => { results[id] = { winner: true, image: `/images/jeopardy/scratch/winner-${index + 1}.svg` }; });
-        const consolationImages = [1, 2, 3, 4].map(index => `/images/jeopardy/scratch/surprise-${index}.svg`);
+        winnerIds.forEach(id => { results[id] = { winner: true, image: '/images/jeopardy/scratch/unnamed-2.png' }; });
+        const consolationImages = ['unnamed.png', 'unnamed-1.png', 'unnamed-3.png'].map(image => `/images/jeopardy/scratch/${image}`);
         ids.slice(2).forEach(id => { results[id] = { winner: false, image: consolationImages[randomInt(consolationImages.length)] }; });
         s.scratch = { active: true, id: randomUUID(), winnerIds, results }; break;
       }

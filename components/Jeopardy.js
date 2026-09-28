@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { io } from 'socket.io-client';
 import styles from './Jeopardy.module.css';
@@ -157,11 +158,24 @@ export default function Jeopardy({ mode }) {
 
 function ScratchOverlay({ scratch, name }) {
   const canvasRef = useRef(null), drawingRef = useRef(false), lastPointRef = useRef(null), moveCountRef = useRef(0);
-  const [revealed, setRevealed] = useState(false);
+  const [revealed, setRevealed] = useState(false), [closed, setClosed] = useState(false), [mounted, setMounted] = useState(false);
   const particles = useMemo(() => Array.from({ length: 64 }, (_, index) => ({
     id: index, angle: (index * 137.5) % 360, distance: 90 + (index % 9) * 18, delay: (index % 8) * 0.025,
     color: ['#e5d5ee', '#76558f', '#f5c96b', '#f3a6c8'][index % 4], size: 7 + (index % 5) * 2,
   })), []);
+
+  useEffect(() => {
+    if (closed) return;
+    setMounted(true);
+    const previousOverflow = document.body.style.overflow;
+    const closeOnEscape = event => { if (event.key === 'Escape') setClosed(true); };
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [closed]);
 
   const checkReveal = useCallback(() => {
     const canvas = canvasRef.current;
@@ -191,7 +205,7 @@ function ScratchOverlay({ scratch, name }) {
     context.fillText('SCRATCH TO REVEAL', rect.width / 2, rect.height / 2 - 4);
     context.font = `500 ${Math.max(11, rect.width * .03)}px Montserrat, sans-serif`;
     context.fillText('Clear at least 58% — no tiny corner peeks!', rect.width / 2, rect.height / 2 + 28);
-  }, []);
+  }, [mounted]);
 
   const scratchAt = event => {
     if (!drawingRef.current || revealed) return;
@@ -205,18 +219,20 @@ function ScratchOverlay({ scratch, name }) {
   };
   const stop = () => { if (!drawingRef.current) return; drawingRef.current = false; lastPointRef.current = null; checkReveal(); };
 
-  return <div className={styles.scratchOverlay} role="dialog" aria-modal="true" aria-labelledby="scratch-title" onPointerUp={stop} onPointerCancel={stop}>
+  if (!mounted || closed) return null;
+  return createPortal(<div className={styles.scratchOverlay} role="dialog" aria-modal="true" aria-labelledby="scratch-title" onPointerUp={stop} onPointerCancel={stop}>
     <div className={`${styles.scratchModal} ${revealed ? styles.scratchRevealed : ''}`}>
+      <button type="button" className={styles.scratchClose} aria-label="Close scratch game" onClick={() => setClosed(true)}>&times;</button>
       <p className={styles.eyebrow}>A SURPRISE FROM THE HOST</p><h2 id="scratch-title">{name}, scratch your card!</h2><p className={styles.scratchInstructions}>{revealed ? 'Surprise revealed!' : 'Use your finger or mouse. Clear most of the shimmer to see what you got.'}</p>
       <div className={styles.scratchCard}>
-        <img src={scratch.image} alt={scratch.winner ? 'Winner placeholder prize' : 'Surprise placeholder result'} />
+        <img src={scratch.image} alt={scratch.winner ? 'Your winning wedding portrait' : 'Your wedding portrait result'} />
         <canvas ref={canvasRef} aria-label="Scratch-off surface" className={revealed ? styles.scratchedAway : ''} onPointerDown={event => { drawingRef.current = true; event.currentTarget.setPointerCapture(event.pointerId); scratchAt(event); }} onPointerMove={scratchAt} />
         {revealed && <div className={styles.scratchResult} aria-live="assertive"><strong>{scratch.winner ? 'YOU WON!' : 'SURPRISE REVEALED!'}</strong><span>{scratch.winner ? 'Tell the host — your name is on the winner list.' : 'Thanks for playing! Enjoy your surprise image.'}</span></div>}
       </div>
       {revealed && <div className={styles.scratchExplosion} aria-hidden="true">{particles.map(particle => <i key={particle.id} style={{ '--burst-angle': `${particle.angle}deg`, '--burst-distance': `${particle.distance}px`, '--burst-delay': `${particle.delay}s`, '--burst-color': particle.color, '--burst-size': `${particle.size}px` }} />)}</div>}
       {!revealed && <small className={styles.scratchHint}>Keep going — it only pops when most of the card is clear.</small>}
     </div>
-  </div>;
+  </div>, document.body);
 }
 
 function WinnerCelebration({ team, scores }) {
@@ -227,6 +243,6 @@ function WinnerCelebration({ team, scores }) {
   return <div className={styles.winnerCelebration} role="dialog" aria-modal="true" aria-live="assertive">
     <div className={styles.winnerRays} aria-hidden="true" />
     <div className={styles.winnerConfetti} aria-hidden="true">{confetti.map(piece => <i key={piece.id} style={{ left: `${piece.left}%`, '--confetti-delay': `${piece.delay}s`, '--confetti-duration': `${piece.duration}s`, '--confetti-color': piece.color, '--confetti-drift': `${piece.drift}px` }} />)}</div>
-    <div className={styles.winnerAnnouncement}><span className={styles.winnerCrown} aria-hidden="true">♛</span><p>THE WINNING TEAM</p><h2>Team {teamName(team)}</h2><strong>{scores[team].toLocaleString()} points</strong><small>The host can end this celebration from the admin page.</small></div>
+    <div className={styles.winnerAnnouncement}><span className={styles.winnerCrown} aria-hidden="true">♛</span><p>THE WINNING TEAM</p><h2>Team {teamName(team)}</h2><strong>{scores[team].toLocaleString()} points</strong></div>
   </div>;
 }
