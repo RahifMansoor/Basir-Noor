@@ -41,6 +41,15 @@ test('300 live players: simultaneous buzz, authorization, reconnect and restart'
     const result = await emit(host, 'command', { action, version: app.game.state.version, ...data });
     assert.ok(result.ok, result.error);
   };
+  const scratchEvents = Promise.all(players.map(({ s }) => new Promise(resolve => s.once('scratch', resolve))));
+  await cmd('scratchStart');
+  const scratchResults = await scratchEvents;
+  assert.equal(scratchResults.filter(result => result?.winner).length, 2);
+  assert.equal(scratchResults.filter(result => result && !result.winner).length, 298);
+  assert.equal(hostState.scratch.winners.length, 2);
+  assert.equal(publicState.scratch.winners, undefined);
+  assert.ok(!JSON.stringify(publicState).includes('/images/jeopardy/scratch/'));
+  await cmd('scratchEnd');
   await cmd('start'); await cmd('select', { id: '0-0' }); await cmd('open');
   const burstStart = performance.now();
   const results = await Promise.all(players.map(({ s }) => emit(s, 'buzz', { round: app.game.state.round })));

@@ -39,6 +39,9 @@ function createGameServer({ adminKey, origins = ['http://localhost:3000'], state
   const publish = () => {
     io.to('audience').emit('state', game.view());
     io.to('hosts').emit('state', game.view(true));
+    for (const client of io.sockets.sockets.values()) {
+      if (!client.data.admin) client.emit('scratch', game.scratchView(client.data.playerId));
+    }
   };
   let rosterTimer;
   const publishRoster = () => { if (!rosterTimer) rosterTimer = setTimeout(() => { rosterTimer = null; publish(); }, 150); };
@@ -59,6 +62,7 @@ function createGameServer({ adminKey, origins = ['http://localhost:3000'], state
       socket.emit('identity', player ? { id: player.id, name: player.name, team: player.team } : null);
     };
     socket.emit('state', game.view(socket.data.admin)); identity();
+    if (!socket.data.admin) socket.emit('scratch', game.scratchView(socket.data.playerId));
     let windowStart = Date.now(), calls = 0;
     const handle = (event, fn) => socket.on(event, (payload, ack) => {
       if (typeof ack !== 'function') return;

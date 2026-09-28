@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { io } from 'socket.io-client';
 import styles from './Jeopardy.module.css';
@@ -22,6 +22,7 @@ export default function Jeopardy({ mode }) {
   const [team, setTeam] = useState(''), [name, setName] = useState('');
   const [password, setPassword] = useState(''), [hostKey, setHostKey] = useState(null);
   const [busy, setBusy] = useState(false), [now, setNow] = useState(Date.now());
+  const [scratchPrize, setScratchPrize] = useState(null);
   const [adjustTeam, setAdjustTeam] = useState('men'), [points, setPoints] = useState('100'), [reason, setReason] = useState('');
   const [reset, setReset] = useState('');
   useEffect(() => {
@@ -36,9 +37,10 @@ export default function Jeopardy({ mode }) {
     client.on('disconnect', () => { setConnected(false); buzzerLock.current = false; setBusy(false); });
     client.on('connect_error', e => { setConnected(false); setError(e.message === 'Invalid host password.' ? e.message : 'Cannot reach the live game. Reconnecting…'); });
     client.on('state', state => { offset.current = state.serverNow - Date.now(); setGame(state); setNow(Date.now() + offset.current); buzzerLock.current = false; });
+    client.on('scratch', setScratchPrize);
     client.on('identity', identity => {
       setPlayer(identity);
-      if (!identity && !admin && !display && !scoreboard) { try { localStorage.removeItem('jeopardy-player-token'); } catch {} }
+      if (!identity && !admin && !display && !scoreboard) { setScratchPrize(null); try { localStorage.removeItem('jeopardy-player-token'); } catch {} }
     });
     return () => { client.disconnect(); socket.current = null; };
   }, [admin, display, scoreboard, hostKey]);
@@ -111,6 +113,11 @@ export default function Jeopardy({ mode }) {
       {!admin && !display && !scoreboard && player && <div className={styles.buzzerDock}><button className={styles.buzzer} disabled={!canBuzz} onClick={buzz}>{canBuzz ? 'BUZZ IN' : game.phase === 'answering' && game.winner?.id === player.id ? 'YOU’RE UP!' : game.attempted.includes(player.team) ? 'OTHER TEAM’S TURN' : 'BUZZER LOCKED'}</button><p>Wait for the host to open buzzers. First eligible buzz received by the server wins.</p></div>}
       {admin && connected && <section className={styles.host}>
         <div className={styles.hostTitle}><h2>Host console</h2><button onClick={() => { setHostKey(null); setPassword(''); setConnected(false); setGame(null); }}>Sign out</button></div>
+        <section className={styles.scratchHost} aria-labelledby="scratch-host-title">
+          <div><p className={styles.eyebrow}>SURPRISE MINI-GAME</p><h3 id="scratch-host-title">Scratch & reveal</h3><p>Launch an instant scratch card for everyone currently registered. Exactly two people win.</p></div>
+          {game.scratch?.active ? <button disabled={busy} onClick={() => command('scratchEnd')}>End scratch game</button> : <button disabled={busy || (game.roster?.length || 0) < 2} onClick={() => command('scratchStart')}>Launch scratch game</button>}
+          {!!game.scratch?.winners?.length && <div className={styles.scratchWinners}><span>{game.scratch.active ? 'WINNERS' : 'LAST WINNERS'}</span>{game.scratch.winners.map((winner, index) => <strong key={winner.id}>{index + 1}. {winner.name} · Team {teamName(winner.team)}</strong>)}</div>}
+        </section>
         <div className={styles.actions}>
           {hostButton('registration', game.registrationOpen ? 'Close registration' : 'Open registration')}
           {game.phase === 'lobby' && hostButton('start', 'Start session')}
@@ -141,5 +148,70 @@ export default function Jeopardy({ mode }) {
       </section>}
     </>}
     {!admin && !display && !scoreboard && <details id="game-rules" className={styles.rules} open><summary>Jeopardy rules</summary><ol><li>Choose Men or Women, enter your name, and stay on that team for the session.</li><li>The host selects and reads each clue. Wait until the buzzer opens before tapping <strong>Buzz in</strong>.</li><li>The first eligible buzz received by the game server wins. Connection speed can affect which response arrives first.</li><li>The winner answers aloud within 10 seconds and should respond in the form of a question.</li><li>A correct answer earns the clue’s points. An incorrect answer or timeout earns no points and gives the other team a chance.</li><li>Each team gets one attempt per clue. When buzzing time expires—or after both teams miss—the answer stays hidden until the host selects <strong>Reveal answer</strong>.</li><li>The host may pause and resume a running timer. Buzzing is disabled while paused.</li><li>After all {game?.board.length ?? 51} clues, the team with the highest score wins. Equal scores are a tie.</li></ol></details>}
+    {!admin && !display && !scoreboard && player && scratchPrize?.active && <ScratchOverlay key={scratchPrize.id} scratch={scratchPrize} name={player.name} />}
   </section>;
+}
+
+function ScratchOverlay({ scratch, name }) {
+  const canvasRef = useRef(null), drawingRef = useRef(false), lastPointRef = useRef(null), moveCountRef = useRef(0);
+  const [revealed, setRevealed] = useState(false);
+  const particles = useMemo(() => Array.from({ length: 64 }, (_, index) => ({
+    id: index, angle: (index * 137.5) % 360, distance: 90 + (index % 9) * 18, delay: (index % 8) * 0.025,
+    color: ['#e5d5ee', '#76558f', '#f5c96b', '#f3a6c8'][index % 4], size: 7 + (index % 5) * 2,
+  })), []);
+
+  const checkReveal = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || revealed) return;
+    const context = canvas.getContext('2d', { willReadFrequently: true });
+    const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+    let cleared = 0, sampled = 0;
+    for (let index = 3; index < pixels.length; index += 32) { sampled++; if (pixels[index] < 30) cleared++; }
+    if (sampled && cleared / sampled >= 0.58) setRevealed(true);
+  }, [revealed]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect(), ratio = window.devicePixelRatio || 1;
+    canvas.width = Math.round(rect.width * ratio); canvas.height = Math.round(rect.height * ratio);
+    const context = canvas.getContext('2d');
+    context.scale(ratio, ratio);
+    const gradient = context.createLinearGradient(0, 0, rect.width, rect.height);
+    gradient.addColorStop(0, '#eadcf0'); gradient.addColorStop(.5, '#cdb4da'); gradient.addColorStop(1, '#f5d993');
+    context.fillStyle = gradient; context.fillRect(0, 0, rect.width, rect.height);
+    for (let index = 0; index < 140; index++) {
+      context.fillStyle = `rgba(255,255,255,${.08 + (index % 5) * .025})`;
+      context.beginPath(); context.arc((index * 47) % rect.width, (index * 83) % rect.height, 2 + index % 5, 0, Math.PI * 2); context.fill();
+    }
+    context.fillStyle = '#493854'; context.textAlign = 'center'; context.font = `700 ${Math.max(18, rect.width * .055)}px Montserrat, sans-serif`;
+    context.fillText('SCRATCH TO REVEAL', rect.width / 2, rect.height / 2 - 4);
+    context.font = `500 ${Math.max(11, rect.width * .03)}px Montserrat, sans-serif`;
+    context.fillText('Clear at least 58% — no tiny corner peeks!', rect.width / 2, rect.height / 2 + 28);
+  }, []);
+
+  const scratchAt = event => {
+    if (!drawingRef.current || revealed) return;
+    const canvas = canvasRef.current, rect = canvas.getBoundingClientRect();
+    const point = { x: event.clientX - rect.left, y: event.clientY - rect.top };
+    const context = canvas.getContext('2d', { willReadFrequently: true }), last = lastPointRef.current;
+    context.globalCompositeOperation = 'destination-out'; context.lineWidth = Math.max(42, rect.width * .11); context.lineCap = 'round';
+    context.beginPath(); context.moveTo(last?.x ?? point.x, last?.y ?? point.y); context.lineTo(point.x, point.y); context.stroke();
+    lastPointRef.current = point;
+    if (++moveCountRef.current % 7 === 0) checkReveal();
+  };
+  const stop = () => { if (!drawingRef.current) return; drawingRef.current = false; lastPointRef.current = null; checkReveal(); };
+
+  return <div className={styles.scratchOverlay} role="dialog" aria-modal="true" aria-labelledby="scratch-title" onPointerUp={stop} onPointerCancel={stop}>
+    <div className={`${styles.scratchModal} ${revealed ? styles.scratchRevealed : ''}`}>
+      <p className={styles.eyebrow}>A SURPRISE FROM THE HOST</p><h2 id="scratch-title">{name}, scratch your card!</h2><p className={styles.scratchInstructions}>{revealed ? 'Surprise revealed!' : 'Use your finger or mouse. Clear most of the shimmer to see what you got.'}</p>
+      <div className={styles.scratchCard}>
+        <img src={scratch.image} alt={scratch.winner ? 'Winner placeholder prize' : 'Surprise placeholder result'} />
+        <canvas ref={canvasRef} aria-label="Scratch-off surface" className={revealed ? styles.scratchedAway : ''} onPointerDown={event => { drawingRef.current = true; event.currentTarget.setPointerCapture(event.pointerId); scratchAt(event); }} onPointerMove={scratchAt} />
+        {revealed && <div className={styles.scratchResult} aria-live="assertive"><strong>{scratch.winner ? 'YOU WON!' : 'SURPRISE REVEALED!'}</strong><span>{scratch.winner ? 'Tell the host — your name is on the winner list.' : 'Thanks for playing! Enjoy your surprise image.'}</span></div>}
+      </div>
+      {revealed && <div className={styles.scratchExplosion} aria-hidden="true">{particles.map(particle => <i key={particle.id} style={{ '--burst-angle': `${particle.angle}deg`, '--burst-distance': `${particle.distance}px`, '--burst-delay': `${particle.delay}s`, '--burst-color': particle.color, '--burst-size': `${particle.size}px` }} />)}</div>}
+      {!revealed && <small className={styles.scratchHint}>Keep going — it only pops when most of the card is clear.</small>}
+    </div>
+  </div>;
 }

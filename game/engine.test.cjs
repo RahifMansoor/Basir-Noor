@@ -59,6 +59,24 @@ test('host can pause and resume buzzer and answer timers without losing remainin
   command(g, 'resume', {}, 80000);
   assert.equal(g.state.deadline, 89500);
 });
+test('scratch game privately assigns exactly two winners and random images to everyone else', () => {
+  const g = new Game(), players = [];
+  for (let index = 0; index < 12; index++) players.push(g.join(`Guest ${index}`, index % 2 ? 'women' : 'men'));
+  command(g, 'scratchStart');
+  assert.equal(g.state.scratch.active, true);
+  assert.equal(new Set(g.state.scratch.winnerIds).size, 2);
+  assert.equal(g.view(true).scratch.winners.length, 2);
+  assert.equal(g.view().scratch.winners, undefined);
+  assert.equal(g.view().scratch.results, undefined);
+  const privateResults = players.map(player => g.scratchView(player.id));
+  assert.equal(privateResults.filter(result => result.winner).length, 2);
+  assert.equal(privateResults.filter(result => !result.winner).length, 10);
+  assert.ok(privateResults.every(result => result.image.startsWith('/images/jeopardy/scratch/')));
+  assert.equal(g.scratchView('unknown-player'), null);
+  command(g, 'scratchEnd');
+  assert.equal(g.scratchView(players[0].id), null);
+  assert.equal(g.view(true).scratch.winners.length, 2);
+});
 test('no late buzz, no replayed host action, and registration validation', () => {
   const { g, man } = setup();
   assert.equal(g.buzz(man.id, g.state.round, 16000), false);

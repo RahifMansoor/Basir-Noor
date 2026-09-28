@@ -70,6 +70,12 @@
 .hostTitle { display: flex; align-items: center; justify-content: space-between; }
 .hostTitle button { font-size: 11px; }
 .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.scratchHost { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 18px; margin: 18px 0 24px; padding: 22px; border: 1px solid var(--border); border-radius: var(--radius-md); background: linear-gradient(135deg, rgba(238, 226, 243, .92), rgba(255, 253, 255, .96)); }
+.scratchHost h3 { font: 600 28px var(--font-serif); margin: 4px 0 6px; }
+.scratchHost p:not(.eyebrow) { color: var(--muted); font-size: 12px; line-height: 1.6; }
+.scratchWinners { grid-column: 1 / -1; display: grid; grid-template-columns: auto 1fr 1fr; align-items: center; gap: 10px; padding-top: 14px; border-top: 1px solid var(--border); }
+.scratchWinners span { color: var(--gold-dark); font-size: 10px; letter-spacing: 2px; }
+.scratchWinners strong { padding: 10px 12px; border-radius: var(--radius-sm); background: var(--card); font-size: 13px; }
 .quickScore { margin: 24px 0 8px; padding: 22px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--card); }
 .quickScore h3 { font: 600 28px var(--font-serif); margin: 4px 0 16px; }
 .quickButtons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -107,4 +113,24 @@
 .scoreboardStatus span { color: var(--gold-dark); font-size: 11px; letter-spacing: 2px; }
 .scoreboardStatus p { margin-top: 10px; }
 .scoreboardStatus h2 { font: 600 clamp(32px, 5vw, 64px) var(--font-serif); color: var(--gold-dark); margin-top: 16px; }
-@media (max-width: 640px) { .shell { margin: 12px 8px; padding: 28px 16px; border-radius: 16px; } .heading { align-items: start; flex-direction: column; } .heading > div > p:last-child { font-size: 12px; } .scores { gap: 8px; } .scores article { padding: 16px 12px; flex-direction: column; align-items: start; } .scores strong { font-size: 36px; } .panel { padding: 22px 16px; } .column { grid-template-rows: 70px repeat(5, 64px); } .board { min-width: 530px; gap: 6px; } .column { gap: 6px; } .customScore { grid-template-columns: 1fr 1fr; } .customScore button { grid-column: 1 / -1; } .scoreboard .scores article { align-items: center; } .scoreboard .scores strong { font-size: clamp(64px, 21vw, 110px); } }
+.scratchOverlay { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 20px; overflow-y: auto; background: rgba(40, 28, 49, .72); backdrop-filter: blur(9px); }
+.scratchModal { position: relative; width: min(680px, 100%); padding: clamp(22px, 4vw, 38px); text-align: center; border: 1px solid rgba(255, 255, 255, .55); border-radius: var(--radius-lg); background: #fbf7fd; box-shadow: 0 28px 90px rgba(28, 17, 36, .42); animation: scratchModalIn .55s cubic-bezier(.2, .9, .25, 1.15); }
+.scratchModal h2 { font: 600 clamp(30px, 5vw, 48px)/1.05 var(--font-serif); margin: 8px 0; }
+.scratchInstructions { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 0 auto 20px; max-width: 520px; }
+.scratchCard { position: relative; width: 100%; aspect-ratio: 4 / 3; overflow: hidden; border: 7px solid var(--card); border-radius: var(--radius-md); background: var(--card); box-shadow: var(--shadow); }
+.scratchCard img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.scratchCard canvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: crosshair; touch-action: none; transition: opacity .7s ease, transform .7s ease; }
+.scratchCard canvas.scratchedAway { opacity: 0; transform: scale(1.08); pointer-events: none; }
+.scratchResult { position: absolute; inset: auto 14px 14px; display: grid; gap: 3px; padding: 11px 14px; border-radius: var(--radius-sm); background: rgba(255, 253, 255, .9); box-shadow: 0 8px 24px rgba(42, 31, 24, .14); animation: scratchResultIn .6s .25s both; }
+.scratchResult strong { color: var(--gold-dark); font-size: clamp(18px, 4vw, 28px); letter-spacing: 2px; }
+.scratchResult span { color: var(--muted); font-size: 11px; }
+.scratchHint { display: block; margin-top: 16px; color: var(--gold-dark); }
+.scratchExplosion { position: absolute; left: 50%; top: 53%; width: 1px; height: 1px; pointer-events: none; }
+.scratchExplosion i { position: absolute; width: var(--burst-size); height: var(--burst-size); border-radius: 50% 50% 45% 55%; background: var(--burst-color); opacity: 0; animation: scratchBurst 1.7s cubic-bezier(.1, .7, .2, 1) var(--burst-delay) both; }
+.scratchRevealed { animation: scratchWinPulse .7s ease; }
+@keyframes scratchModalIn { from { opacity: 0; transform: translateY(28px) scale(.94); } to { opacity: 1; transform: none; } }
+@keyframes scratchResultIn { from { opacity: 0; transform: translateY(12px) scale(.9); } to { opacity: 1; transform: none; } }
+@keyframes scratchBurst { 0% { opacity: 0; transform: rotate(var(--burst-angle)) translateX(0) scale(.2); } 15% { opacity: 1; } 75% { opacity: 1; } 100% { opacity: 0; transform: rotate(var(--burst-angle)) translateX(var(--burst-distance)) rotate(260deg) scale(1); } }
+@keyframes scratchWinPulse { 50% { transform: scale(1.018); box-shadow: 0 34px 100px rgba(118, 85, 143, .48); } }
+@media (prefers-reduced-motion: reduce) { .scratchModal, .scratchResult, .scratchExplosion i, .scratchRevealed { animation: none; } }
+@media (max-width: 640px) { .shell { margin: 12px 8px; padding: 28px 16px; border-radius: 16px; } .heading { align-items: start; flex-direction: column; } .heading > div > p:last-child { font-size: 12px; } .scores { gap: 8px; } .scores article { padding: 16px 12px; flex-direction: column; align-items: start; } .scores strong { font-size: 36px; } .panel { padding: 22px 16px; } .column { grid-template-rows: 70px repeat(5, 64px); } .board { min-width: 530px; gap: 6px; } .column { gap: 6px; } .customScore { grid-template-columns: 1fr 1fr; } .customScore button { grid-column: 1 / -1; } .scoreboard .scores article { align-items: center; } .scoreboard .scores strong { font-size: clamp(64px, 21vw, 110px); } .scratchHost { grid-template-columns: 1fr; } .scratchHost > button { width: 100%; } .scratchWinners { grid-template-columns: 1fr; } .scratchOverlay { padding: 10px; } .scratchModal { padding: 22px 14px; } .scratchCard { border-width: 4px; } .scratchResult { inset: auto 7px 7px; padding: 9px; } }

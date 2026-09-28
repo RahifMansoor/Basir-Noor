@@ -1,17 +1,24 @@
-const { randomUUID, randomBytes } = require('node:crypto');
+const { randomUUID, randomBytes, randomInt } = require('node:crypto');
 const { questions, categories } = require('./questions.cjs');
-const freshState = () => ({ version: 0, phase: 'lobby', registrationOpen: true, scores: { men: 0, women: 0 }, players: {}, used: [], current: null, winner: null, attempted: [], deadline: null, pausedRemaining: null, round: randomUUID(), selectionTeam: null, message: 'Welcome! Choose a team and join the game.' });
+const freshScratch = () => ({ active: false, id: null, winnerIds: [], results: {} });
+const freshState = () => ({ version: 0, phase: 'lobby', registrationOpen: true, scores: { men: 0, women: 0 }, players: {}, used: [], current: null, winner: null, attempted: [], deadline: null, pausedRemaining: null, round: randomUUID(), selectionTeam: null, scratch: freshScratch(), message: 'Welcome! Choose a team and join the game.' });
 class Game {
-  constructor(saved) { this.state = saved || freshState(); }
+  constructor(saved) { this.state = saved ? { ...freshState(), ...saved, scratch: saved.scratch || freshScratch() } : freshState(); }
   question() { return questions.find(q => q.id === this.state.current); }
   view(admin = false) {
     const s = this.state, q = this.question();
-    return { ...s, players: undefined, categories, board: questions.map(({ id, category, value }) => ({ id, category, value })),
+    const scratch = admin ? { active: s.scratch.active, id: s.scratch.id, winners: s.scratch.winnerIds.map(id => ({ id, name: s.players[id]?.name || 'Unknown player', team: s.players[id]?.team || null })) } : { active: s.scratch.active, id: s.scratch.id };
+    return { ...s, players: undefined, scratch, categories, board: questions.map(({ id, category, value }) => ({ id, category, value })),
       counts: Object.values(s.players).reduce((a, p) => { a[p.team]++; return a; }, { men: 0, women: 0 }),
       question: q ? { id: q.id, category: q.category, value: q.value, clue: q.clue, ...((admin || s.phase === 'revealed') ? { answer: q.answer } : {}) } : null,
       ...(admin ? { roster: Object.values(s.players).map(({ token, ...p }) => p) } : {}), serverNow: Date.now() };
   }
   player(token) { return Object.values(this.state.players).find(p => p.token === token); }
+  scratchView(playerId) {
+    const scratch = this.state.scratch;
+    if (!scratch.active || !scratch.results[playerId]) return null;
+    return { active: true, id: scratch.id, ...scratch.results[playerId] };
+  }
   join(name, team) {
     if (!this.state.registrationOpen) throw Error('Registration is closed. Ask the host to reopen it.');
     if (!['men', 'women'].includes(team) || typeof name !== 'string' || !name.trim() || name.trim().length > 40 || /[\x00-\x1f]/.test(name)) throw Error('Choose a team and enter a name of 1–40 characters.');
@@ -84,6 +91,20 @@ class Game {
       case 'adjust':
         if (!['men', 'women'].includes(payload.team) || !Number.isInteger(payload.points) || Math.abs(payload.points) > 5000 || typeof payload.reason !== 'string' || !payload.reason.trim() || payload.reason.length > 120) throw Error('Enter a team, whole-number adjustment (up to 5,000), and a reason.');
         s.scores[payload.team] += payload.points; s.message = `Host adjustment: ${payload.team} ${payload.points >= 0 ? '+' : ''}${payload.points}. ${payload.reason.trim()}`; break;
+      case 'scratchStart': {
+        if (s.scratch.active) throw Error('End the current scratch game before starting another.');
+        const ids = Object.keys(s.players);
+        if (ids.length < 2) throw Error('At least two registered players are needed for the scratch game.');
+        for (let i = ids.length - 1; i > 0; i--) { const j = randomInt(i + 1); [ids[i], ids[j]] = [ids[j], ids[i]]; }
+        const winnerIds = ids.slice(0, 2), results = {};
+        winnerIds.forEach((id, index) => { results[id] = { winner: true, image: `/images/jeopardy/scratch/winner-${index + 1}.svg` }; });
+        const consolationImages = [1, 2, 3, 4].map(index => `/images/jeopardy/scratch/surprise-${index}.svg`);
+        ids.slice(2).forEach(id => { results[id] = { winner: false, image: consolationImages[randomInt(consolationImages.length)] }; });
+        s.scratch = { active: true, id: randomUUID(), winnerIds, results }; break;
+      }
+      case 'scratchEnd':
+        if (!s.scratch.active) throw Error('There is no active scratch game.');
+        s.scratch.active = false; break;
       case 'reset':
         if (payload.confirm !== 'RESET') throw Error('Type RESET to start a new event.');
         this.state = freshState(); this.state.version = s.version; break;
