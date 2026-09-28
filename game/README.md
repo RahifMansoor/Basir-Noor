@@ -74,7 +74,7 @@ The score-only view at `/jeopoardy/scoreboard` is intentionally titled **Game Sc
 
 ## Scratch-game images
 
-Scratch artwork lives in `public/images/jeopardy/scratch/`. Both winners receive `unnamed-2.png`; `unnamed.png`, `unnamed-1.png`, and `unnamed-3.png` are distributed randomly to everyone else. The player UI preserves the portrait artwork without cropping it.
+Scratch artwork lives in `public/images/jeopardy/scratch/`. Both winners receive `unnamed.png`; `unnamed-1.png`, `unnamed-2.png`, and `unnamed-3.png` are distributed randomly to everyone else. The player UI preserves the portrait artwork without cropping it.
 
 Reconnecting clients receive the current state and identity, rather than replaying old clicks. Buzzers are disabled offline, early, after a team’s failed attempt, and while another player is answering. Do not open multiple identities to play for both teams; names are self-reported, not verified against a guest list. Keep the host key private, use the event host’s network protections for Internet abuse, and close registration once everyone has joined. The server limits message size, per-socket event frequency, and total registrations (2,000). It does not rate-limit guests by shared Wi-Fi IP.
 

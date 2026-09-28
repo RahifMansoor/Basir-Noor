@@ -91,9 +91,9 @@ test('scratch game privately assigns exactly two winners and random images to ev
   const winningResults = privateResults.filter(result => result.winner);
   const otherResults = privateResults.filter(result => !result.winner);
   assert.equal(winningResults.length, 2);
-  assert.ok(winningResults.every(result => result.image === '/images/jeopardy/scratch/unnamed-2.png'));
+  assert.ok(winningResults.every(result => result.image === '/images/jeopardy/scratch/unnamed.png'));
   assert.equal(otherResults.length, 10);
-  assert.ok(otherResults.every(result => ['/images/jeopardy/scratch/unnamed.png', '/images/jeopardy/scratch/unnamed-1.png', '/images/jeopardy/scratch/unnamed-3.png'].includes(result.image)));
+  assert.ok(otherResults.every(result => ['/images/jeopardy/scratch/unnamed-1.png', '/images/jeopardy/scratch/unnamed-2.png', '/images/jeopardy/scratch/unnamed-3.png'].includes(result.image)));
   assert.ok(privateResults.every(result => result.image.startsWith('/images/jeopardy/scratch/')));
   assert.equal(g.scratchView('unknown-player'), null);
   command(g, 'scratchEnd');
