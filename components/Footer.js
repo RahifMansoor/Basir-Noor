@@ -35,7 +35,7 @@ const noDriveBanner = new Set(["/rsvp", "/baat-pakki", "/hub", "/hub/broadcast",
 
 export default function Footer() {
     const pathname = usePathname();
-    if (pathname === "/jeopardy" || pathname.startsWith("/jeopardy/")) return null;
+    if (pathname === "/jeopardy" || pathname.startsWith("/jeopardy/") || pathname.startsWith("/jeopoardy/")) return null;
     const message = footerMessages[pathname] || footerMessages["/"];
     const driveHref = driveLinks[pathname] || FALLBACK_DRIVE;
     const showBanner = !noDriveBanner.has(pathname);

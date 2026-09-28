@@ -44,6 +44,8 @@
 .status { display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 84px; padding: 18px 0; font-size: 14px; line-height: 1.6; }
 .status strong { font-size: 32px; color: var(--gold-dark); }
 .status small { font-size: 10px; margin-left: 5px; }
+.status strong.paused { font: 700 16px var(--font-sans); letter-spacing: 1px; }
+.status strong.paused small { display: block; margin: 5px 0 0; text-align: center; letter-spacing: 0; }
 .boardScroll { overflow-x: auto; }
 .board { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; min-width: 580px; }
 .column { display: grid; grid-template-rows: 74px; grid-auto-rows: 84px; gap: 10px; }
@@ -68,6 +70,12 @@
 .hostTitle { display: flex; align-items: center; justify-content: space-between; }
 .hostTitle button { font-size: 11px; }
 .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.quickScore { margin: 24px 0 8px; padding: 22px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--card); }
+.quickScore h3 { font: 600 28px var(--font-serif); margin: 4px 0 16px; }
+.quickButtons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.customScore { display: grid; grid-template-columns: 1fr 1fr auto; align-items: end; gap: 10px; margin-top: 10px; }
+.customScore input, .customScore select { margin-bottom: 0; }
+.scoreboardLink { display: inline-block; margin-top: 18px; color: var(--gold-dark); font-size: 13px; font-weight: 600; }
 .shell details { padding: 18px 0; border-bottom: 1px solid var(--border); font-size: 13px; line-height: 1.8; }
 .shell summary { cursor: pointer; color: var(--gold-dark); }
 .shell details p { margin: 12px 0; }
@@ -81,9 +89,22 @@
 .boardHint { margin-bottom: 18px; font-size: 13px; color: var(--muted); }
 .result { text-align: center; font: 600 44px var(--font-serif); margin: 20px 0; color: var(--gold-dark); }
 .rules { margin-top: 25px; }
+.rules ol { display: grid; gap: 10px; margin: 16px 0 0 22px; color: var(--muted); }
+.rules li { padding-left: 4px; }
 .display { max-width: 1600px; }
 .display .heading h1 { font-size: clamp(36px, 4vw, 54px); }
 .display .clue { padding: 28px; }
 .display .column { grid-template-rows: 64px; grid-auto-rows: min(9vh, 84px); }
 .display .links { display: none; }
-@media (max-width: 640px) { .shell { margin: 12px 8px; padding: 28px 16px; border-radius: 16px; } .heading { align-items: start; flex-direction: column; } .heading > div > p:last-child { font-size: 12px; } .scores { gap: 8px; } .scores article { padding: 16px 12px; flex-direction: column; align-items: start; } .scores strong { font-size: 36px; } .panel { padding: 22px 16px; } .column { grid-template-rows: 70px repeat(5, 64px); } .board { min-width: 530px; gap: 6px; } .column { gap: 6px; } }
+.scoreboard { max-width: 1600px; min-height: calc(100vh - 56px); display: flex; flex-direction: column; }
+.scoreboard .links { display: none; }
+.scoreboard .scores { flex: 1; align-items: stretch; margin-top: clamp(30px, 7vh, 90px); }
+.scoreboard .scores article { flex-direction: column; justify-content: center; text-align: center; padding: clamp(30px, 6vw, 90px); }
+.scoreboard .scores span { font-size: clamp(14px, 2vw, 24px); }
+.scoreboard .scores small { font-size: clamp(11px, 1.2vw, 16px); }
+.scoreboard .scores strong { font-size: clamp(76px, 15vw, 210px); line-height: .9; margin-top: 24px; }
+.scoreboardStatus { text-align: center; padding: 32px 16px 10px; color: var(--muted); }
+.scoreboardStatus span { color: var(--gold-dark); font-size: 11px; letter-spacing: 2px; }
+.scoreboardStatus p { margin-top: 10px; }
+.scoreboardStatus h2 { font: 600 clamp(32px, 5vw, 64px) var(--font-serif); color: var(--gold-dark); margin-top: 16px; }
+@media (max-width: 640px) { .shell { margin: 12px 8px; padding: 28px 16px; border-radius: 16px; } .heading { align-items: start; flex-direction: column; } .heading > div > p:last-child { font-size: 12px; } .scores { gap: 8px; } .scores article { padding: 16px 12px; flex-direction: column; align-items: start; } .scores strong { font-size: 36px; } .panel { padding: 22px 16px; } .column { grid-template-rows: 70px repeat(5, 64px); } .board { min-width: 530px; gap: 6px; } .column { gap: 6px; } .customScore { grid-template-columns: 1fr 1fr; } .customScore button { grid-column: 1 / -1; } .scoreboard .scores article { align-items: center; } .scoreboard .scores strong { font-size: clamp(64px, 21vw, 110px); } }

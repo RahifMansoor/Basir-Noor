@@ -37,6 +37,24 @@ test('wrong answers and timeouts award no points and open a fresh round to the o
   assert.deepEqual(g.state.scores, { men: 0, women: 0 });
   assert.equal(g.state.phase, 'revealed');
 });
+test('host can pause and resume buzzer and answer timers without losing remaining time', () => {
+  const { g, man } = setup();
+  const round = g.state.round;
+  command(g, 'pause', {}, 6000);
+  assert.equal(g.state.deadline, null);
+  assert.equal(g.state.pausedRemaining, 10000);
+  assert.equal(g.tick(50000), false);
+  assert.equal(g.buzz(man.id, round, 50000), false);
+  command(g, 'resume', {}, 50000);
+  assert.equal(g.state.deadline, 60000);
+  assert.equal(g.state.pausedRemaining, null);
+  assert.equal(g.buzz(man.id, round, 59000), true);
+  command(g, 'pause', {}, 59500);
+  assert.equal(g.state.pausedRemaining, 9500);
+  assert.equal(g.tick(80000), false);
+  command(g, 'resume', {}, 80000);
+  assert.equal(g.state.deadline, 89500);
+});
 test('no late buzz, no replayed host action, and registration validation', () => {
   const { g, man } = setup();
   assert.equal(g.buzz(man.id, g.state.round, 16000), false);

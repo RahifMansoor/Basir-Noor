@@ -1,6 +1,6 @@
 const { randomUUID, randomBytes } = require('node:crypto');
 const { questions, categories } = require('./questions.cjs');
-const freshState = () => ({ version: 0, phase: 'lobby', registrationOpen: true, scores: { men: 0, women: 0 }, players: {}, used: [], current: null, winner: null, attempted: [], deadline: null, round: randomUUID(), selectionTeam: null, message: 'Welcome! Choose a team and join the game.' });
+const freshState = () => ({ version: 0, phase: 'lobby', registrationOpen: true, scores: { men: 0, women: 0 }, players: {}, used: [], current: null, winner: null, attempted: [], deadline: null, pausedRemaining: null, round: randomUUID(), selectionTeam: null, message: 'Welcome! Choose a team and join the game.' });
 class Game {
   constructor(saved) { this.state = saved || freshState(); }
   question() { return questions.find(q => q.id === this.state.current); }
@@ -21,14 +21,14 @@ class Game {
     this.state.version++;
     return p;
   }
-  open(now) { Object.assign(this.state, { phase: 'open', winner: null, round: randomUUID(), deadline: now + 15000, message: 'Buzz in when you know the answer!' }); }
+  open(now) { Object.assign(this.state, { phase: 'open', winner: null, round: randomUUID(), deadline: now + 15000, pausedRemaining: null, message: 'Buzz in when you know the answer!' }); }
   incorrect(now, timeout = false) {
     const s = this.state;
     s.attempted.push(s.winner.team);
     if (s.attempted.length === 2) this.reveal();
     else { this.open(now); s.message = `${timeout ? 'Time expired' : 'Incorrect answer'}. The other team can buzz!`; }
   }
-  reveal() { Object.assign(this.state, { phase: 'revealed', deadline: null, message: 'Answer revealed. The host will return to the board.' }); }
+  reveal() { Object.assign(this.state, { phase: 'revealed', deadline: null, pausedRemaining: null, message: 'Answer revealed. The host will return to the board.' }); }
   tick(now = Date.now()) {
     const s = this.state;
     if (!s.deadline || now < s.deadline) return false;
@@ -42,7 +42,7 @@ class Game {
     if (!p) throw Error('Join the game first.');
     if (s.phase !== 'open' || round !== s.round || now >= s.deadline || s.attempted.includes(p.team)) return false;
     // No awaits: the first eligible packet handled by this process wins atomically.
-    Object.assign(s, { phase: 'answering', winner: { id: p.id, name: p.name, team: p.team }, deadline: now + 10000, message: `${p.name} has the floor. Answer in the form of a question!` });
+    Object.assign(s, { phase: 'answering', winner: { id: p.id, name: p.name, team: p.team }, deadline: now + 10000, pausedRemaining: null, message: `${p.name} has the floor. Answer in the form of a question!` });
     s.version++; return true;
   }
   command(action, payload = {}, now = Date.now()) {
@@ -55,11 +55,18 @@ class Game {
         s.phase = 'board'; s.message = 'Choose a category and point value.'; break;
       case 'select':
         if (s.phase !== 'board' || s.used.includes(payload.id) || !questions.some(q => q.id === payload.id)) throw Error('Choose an unused clue from the board.');
-        Object.assign(s, { current: payload.id, phase: 'reading', winner: null, attempted: [], deadline: null, round: randomUUID(), message: 'Listen to the clue. Buzzers will open when the host is ready.' });
+        Object.assign(s, { current: payload.id, phase: 'reading', winner: null, attempted: [], deadline: null, pausedRemaining: null, round: randomUUID(), message: 'Listen to the clue. Buzzers will open when the host is ready.' });
         s.used.push(payload.id); break;
       case 'open':
         if (s.phase !== 'reading') throw Error('Read a clue before opening buzzers.');
         this.open(now); break;
+      case 'pause':
+        if (!['open', 'answering'].includes(s.phase) || !s.deadline) throw Error('There is no running timer to pause.');
+        s.pausedRemaining = Math.max(1, s.deadline - now); s.deadline = null; s.message = 'Timer paused by the host.'; break;
+      case 'resume':
+        if (!['open', 'answering'].includes(s.phase) || !Number.isFinite(s.pausedRemaining)) throw Error('There is no paused timer to resume.');
+        s.deadline = now + s.pausedRemaining; s.pausedRemaining = null;
+        s.message = s.phase === 'open' ? 'Buzz in when you know the answer!' : `${s.winner.name} has the floor. Answer in the form of a question!`; break;
       case 'correct':
         if (s.phase !== 'answering') throw Error('There is no answer to judge.');
         if (!['men', 'women'].includes(payload.team)) throw Error('Choose the team that earns the points.');
@@ -72,7 +79,7 @@ class Game {
         this.reveal(); break;
       case 'board':
         if (s.phase !== 'revealed') throw Error('Finish the clue first.');
-        Object.assign(s, { phase: s.used.length === questions.length ? 'finished' : 'board', current: null, winner: null, deadline: null, message: s.used.length === questions.length ? 'Game complete! Thank you for playing.' : 'Choose the next clue.' }); break;
+        Object.assign(s, { phase: s.used.length === questions.length ? 'finished' : 'board', current: null, winner: null, deadline: null, pausedRemaining: null, message: s.used.length === questions.length ? 'Game complete! Thank you for playing.' : 'Choose the next clue.' }); break;
       case 'adjust':
         if (!['men', 'women'].includes(payload.team) || !Number.isInteger(payload.points) || Math.abs(payload.points) > 5000 || typeof payload.reason !== 'string' || !payload.reason.trim() || payload.reason.length > 120) throw Error('Enter a team, whole-number adjustment (up to 5,000), and a reason.');
         s.scores[payload.team] += payload.points; s.message = `Host adjustment: ${payload.team} ${payload.points >= 0 ? '+' : ''}${payload.points}. ${payload.reason.trim()}`; break;

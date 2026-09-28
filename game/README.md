@@ -5,6 +5,7 @@
 - `/jeopardy`: choose Men or Women, enter a name, follow the board, and buzz.
 - `/jeopardy/display`: public board for a projector, including the first buzzer’s name and team.
 - `/jeopardy/admin`: password-protected host console, answer key, roster, scoring, and registration controls.
+- `/jeopoardy/scoreboard`: full-screen live Men vs. Women scoreboard. `/jeopardy/scoreboard` redirects here as a correctly spelled convenience URL.
 
 The navigation includes a Jeopardy link. `data/guestList.js` is not used or changed: event registration is separate from wedding RSVPs.
 
@@ -60,9 +61,9 @@ State is saved to disk before successful mutations are acknowledged, using a tem
 ## Event operation
 
 1. Review the 51 clues and accepted answers in `game/questions.cjs` with the host. The 26 added clues include four choices; players can answer aloud with the letter or the response in question form. Edit before the event and restart the service; do not change the bank during an active game.
-2. Open `/jeopardy/display` on the projector and select Fullscreen. Open `/jeopardy/admin` on a separate device so answers stay private.
+2. Open `/jeopardy/display` on the projector for the full board, or `/jeopoardy/scoreboard` for the score-only view, and select Fullscreen. Open `/jeopardy/admin` on a separate device so answers and controls stay private.
 3. Share `/jeopardy`, allow guests to register, and optionally close registration. Counts mean registered players, not connected devices. A returning browser keeps its team via a private random token.
-4. Start the game. Select a clue, read it aloud, then open buzzers. Players get 15 seconds to buzz; the first eligible packet received by the server wins, regardless of device timestamps.
+4. Start the session from the admin page. Select a clue, read it aloud, then open buzzers. Players get 15 seconds to buzz; the first eligible packet received by the server wins, regardless of device timestamps. The admin can pause and resume either the buzzer or answer timer without losing the remaining time; buzzing is disabled while paused. The admin page also has quick Men/Women +100 buttons and a custom positive-points form; score corrections remain available separately with a required reason.
 5. The winner has 10 seconds to answer aloud in question form. For a correct answer, choose Men or Women in the host buttons to award that team the clue value. Incorrect answers and timeouts award no points and automatically open a fresh window for the other team. Each team gets one attempt per clue. If nobody buzzes, the answer is revealed without a score change.
 6. Return to the board. The team awarded the last correct answer tells the host which clue to choose. After all clues, highest score wins; a tie is shown as a tie. This simplified event edition has one board and no Daily Doubles or Final Jeopardy.
 7. Use Reveal / skip to end a clue without scoring, and score corrections with a reason to resolve judging mistakes. A host disconnect does not pause timers. A disconnected winner can still answer aloud; otherwise their timeout applies.
