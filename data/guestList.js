@@ -180,6 +180,8 @@ export const GUEST_LIST = [
   { name: "Irfan Sheikh",          duaEKhair: null,    mehndi: null,    qawwali: null,    nikah: null,    walima: 2 },
   { name: "Mohammad Harif",          duaEKhair: null,    mehndi: null,    qawwali: null,    nikah: null,    walima: 2 },
   {name:"Asma Abdi", duaEKhair: 2, mehndi: null, qawwali: null, nikah: 2, walima: 2},
+  { name: "Amber Siddiqui",          duaEKhair: null,    mehndi: null,    qawwali: null,    nikah: null,    walima: 1 },
+  {name:"Hafsa Khalil", duaEKhair: null, mehndi: null, qawwali: null, nikah: null, walima: 1}
 
 
 ];
