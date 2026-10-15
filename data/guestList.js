@@ -186,7 +186,7 @@ export const GUEST_LIST = [
   {name:"Tahoor Khalid", duaEKhair: null, mehndi: null, qawwali: null, nikah: null, walima: 1},
   {name:"Riyasat Rashid", duaEKhair: null, mehndi: null, qawwali: null, nikah: null, walima: 1},
   {name:"Noor Siqqiqui", duaEKhair: null, mehndi: null, qawwali: null, nikah: null, walima: 1},
-  {name:"Rahif Mansoor", duaEKhair: null, mehndi: null, qawwali: null, nikah: null, walima: 1}
+  {name:"Rahif Mansoor", duaEKhair: null, mehndi: null, qawwali: null, nikah: null, walima: 1},
   {name:"Shamail Quereshi", duaEKhair: null, mehndi: null, qawwali: null, nikah: null, walima: 1}
 
 
